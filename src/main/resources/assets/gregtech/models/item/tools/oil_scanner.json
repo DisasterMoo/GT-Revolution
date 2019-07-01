@@ -1,0 +1,78 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "gregtech:items/tools/scanner/scanner_00"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "using": 1,
+                "progress": -1
+            },
+            "model": "gregtech:item/tools/oil_scanner_low"
+        },
+		{
+            "predicate": {
+                "using": 1,
+                "progress": 0
+            },
+            "model": "gregtech:item/tools/oil_scanner_00"
+        },
+        {
+            "predicate": {
+                "using": 1,
+                "progress": 0.125
+            },
+            "model": "gregtech:item/tools/oil_scanner_01"
+        },
+        {
+            "predicate": {
+                "using": 1,
+                "progress": 0.25
+            },
+            "model": "gregtech:item/tools/oil_scanner_02"
+        },
+        {
+            "predicate": {
+                "using": 1,
+                "progress": 0.375
+            },
+            "model": "gregtech:item/tools/oil_scanner_03"
+        },
+        {
+            "predicate": {
+                "using": 1,
+                "progress": 0.5
+            },
+            "model": "gregtech:item/tools/oil_scanner_04"
+        },
+        {
+            "predicate": {
+                "using": 1,
+                "progress": 0.625
+            },
+            "model": "gregtech:item/tools/oil_scanner_05"
+        },
+        {
+            "predicate": {
+                "using": 1,
+                "progress": 0.75
+            },
+            "model": "gregtech:item/tools/oil_scanner_06"
+        },
+        {
+            "predicate": {
+                "using": 1,
+                "progress": 0.875
+            },
+            "model": "gregtech:item/tools/oil_scanner_07"
+        },
+        {
+            "predicate": {
+                "using": 1,
+                "progress": 1
+            },
+            "model": "gregtech:item/tools/oil_scanner_complete"
+        }
+    ]
+}
