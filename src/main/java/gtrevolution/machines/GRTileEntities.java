@@ -59,10 +59,6 @@ public class GRTileEntities
         	INDUSTRIAL_CENTRIFUGE = GregTechAPI.registerMetaTileEntity(3012, new IndustrialCentrifuge(location("industrial_centrifuge")));
         }
         
-        if (GRConfig.multiblocks.Reactor) {
-        	INDUSTRIAL_CHEMICALREACTOR = GregTechAPI.registerMetaTileEntity(3013, new IndustrialChemicalReactor(location("industrial_chemicalreactor")));
-        }
-        
         if (GRConfig.multiblocks.Fisher) {
         	INDUSTRIAL_FISHER = GregTechAPI.registerMetaTileEntity(3014, new IndustrialFisher(location("industrial_fisher")));
         }
@@ -86,6 +82,7 @@ public class GRTileEntities
         if(GRConfig.misc.CircuitOverhaul){
             INDUSTRIAL_LASER = GregTechAPI.registerMetaTileEntity(3019, new IndustrialLaserProcessor(location("industrial_laser")));
             INDUSTRIAL_CUTTER = GregTechAPI.registerMetaTileEntity(3020, new IndustrialCuttingFactory(location("industrial_cutter")));
+            INDUSTRIAL_CHEMICALREACTOR = GregTechAPI.registerMetaTileEntity(3013, new IndustrialChemicalReactor(location("industrial_chemicalreactor")));
         }
     }
     

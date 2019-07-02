@@ -2,11 +2,12 @@ package gtrevolution.recipes;
 
 import java.util.*;
 
+import gregicadditions.item.GAMetaBlocks;
+import gregicadditions.item.GAMultiblockCasing;
 import gregicadditions.machines.GATileEntities;
-import gregicadditions.recipes.GACraftingComponents;
+import gregicadditions.recipes.GARecipeMaps;
 import gregtech.api.GTValues;
 import gregtech.api.items.toolitem.ToolMetaItem;
-import gregtech.api.metatileentity.ITieredMetaTileEntity;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.recipes.*;
 import gregtech.api.recipes.builders.SimpleRecipeBuilder;
@@ -22,11 +23,11 @@ import gregtech.api.unification.stack.UnificationEntry;
 import gregtech.api.util.EnumValidationResult;
 import gregtech.api.util.ValidationResult;
 import gregtech.common.blocks.BlockMetalCasing.MetalCasingType;
+import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.items.MetaItems;
 import gregtech.common.metatileentities.MetaTileEntities;
 import gtrevolution.GRConfig;
 import gtrevolution.GRMaterials;
-import gtrevolution.GTRevolution;
 import gtrevolution.block.GRMetaBlocks;
 import gtrevolution.block.GRMultiblockCasing;
 import gtrevolution.item.GRMetaItems;
@@ -36,8 +37,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 
+import static gregtech.common.blocks.BlockBoilerCasing.BoilerCasingType.*;
+import static gregtech.common.blocks.BlockFireboxCasing.FireboxCasingType.*;
+import static gregtech.common.blocks.BlockMetalCasing.MetalCasingType.*;
+import static gregtech.common.blocks.BlockMultiblockCasing.MultiblockCasingType.*;
+import static gregtech.common.blocks.BlockTurbineCasing.TurbineCasingType.*;
 import static gtrevolution.recipes.GRCraftingComponents.*;
 
 public class GRRecipeAdditions
@@ -45,19 +52,20 @@ public class GRRecipeAdditions
 
     public static void init() {     	
     	//Casing Recipes
-    	ModHandler.addShapedRecipe("maceration_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.MACERATION_CASING), "PhP", "PHP", "PwP", 'P', "platePalladium", 'H', "frameGtBlueSteel");
-    	ModHandler.addShapedRecipe("washplant_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.WASHPLANT_CASING), "PhP", "PHP", "PwP", 'P', "plateBlueSteel", 'H', "frameGtBlueSteel");
-    	ModHandler.addShapedRecipe("thermal_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.THERMAL_CASING), "PhP", "PHP", "PwP", 'P', "plateRedSteel", 'H', "frameGtBlueSteel");
-    	ModHandler.addShapedRecipe("chemical_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.CHEMICAL_CASING), "PhP", "PHP", "PwP", 'P', "platePolytetrafluoroethylene", 'H', gregtech.common.blocks.MetaBlocks.METAL_CASING.getItemVariant(MetalCasingType.STEEL_SOLID, 1));
-    	ModHandler.addShapedRecipe("fisher_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.FISHER_CASING), "PhP", "PHP", "PwP", 'P', "plateInconel792", 'H', "frameGtStaballoy");
-    	ModHandler.addShapedRecipe("electrolyzer_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.ELECTROLYZER_CASING), "PhP", "PHP", "PwP", 'P', "platePotin", 'H', "frameGtStaballoy");
-    	ModHandler.addShapedRecipe("centrifuge_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.CENTRIFUGE_CASING), "PhP", "PHP", "PwP", 'P', "plateInconel690", 'H', "frameGtStaballoy");
-    	ModHandler.addShapedRecipe("wire_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.WIRE_CASING), "PhP", "PHP", "PwP", 'P', "plateTalonite", 'H', "frameGtStaballoy");
-    	ModHandler.addShapedRecipe("sieve_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.SIEVE_CASING), "PhP", "PHP", "PwP", 'P', "plateEglinSteel", 'H', "frameGtBlueSteel");
-    	ModHandler.addShapedRecipe("sieve_grate", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.SIEVE_GRATE), "TPT", "WHW", "TWT", 'P', MetaItems.ITEM_FILTER.getStackForm(), 'T', "plateBlackSteel", 'W', "wireFineSteel", 'H', "frameGtSteel");
+		int casingNumber = GRConfig.misc.HarderCasings ? 1 : 3;
+    	ModHandler.addShapedRecipe("maceration_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.MACERATION_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "platePalladium", 'H', "frameGtBlueSteel");
+    	ModHandler.addShapedRecipe("washplant_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.WASHPLANT_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "plateBlueSteel", 'H', "frameGtBlueSteel");
+    	ModHandler.addShapedRecipe("thermal_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.THERMAL_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "plateRedSteel", 'H', "frameGtBlueSteel");
+    	ModHandler.addShapedRecipe("chemical_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.CHEMICAL_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "platePolytetrafluoroethylene", 'H', gregtech.common.blocks.MetaBlocks.METAL_CASING.getItemVariant(MetalCasingType.STEEL_SOLID, 1));
+    	ModHandler.addShapedRecipe("fisher_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.FISHER_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "plateInconel792", 'H', "frameGtStaballoy");
+    	ModHandler.addShapedRecipe("electrolyzer_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.ELECTROLYZER_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "platePotin", 'H', "frameGtStaballoy");
+    	ModHandler.addShapedRecipe("centrifuge_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.CENTRIFUGE_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "plateInconel690", 'H', "frameGtStaballoy");
+    	ModHandler.addShapedRecipe("wire_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.WIRE_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "plateTalonite", 'H', "frameGtStaballoy");
+    	ModHandler.addShapedRecipe("sieve_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.SIEVE_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "plateEglinSteel", 'H', "frameGtBlueSteel");
+    	ModHandler.addShapedRecipe("sieve_grate", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.SIEVE_GRATE, casingNumber), "TPT", "WHW", "TWT", 'P', MetaItems.ITEM_FILTER.getStackForm(), 'T', "plateBlackSteel", 'W', "wireFineSteel", 'H', "frameGtSteel");
         
 		if(GRConfig.multiblocks.EBF) {
-			ModHandler.removeRecipeByName(new ResourceLocation("gregtech:electric_blast_furnace"));
+			ModHandler.removeRecipes(MetaTileEntities.ELECTRIC_BLAST_FURNACE.getStackForm());
 			ModHandler.addShapedRecipe("improved_blast_furnace", GRTileEntities.BLAST_FURNACE.getStackForm(), "FFF", "CHC", "WCW", 'F', new ItemStack(Blocks.FURNACE, 1), 'C', "circuitBasic", 'H', gregtech.common.blocks.MetaBlocks.METAL_CASING.getItemVariant(MetalCasingType.INVAR_HEATPROOF, 1), 'W', "cableGtSingleTin");
 		}
 		
@@ -67,10 +75,14 @@ public class GRRecipeAdditions
 		if(GRConfig.multiblocks.Orewash)ModHandler.addShapedRecipe("multiblock_industrial_orewasher", GRTileEntities.INDUSTRIAL_OREWASHER.getStackForm(), "TWT", "MCM", "TIT", 'M', "plateTalonite", 'I', "circuitMaster", 'C', MetaTileEntities.ORE_WASHER[GTValues.HV].getStackForm(), 'W', MetaItems.ELECTRIC_PUMP_EV, 'T', "plateBlueSteel");
 		if(GRConfig.multiblocks.Electrolyzer)ModHandler.addShapedRecipe("multiblock_industrial_electrolyzer", GRTileEntities.INDUSTRIAL_ELECTROLYZER.getStackForm(), "TWT", "MCM", "TIT", 'M', MetaTileEntities.ELECTROLYZER[GTValues.HV].getStackForm(), 'W', "circuitMaster", 'C', "rotorStellite", 'I', MetaTileEntities.HULL[GTValues.IV].getStackForm(), 'T', "platePotin");
 		if(GRConfig.multiblocks.Centrifuge)ModHandler.addShapedRecipe("multiblock_industrial_centrifuge", GRTileEntities.INDUSTRIAL_CENTRIFUGE.getStackForm(), "TWT", "MCM", "TIT", 'M', MetaTileEntities.CENTRIFUGE[GTValues.HV].getStackForm(), 'W', "circuitMaster", 'C', "rotorStellite", 'I', MetaTileEntities.HULL[GTValues.IV].getStackForm(), 'T', "plateInconel690");
-		if(GRConfig.multiblocks.Reactor)ModHandler.addShapedRecipe("multiblock_industrial_chemicalreactor", GRTileEntities.INDUSTRIAL_CHEMICALREACTOR.getStackForm(), "TWT", "MCM", "TIT", 'M', MetaTileEntities.CHEMICAL_REACTOR[GTValues.HV].getStackForm(), 'W', "circuitElite", 'C', "rotorStellite", 'I', MetaTileEntities.HULL[GTValues.HV].getStackForm(), 'T', "platePolytetrafluorethylene");
 		if(GRConfig.multiblocks.Fisher)ModHandler.addShapedRecipe("multiblock_industrial_fisher", GRTileEntities.INDUSTRIAL_FISHER.getStackForm(), "TWT", "MCM", "TWT", 'M', "wireFineElectrum", 'W', "circuitAdvanced", 'C', "rotorStellite", 'T', "plateInconel792");
 		if(GRConfig.multiblocks.Wiremill)ModHandler.addShapedRecipe("multiblock_industrial_wiremill", GRTileEntities.INDUSTRIAL_WIREMILL.getStackForm(), "TCT", "MSM", "TCT", 'S', MetaTileEntities.WIREMILL[GTValues.HV].getStackForm(), 'M', "circuitMaster", 'C', MetaTileEntities.HULL[GTValues.IV].getStackForm(), 'T', "plateTalonite");
 		if(GRConfig.multiblocks.Sifter)ModHandler.addShapedRecipe("multiblock_industrial_sifter", GRTileEntities.INDUSTRIAL_SIFTER.getStackForm(), "TCT", "WSW", "TCT", 'W', "cableGtQuadrupleCopper", 'C', "circuitMaster", 'S', MetaTileEntities.SIFTER[GTValues.HV].getStackForm(), 'T', "plateEglinSteel");
+		if(GRConfig.misc.CircuitOverhaul){
+			ModHandler.addShapedRecipe("multiblock_industrial_chemicalreactor", GRTileEntities.INDUSTRIAL_CHEMICALREACTOR.getStackForm(), "TWT", "MCM", "TIT", 'M', MetaTileEntities.CHEMICAL_REACTOR[GTValues.HV].getStackForm(), 'W', "circuitElite", 'C', "rotorStellite", 'I', MetaTileEntities.HULL[GTValues.HV].getStackForm(), 'T', "platePolytetrafluorethylene");
+			//TODO Casings + Shapes + Recipe for industrial laser + cutter
+			//TODO Era bom mudar o estilo das maquinas industriais para algo mais interessante
+		}
 
 		if(GRConfig.multiblocks.OilRig){
 			ModHandler.addShapedRecipe("multiblock_oil_rig", GRTileEntities.OIL_RIG.getStackForm(), "FFF", "ACA", "MMM", 'F', "frameGtSteel", 'A', "circuitGood", 'C', MetaTileEntities.HULL[GTValues.MV].getStackForm(), 'M', MetaItems.ELECTRIC_MOTOR_MV.getStackForm());
@@ -150,19 +162,70 @@ public class GRRecipeAdditions
 			}
 		}
 
-		RecipeMaps.CHEMICAL_RECIPES.getRecipeList().forEach( recipe -> {
-			GRRecipeMaps.INDUSTRIAL_CHEMICAL_REACTOR.addRecipe(new ValidationResult<>(EnumValidationResult.VALID, recipe));
-		});
+		if(GRConfig.misc.HarderCasings)
+		{
+			UnregisterCasings();
+			RegisterHarderCasings();
+		}
+
+		if(GRConfig.misc.HarderCables)
+		{
+			List<Recipe> recipesRemove = new ArrayList<>();
+			for(Recipe recipe : RecipeMaps.ASSEMBLER_RECIPES.getRecipeList())
+			{
+				for(FluidStack fluid : recipe.getFluidInputs()){
+					if(fluid.getFluid() == Materials.Rubber.getMaterialFluid()){
+						for(ItemStack stack : recipe.getOutputs()){
+							Material mat = MetaBlocks.CABLE.getItemMaterial(stack);
+							if(mat instanceof IngotMaterial
+									&& ((IngotMaterial)mat).cableProperties != null
+									&& ((IngotMaterial)mat).cableProperties.voltage > 2048)
+							{
+								recipesRemove.add(recipe);
+								break;
+							}
+						}
+					}
+				}
+			}
+			for(Recipe recipe: recipesRemove)RecipeMaps.ASSEMBLER_RECIPES.removeRecipe(recipe);
+			recipesRemove.clear();
+		}
+
+		//Why GTCE won't let we craft tin and red alloy cables from rubber?
+		for(Material material : Arrays.asList(Materials.RedAlloy, Materials.Tin))
+			for(OrePrefix wirePrefix : Arrays.asList(OrePrefix.wireGtSingle, OrePrefix.wireGtDouble, OrePrefix.wireGtQuadruple, OrePrefix.wireGtOctal))
+			{
+				int cableAmount = (int) (wirePrefix.materialAmount * 2 / GTValues.M);
+				OrePrefix cablePrefix = OrePrefix.valueOf("cable" + wirePrefix.name().substring(4));
+				ItemStack cableStack = OreDictUnifier.get(cablePrefix, material);
+				RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
+						.input(wirePrefix, material).circuitMeta(24)
+						.fluidInputs(Materials.Rubber.getFluid(144 * cableAmount))
+						.outputs(cableStack)
+						.duration(150).EUt(8)
+						.buildAndRegister();
+			}
+
+
+		if(GRConfig.misc.HarderFuelCracking)
+		{
+			UnregisterCrackingRecipes();
+			RegisterCrackingRecipes();
+		}
 
 		if(GRConfig.misc.CircuitOverhaul)
 		{
-			//Copy all recipes from single machine to industrial ones
-			RecipeMaps.LASER_ENGRAVER_RECIPES.getRecipeList().forEach( recipe -> {
-				GRRecipeMaps.INDUSTRIAL_LASER.addRecipe(new ValidationResult<>(EnumValidationResult.VALID, recipe));
-			});
-			RecipeMaps.CUTTER_RECIPES.getRecipeList().forEach( recipe -> {
-				GRRecipeMaps.INDUSTRIAL_CUTTER.addRecipe(new ValidationResult<>(EnumValidationResult.VALID, recipe));
-			});
+			//Copy all recipes to industrial machines
+			RecipeMaps.CHEMICAL_RECIPES.getRecipeList().forEach( recipe ->
+				GRRecipeMaps.INDUSTRIAL_CHEMICAL_REACTOR.addRecipe(new ValidationResult<>(EnumValidationResult.VALID, recipe))
+			);
+			RecipeMaps.LASER_ENGRAVER_RECIPES.getRecipeList().forEach( recipe ->
+				GRRecipeMaps.INDUSTRIAL_LASER.addRecipe(new ValidationResult<>(EnumValidationResult.VALID, recipe))
+			);
+			RecipeMaps.CUTTER_RECIPES.getRecipeList().forEach( recipe ->
+				GRRecipeMaps.INDUSTRIAL_CUTTER.addRecipe(new ValidationResult<>(EnumValidationResult.VALID, recipe))
+			);
 
 			//Remove all recipes that must be made in industrial machinery
 			List<Recipe> recipesRemove = new ArrayList<>();
@@ -315,10 +378,6 @@ public class GRRecipeAdditions
     	return 8;
 	}
 
-	private static ResourceLocation location(String name) {
-		return new ResourceLocation(GTRevolution.MODID, name);
-	}
-
 	/**
 	 * Returns true if item is from overhaul list
 	 * @param stack the recipe's output stack
@@ -371,6 +430,22 @@ public class GRRecipeAdditions
 		if(stack.isItemEqual(OreDictUnifier.get(OrePrefix.ingot, Materials.GalliumArsenide)))return true;
 		if(stack.isItemEqual(OreDictUnifier.get(OrePrefix.nugget, Materials.GalliumArsenide)))return true;
 
+		//Harder casings?
+		if(GRConfig.misc.HarderCasings)
+		{
+			if(stack.isItemEqual(MetaBlocks.METAL_CASING.getItemVariant(INVAR_HEATPROOF)))return true;
+			if(stack.isItemEqual(MetaBlocks.METAL_CASING.getItemVariant(ALUMINIUM_FROSTPROOF)))return true;
+			if(stack.isItemEqual(MetaBlocks.METAL_CASING.getItemVariant(STEEL_SOLID)))return true;
+			if(stack.isItemEqual(MetaBlocks.METAL_CASING.getItemVariant(STAINLESS_CLEAN)))return true;
+			if(stack.isItemEqual(MetaBlocks.METAL_CASING.getItemVariant(TITANIUM_STABLE)))return true;
+			if(stack.isItemEqual(MetaBlocks.METAL_CASING.getItemVariant(TUNGSTENSTEEL_ROBUST)))return true;
+
+			if(stack.isItemEqual(MetaBlocks.TURBINE_CASING.getItemVariant(STEEL_TURBINE_CASING)))return true;
+			if(stack.isItemEqual(MetaBlocks.TURBINE_CASING.getItemVariant(TITANIUM_TURBINE_CASING)))return true;
+			if(stack.isItemEqual(MetaBlocks.TURBINE_CASING.getItemVariant(STAINLESS_TURBINE_CASING)))return true;
+			if(stack.isItemEqual(MetaBlocks.TURBINE_CASING.getItemVariant(TUNGSTENSTEEL_TURBINE_CASING)))return true;
+		}
+
 		//All circuit from other mods
 		for(ItemStack it : OreDictionary.getOres("circuitPrimitive"))
 			if(it.isItemEqual(stack))return true;
@@ -399,6 +474,146 @@ public class GRRecipeAdditions
 			new MaterialStack(Materials.Tin, 2L),
 			new MaterialStack(Materials.SolderingAlloy, 1L)
 	};
+
+	private static final FluidStack[] crackingList = {
+			Materials.HydroCrackedEthane.getFluid(1),
+			Materials.HydroCrackedEthylene.getFluid(1),
+			Materials.HydroCrackedPropene.getFluid(1),
+			Materials.HydroCrackedPropane.getFluid(1),
+			Materials.HydroCrackedLightFuel.getFluid(1),
+			Materials.HydroCrackedButane.getFluid(1),
+			Materials.HydroCrackedNaphtha.getFluid(1),
+			Materials.HydroCrackedHeavyFuel.getFluid(1),
+			Materials.HydroCrackedGas.getFluid(1),
+			Materials.HydroCrackedButene.getFluid(1),
+			Materials.HydroCrackedButadiene.getFluid(1),
+			Materials.SteamCrackedEthane.getFluid(1),
+			Materials.SteamCrackedEthylene.getFluid(1),
+			Materials.SteamCrackedPropene.getFluid(1),
+			Materials.SteamCrackedPropane.getFluid(1),
+			Materials.CrackedLightFuel.getFluid(1),
+			Materials.SteamCrackedButane.getFluid(1),
+			Materials.SteamCrackedNaphtha.getFluid(1),
+			Materials.CrackedHeavyFuel.getFluid(1),
+			Materials.SteamCrackedGas.getFluid(1),
+			Materials.SteamCrackedButene.getFluid(1),
+			Materials.SteamCrackedButadiene.getFluid(1)
+	};
+
+	private static void UnregisterCrackingRecipes()
+	{
+		List<Recipe> recipesRemove = new ArrayList<>();
+		for(Recipe recipe : RecipeMaps.CHEMICAL_RECIPES.getRecipeList())
+		{
+			for(FluidStack fluid : recipe.getFluidOutputs())
+			{
+				for(FluidStack compare : crackingList)
+				{
+					if(fluid.isFluidEqual(compare)){
+						recipesRemove.add(recipe);
+						break;
+					}
+				}
+			}
+		}
+		for(Recipe recipe: recipesRemove)RecipeMaps.CHEMICAL_RECIPES.removeRecipe(recipe);
+		recipesRemove.clear();
+	}
+
+	private static void RegisterCrackingRecipes()
+	{
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Hydrogen.getFluid(2000), Materials.Ethane.getFluid(1000)).fluidOutputs(Materials.HydroCrackedEthane.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Hydrogen.getFluid(2000), Materials.Ethylene.getFluid(1000)).fluidOutputs(Materials.HydroCrackedEthylene.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Hydrogen.getFluid(2000), Materials.Propene.getFluid(1000)).fluidOutputs(Materials.HydroCrackedPropene.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Hydrogen.getFluid(2000), Materials.Propane.getFluid(1000)).fluidOutputs(Materials.HydroCrackedPropane.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Hydrogen.getFluid(2000), Materials.LightFuel.getFluid(1000)).fluidOutputs(Materials.HydroCrackedLightFuel.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Hydrogen.getFluid(2000), Materials.Butane.getFluid(1000)).fluidOutputs(Materials.HydroCrackedButane.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Hydrogen.getFluid(2000), Materials.Naphtha.getFluid(1000)).fluidOutputs(Materials.HydroCrackedNaphtha.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Hydrogen.getFluid(2000), Materials.HeavyFuel.getFluid(1000)).fluidOutputs(Materials.HydroCrackedHeavyFuel.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Hydrogen.getFluid(2000), Materials.Gas.getFluid(1000)).fluidOutputs(Materials.HydroCrackedGas.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Hydrogen.getFluid(2000), Materials.Butene.getFluid(1000)).fluidOutputs(Materials.HydroCrackedButene.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Hydrogen.getFluid(2000), Materials.Butadiene.getFluid(1000)).fluidOutputs(Materials.HydroCrackedButadiene.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Steam.getFluid(2000), Materials.Ethane.getFluid(1000)).fluidOutputs(Materials.SteamCrackedEthane.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Steam.getFluid(2000), Materials.Ethylene.getFluid(1000)).fluidOutputs(Materials.SteamCrackedEthylene.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Steam.getFluid(2000), Materials.Propene.getFluid(1000)).fluidOutputs(Materials.SteamCrackedPropene.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Steam.getFluid(2000), Materials.Propane.getFluid(1000)).fluidOutputs(Materials.SteamCrackedPropane.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Steam.getFluid(2000), Materials.LightFuel.getFluid(1000)).fluidOutputs(Materials.CrackedLightFuel.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Steam.getFluid(2000), Materials.Butane.getFluid(1000)).fluidOutputs(Materials.SteamCrackedButane.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Steam.getFluid(2000), Materials.Naphtha.getFluid(1000)).fluidOutputs(Materials.SteamCrackedNaphtha.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Steam.getFluid(2000), Materials.HeavyFuel.getFluid(1000)).fluidOutputs(Materials.CrackedHeavyFuel.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Steam.getFluid(2000), Materials.Gas.getFluid(1000)).fluidOutputs(Materials.SteamCrackedGas.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Steam.getFluid(2000), Materials.Butene.getFluid(1000)).fluidOutputs(Materials.SteamCrackedButene.getFluid(800)).buildAndRegister();
+		RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().duration(320).EUt(30).fluidInputs(Materials.Steam.getFluid(2000), Materials.Butadiene.getFluid(1000)).fluidOutputs(Materials.SteamCrackedButadiene.getFluid(800)).buildAndRegister();
+	}
+
+	private static void UnregisterCasings()
+	{
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_bronze_bricks"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_steel_solid"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_titanium_stable"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_invar_heatproof"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_aluminium_frostproof"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_stainless_clean"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_tungstensteel_robust"));
+
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_steel_turbine_casing"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_stainless_turbine_casing"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_titanium_turbine_casing"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_tungstensteel_turbine_casing"));
+
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_bronze_pipe"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_steel_pipe"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_titanium_pipe"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_tungstensteel_pipe"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_bronze_firebox"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_steel_firebox"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_titanium_firebox"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_tungstensteel_firebox"));
+
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_bronze_gearbox"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_steel_gearbox"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_titanium_gearbox"));
+
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_grate_casing"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gregtech:casing_assembler_casing"));
+
+		ModHandler.removeRecipeByName(new ResourceLocation("gtadditions:assline_casing"));
+		ModHandler.removeRecipeByName(new ResourceLocation("gtadditions:ga_assmbler_casing"));
+	}
+
+	private static void RegisterHarderCasings()
+	{
+		ModHandler.addShapedRecipe("casing_bronze_bricks", MetaBlocks.METAL_CASING.getItemVariant(BRONZE_BRICKS), "PhP", "PBP", "PwP", 'P', new UnificationEntry(OrePrefix.plate, Materials.Bronze), 'B', new ItemStack(Blocks.BRICK_BLOCK, 1));
+		ModHandler.addShapedRecipe("casing_steel_solid", MetaBlocks.METAL_CASING.getItemVariant(STEEL_SOLID), "PhP", "PFP", "PwP", 'P', new UnificationEntry(OrePrefix.plate, Materials.Steel), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.Steel));
+		ModHandler.addShapedRecipe("casing_titanium_stable", MetaBlocks.METAL_CASING.getItemVariant(TITANIUM_STABLE), "PhP", "PFP", "PwP", 'P', new UnificationEntry(OrePrefix.plate, Materials.Titanium), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.Titanium));
+		ModHandler.addShapedRecipe("casing_invar_heatproof", MetaBlocks.METAL_CASING.getItemVariant(INVAR_HEATPROOF), "PhP", "PFP", "PwP", 'P', new UnificationEntry(OrePrefix.plate, Materials.Invar), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.Invar));
+		ModHandler.addShapedRecipe("casing_aluminium_frostproof", MetaBlocks.METAL_CASING.getItemVariant(ALUMINIUM_FROSTPROOF), "PhP", "PFP", "PwP", 'P', new UnificationEntry(OrePrefix.plate, Materials.Aluminium), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.Aluminium));
+		ModHandler.addShapedRecipe("casing_stainless_clean", MetaBlocks.METAL_CASING.getItemVariant(STAINLESS_CLEAN), "PhP", "PFP", "PwP", 'P', new UnificationEntry(OrePrefix.plate, Materials.StainlessSteel), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.StainlessSteel));
+		ModHandler.addShapedRecipe("casing_tungstensteel_robust", MetaBlocks.METAL_CASING.getItemVariant(TUNGSTENSTEEL_ROBUST), "PhP", "PFP", "PwP", 'P', new UnificationEntry(OrePrefix.plate, Materials.TungstenSteel), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.TungstenSteel));
+
+		ModHandler.addShapedRecipe("casing_steel_turbine_casing", MetaBlocks.TURBINE_CASING.getItemVariant(STEEL_TURBINE_CASING), "PhP", "PFP", "PwP", 'P', new UnificationEntry(OrePrefix.plate, Materials.Magnalium), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.BlueSteel));
+		ModHandler.addShapedRecipe("casing_stainless_turbine_casing", MetaBlocks.TURBINE_CASING.getItemVariant(STAINLESS_TURBINE_CASING), "PhP", "PFP", "PwP", 'P', new UnificationEntry(OrePrefix.plate, Materials.StainlessSteel), 'F', MetaBlocks.TURBINE_CASING.getItemVariant(STEEL_TURBINE_CASING));
+		ModHandler.addShapedRecipe("casing_titanium_turbine_casing", MetaBlocks.TURBINE_CASING.getItemVariant(TITANIUM_TURBINE_CASING), "PhP", "PFP", "PwP", 'P', new UnificationEntry(OrePrefix.plate, Materials.Titanium), 'F', MetaBlocks.TURBINE_CASING.getItemVariant(STEEL_TURBINE_CASING));
+		ModHandler.addShapedRecipe("casing_tungstensteel_turbine_casing", MetaBlocks.TURBINE_CASING.getItemVariant(TUNGSTENSTEEL_TURBINE_CASING), "PhP", "PFP", "PwP", 'P', new UnificationEntry(OrePrefix.plate, Materials.TungstenSteel), 'F', MetaBlocks.TURBINE_CASING.getItemVariant(STEEL_TURBINE_CASING));
+
+		ModHandler.addShapedRecipe("casing_bronze_pipe", MetaBlocks.BOILER_CASING.getItemVariant(BRONZE_PIPE), "PIP", "IFI", "PIP", 'P', new UnificationEntry(OrePrefix.plate, Materials.Bronze), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.Bronze), 'I', new UnificationEntry(OrePrefix.pipeMedium, Materials.Bronze));
+		ModHandler.addShapedRecipe("casing_steel_pipe", MetaBlocks.BOILER_CASING.getItemVariant(STEEL_PIPE), "PIP", "IFI", "PIP", 'P', new UnificationEntry(OrePrefix.plate, Materials.Steel), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.Steel), 'I', new UnificationEntry(OrePrefix.pipeMedium, Materials.Steel));
+		ModHandler.addShapedRecipe("casing_titanium_pipe", MetaBlocks.BOILER_CASING.getItemVariant(TITANIUM_PIPE), "PIP", "IFI", "PIP", 'P', new UnificationEntry(OrePrefix.plate, Materials.Titanium), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.Titanium), 'I', new UnificationEntry(OrePrefix.pipeMedium, Materials.Titanium));
+		ModHandler.addShapedRecipe("casing_tungstensteel_pipe", MetaBlocks.BOILER_CASING.getItemVariant(TUNGSTENSTEEL_PIPE), "PIP", "IFI", "PIP", 'P', new UnificationEntry(OrePrefix.plate, Materials.TungstenSteel), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.TungstenSteel), 'I', new UnificationEntry(OrePrefix.pipeMedium, Materials.TungstenSteel));
+
+		ModHandler.addShapedRecipe("casing_bronze_firebox", MetaBlocks.BOILER_FIREBOX_CASING.getItemVariant(BRONZE_FIREBOX), "PSP", "SFS", "PSP", 'P', new UnificationEntry(OrePrefix.plate, Materials.Bronze), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.Bronze), 'S', new UnificationEntry(OrePrefix.stick, Materials.Bronze));
+		ModHandler.addShapedRecipe("casing_steel_firebox", MetaBlocks.BOILER_FIREBOX_CASING.getItemVariant(STEEL_FIREBOX), "PSP", "SFS", "PSP", 'P', new UnificationEntry(OrePrefix.plate, Materials.Steel), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.Steel), 'S', new UnificationEntry(OrePrefix.stick, Materials.Steel));
+		ModHandler.addShapedRecipe("casing_titanium_firebox", MetaBlocks.BOILER_FIREBOX_CASING.getItemVariant(TITANIUM_FIREBOX), "PSP", "SFS", "PSP", 'P', new UnificationEntry(OrePrefix.plate, Materials.Titanium), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.Titanium), 'S', new UnificationEntry(OrePrefix.stick, Materials.Titanium));
+		ModHandler.addShapedRecipe("casing_tungstensteel_firebox", MetaBlocks.BOILER_FIREBOX_CASING.getItemVariant(TUNGSTENSTEEL_FIREBOX), "PSP", "SFS", "PSP", 'P', new UnificationEntry(OrePrefix.plate, Materials.TungstenSteel), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.TungstenSteel), 'S', new UnificationEntry(OrePrefix.stick, Materials.TungstenSteel));
+
+		ModHandler.addShapedRecipe("casing_bronze_gearbox", MetaBlocks.TURBINE_CASING.getItemVariant(BRONZE_GEARBOX), "PhP", "GFG", "PwP", 'P', new UnificationEntry(OrePrefix.plate, Materials.Bronze), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.Bronze), 'G', new UnificationEntry(OrePrefix.gear, Materials.Bronze));
+		ModHandler.addShapedRecipe("casing_steel_gearbox", MetaBlocks.TURBINE_CASING.getItemVariant(STEEL_GEARBOX), "PhP", "GFG", "PwP", 'P', new UnificationEntry(OrePrefix.plate, Materials.Steel), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.Steel), 'G', new UnificationEntry(OrePrefix.gear, Materials.Steel));
+		ModHandler.addShapedRecipe("casing_titanium_gearbox", MetaBlocks.TURBINE_CASING.getItemVariant(TITANIUM_GEARBOX), "PhP", "GFG", "PwP", 'P', new UnificationEntry(OrePrefix.plate, Materials.Steel), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.Titanium), 'G', new UnificationEntry(OrePrefix.gear, Materials.Titanium));
+
+		ModHandler.addShapedRecipe("casing_grate_casing", MetaBlocks.MUTLIBLOCK_CASING.getItemVariant(GRATE_CASING), "PVP", "PFP", "PMP", 'P', new ItemStack(Blocks.IRON_BARS, 1), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.Steel), 'M', MetaItems.ELECTRIC_MOTOR_MV, 'V', new UnificationEntry(OrePrefix.rotor, Materials.Steel));
+		ModHandler.addShapedRecipe("assline_casing", GAMetaBlocks.MUTLIBLOCK_CASING.getItemVariant(GAMultiblockCasing.CasingType.TUNGSTENSTEEL_GEARBOX_CASING), "PhP", "AFA", "PwP", 'P', "plateSteel", 'A', MetaItems.ROBOT_ARM_IV.getStackForm(), 'F', OreDictUnifier.get(OrePrefix.frameGt, Materials.TungstenSteel));
+		ModHandler.addShapedRecipe("gt_assmbler_casing", MetaBlocks.MUTLIBLOCK_CASING.getItemVariant(ASSEMBLER_CASING), "MUM", "MFM", "MEM", 'U', "circuitUltimate", 'M', "circuitMaster", 'F', "frameGtTungstenSteel", 'E', MetaItems.ELECTRIC_MOTOR_IV.getStackForm());
+	}
 
 	private static void RegisterBlastRecipes()
 	{
@@ -691,11 +906,11 @@ public class GRRecipeAdditions
 				.buildAndRegister();
 
 		RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
-				.inputs(OreDictUnifier.get(OrePrefix.wireFine, Materials.Copper, 4),
-						OreDictUnifier.get(OrePrefix.bolt, Materials.RedAlloy),
+				.inputs(OreDictUnifier.get(OrePrefix.wireFine, Materials.Copper, 2),
+						MetaItems.GLASS_TUBE.getStackForm(),
 						OreDictUnifier.get(OrePrefix.stick, Materials.Steel))
-				.fluidInputs(Materials.Glass.getFluid(144))
-				.outputs(MetaItems.VACUUM_TUBE.getStackForm(2))
+				.fluidInputs(Materials.RedAlloy.getFluid(36))
+				.outputs(MetaItems.VACUUM_TUBE.getStackForm())
 				.EUt(30).duration(200)
 				.buildAndRegister();
 
@@ -1194,9 +1409,24 @@ public class GRRecipeAdditions
 					.EUt(38400).duration(800)
 					.buildAndRegister();
 
-			//The infinity is made in assembly line
-		}
 
+		}
+		//The infinity is made in assembly line
+		GARecipeMaps.ASSEMBLY_LINE_RECIPES.recipeBuilder()
+				.inputs(OreDictUnifier.get(OrePrefix.frameGt, Materials.Tritanium, 2),
+						GRMetaItems.WETWARE_PROCESSOR.getStackForm(2),
+						MetaItems.SMALL_COIL.getStackForm(64),
+						MetaItems.SMD_RESISTOR.getStackForm(64),
+						MetaItems.SMD_CAPACITOR.getStackForm(64),
+						MetaItems.SMD_TRANSISTOR.getStackForm(64),
+						MetaItems.SMD_DIODE.getStackForm(64),
+						MetaItems.RANDOM_ACCESS_MEMORY.getStackForm(48),
+						OreDictUnifier.get(OrePrefix.foil, Materials.SiliconeRubber, 64),
+						OreDictUnifier.get(OrePrefix.wireGtSingle, MarkerMaterials.Tier.Superconductor, 64))
+				.fluidInputs(Materials.SolderingAlloy.getFluid(2880))
+				.outputs(GRMetaItems.WETWARE_PROCESSOR_MAINFRAME.getStackForm())
+				.EUt(300000).duration(2000)
+				.buildAndRegister();
 
 	}
 }

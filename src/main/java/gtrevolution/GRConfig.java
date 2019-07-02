@@ -42,10 +42,6 @@ public class GRConfig
         @Config.Name("Wire Factory")
         public boolean Wiremill = true;
         
-        @Config.Comment("Multiblock Chemical Reactor")
-        @Config.Name("Industrial Chemical Reactor")
-        public boolean Reactor = true;
-        
         @Config.Comment("Industrial machine that produces fish")
         @Config.Name("Industrial Fisher")
         public boolean Fisher = true;
@@ -67,7 +63,19 @@ public class GRConfig
         @Config.Name("Harder small gears")
         public boolean HarderSmallGears = true;
 
-        @Config.Comment("Adds more circuit options, plastic+ circuits need cleanroom, circuit boards needs metal foils step")
+        @Config.Comment("Make all casings recipes outputs only one per craft")
+        @Config.Name("Harder casings")
+        public boolean HarderCasings = true;
+
+        @Config.Comment("Disable cheap rubber for IV+ cables")
+        @Config.Name("Harder cables")
+        public boolean HarderCables = true;
+
+        @Config.Comment("Make all fuel cracking recipes in the chemical reactor worse than using the cracking unit")
+        @Config.Name("Harder Fuel Cracking")
+        public boolean HarderFuelCracking = true;
+
+        @Config.Comment("Make everything related to circuitry harder with more options and steps")
         @Config.Name("Circuit overhaul")
         public boolean CircuitOverhaul = true;
     }
