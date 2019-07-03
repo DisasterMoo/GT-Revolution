@@ -53,6 +53,16 @@
           "all": "gregtech:blocks/casings/industrial/sieve_casing"
         }
       },
+	  "laser_casing": {
+        "textures": {
+          "all": "gregtech:blocks/casings/industrial/laser_casing"
+        }
+      },
+	  "cutter_casing": {
+        "textures": {
+          "all": "gregtech:blocks/casings/industrial/cutter_casing"
+        }
+      },
       "sieve_grate": {
         "textures": {
           "all": "gregtech:blocks/casings/industrial/sieve_grate"

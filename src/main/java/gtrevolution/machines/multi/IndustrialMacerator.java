@@ -24,8 +24,8 @@ public class IndustrialMacerator extends IndustrialMachine
 	
 	protected int parallel;
 
-    private static final MultiblockAbility<?>[] ALLOWED_ABILITIES = {
-        MultiblockAbility.IMPORT_ITEMS, MultiblockAbility.EXPORT_ITEMS, MultiblockAbility.INPUT_ENERGY
+    private static final MultiblockAbility<?>[] ALLOWED_INPUT_ONLY = {
+            MultiblockAbility.IMPORT_ITEMS, MultiblockAbility.INPUT_ENERGY
     };
 
     public IndustrialMacerator(ResourceLocation metaTileEntityId) {
@@ -40,12 +40,14 @@ public class IndustrialMacerator extends IndustrialMachine
     @Override
     protected BlockPattern createStructurePattern() {
         return FactoryBlockPattern.start()
-            .aisle("XXX", "XXX", "XXX")
-            .aisle("XXX", "X#X", "XXX")
-            .aisle("XXX", "XSX", "XXX")
+            .aisle("III", "XXX", "XXX", "XXX")
+            .aisle("IHI", "X#X", "X#X", "XHX")
+            .aisle("ISI", "XXX", "XXX", "XXX")
             .setAmountAtLeast('X', 10)
             .where('S', selfPredicate())
-            .where('X', statePredicate(getCasingState()).or(abilityPartPredicate(ALLOWED_ABILITIES)))
+            .where('I', statePredicate(getCasingState()).or(abilityPartPredicate(ALLOWED_INPUT_ONLY)))
+            .where('X', statePredicate(getCasingState()).or(abilityPartPredicate(MultiblockAbility.EXPORT_ITEMS)))
+            .where('H', statePredicate(getCasingState()))
             .where('#', isAirPredicate())
             .build();
     }
@@ -62,7 +64,7 @@ public class IndustrialMacerator extends IndustrialMachine
     @Override
     public void renderMetaTileEntity(CCRenderState renderState, Matrix4 translation, IVertexOperation[] pipeline) {
         this.getBaseTexture(null).render(renderState, translation, pipeline);
-        Textures.MACERATOR_OVERLAY.render(renderState, translation, pipeline, this.getFrontFacing(), this.recipeMapWorkable.isActive());
+        GRTextures.INDUSTRIAL_MACERATOR_OVERLAY.render(renderState, translation, pipeline, this.getFrontFacing(), this.recipeMapWorkable.isActive());
         //ClientHandler.OVERL.render(renderState, translation, pipeline, this.getFrontFacing(), this.recipeMapWorkable.isActive());
     }
 }

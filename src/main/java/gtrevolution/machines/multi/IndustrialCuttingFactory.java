@@ -32,29 +32,31 @@ public class IndustrialCuttingFactory extends IndustrialMachine
 
     @Override
     public MetaTileEntity createMetaTileEntity(MetaTileEntityHolder holder) {
-        return new IndustrialLaserProcessor(metaTileEntityId);
+        return new IndustrialCuttingFactory(metaTileEntityId);
     }
 
     @Override
     protected BlockPattern createStructurePattern() {
         return FactoryBlockPattern.start()
-                .aisle("XXX", "XXX", "XXX")
-                .aisle("XXX", "X#X", "XXX")
-                .aisle("XXX", "XSX", "XXX")
-                .setAmountAtLeast('X', 10)
+                .aisle("XXX", "XXX")
+                .aisle("CCC", "CCC")
+                .aisle("CCC", "CCC")
+                .aisle("XSX", "XXX")
+                .setAmountAtLeast('X', 5)
                 .where('S', selfPredicate())
                 .where('X', statePredicate(getCasingState()).or(abilityPartPredicate(ALLOWED_ABILITIES)))
+                .where('C', statePredicate(getCasingState()))
                 .where('#', isAirPredicate())
                 .build();
     }
 
     @Override
     public ICubeRenderer getBaseTexture(IMultiblockPart sourcePart) {
-        return GRTextures.CENTRIFUGE_CASING;
+        return GRTextures.CUTTER_CASING;
     }
 
     protected IBlockState getCasingState() {
-        return GRMetaBlocks.MULTIBLOCK_CASING.getState(GRMultiblockCasing.CasingType.CENTRIFUGE_CASING);
+        return GRMetaBlocks.MULTIBLOCK_CASING.getState(GRMultiblockCasing.CasingType.CUTTER_CASING);
     }
 
     @Override

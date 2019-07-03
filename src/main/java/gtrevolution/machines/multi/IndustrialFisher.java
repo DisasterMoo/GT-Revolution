@@ -3,6 +3,8 @@ package gtrevolution.machines.multi;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import gregtech.api.capability.IMultipleTankHandler;
 import gregtech.api.capability.impl.MultiblockRecipeLogic;
 import gregtech.api.metatileentity.MetaTileEntity;
@@ -24,11 +26,14 @@ import gtrevolution.block.GRMetaBlocks;
 import gtrevolution.block.GRMultiblockCasing;
 import gtrevolution.recipes.GRRecipeMaps;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootTable;
@@ -46,7 +51,7 @@ public class IndustrialFisher extends IndustrialMachine{
 	public IndustrialFisher(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, GRRecipeMaps.INDUSTRIALFISHER, IndustrialType.EFFICIENCY);
         this.recipeMapWorkable = new FisherLogic(this);
-        
+
     }
 	
 	@Override
@@ -69,7 +74,7 @@ public class IndustrialFisher extends IndustrialMachine{
     @Override
     protected void addDisplayText(List<ITextComponent> textList) {
         if(isStructureFormed()) {
-        	textList.add(new TextComponentTranslation("gregtech.multiblock.industrial_fisher.speed", tier * 4));
+        	textList.add(new TextComponentTranslation("gtrevolution.multiblock.industrial_fisher.speed", tier * 4));
         }
         super.addDisplayText(textList);
     }
@@ -95,7 +100,7 @@ public class IndustrialFisher extends IndustrialMachine{
     protected IBlockState getCasingState() {
         return GRMetaBlocks.MULTIBLOCK_CASING.getState(GRMultiblockCasing.CasingType.FISHER_CASING);
     }
-    
+
     protected class FisherLogic extends MultiblockRecipeLogic {
 
         public FisherLogic(RecipeMapMultiblockController tileEntity) {
@@ -112,17 +117,17 @@ public class IndustrialFisher extends IndustrialMachine{
                 if(config == 0)break;
                 LootContext.Builder builder = new LootContext.Builder((WorldServer)this.getMetaTileEntity().getWorld());
                 LootTable fishTable = this.getMetaTileEntity().getWorld().getLootTableManager().getLootTableFromLocation(LootTableList.GAMEPLAY_FISHING);
-                List<ItemStack> output = new ArrayList<ItemStack>();
+                NonNullList<ItemStack> output = NonNullList.create();
                 for(int i = 0; i < tier * 4; i++) {
-                	List<ItemStack> fishables = fishTable.generateLootForPools(this.getMetaTileEntity().getWorld().rand, builder.build());
-                	for(ItemStack fish : fishables) {
+                    List<ItemStack> fishables = fishTable.generateLootForPools(this.getMetaTileEntity().getWorld().rand, builder.build());
+                    for(ItemStack fish : fishables) {
                 		if(fish.isEmpty())continue;
                 		output.add(fish);
                 	}
                 }
                 @SuppressWarnings("unchecked")
 				RecipeMap<IntCircuitRecipeBuilder> rmap = (RecipeMap<IntCircuitRecipeBuilder>) this.recipeMap;
-                
+
                 return rmap.recipeBuilder()
 				                		.circuitMeta(1)
 						                .outputs(output)
@@ -132,5 +137,11 @@ public class IndustrialFisher extends IndustrialMachine{
         	}
         	return null;
         }
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, boolean advanced) {
+        super.addInformation(stack, player, tooltip, advanced);
+	    tooltip.add(I18n.format("gtrevolution.industrial_fisher.tooltip"));
     }
 }

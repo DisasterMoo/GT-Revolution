@@ -73,6 +73,7 @@ material.superconductor_iv=IV Superconductor
 material.superconductor_luv=LuV Superconductor
 material.superconductor_zpm=ZPM Superconductor
 material.iron3chloride=Iron(III) Chloride
+material.bacterialgrowth=Bacterial Growth
 
 gtrevolution.multiblock.industrial_machine.parallel=Max parallel operations: %s
 gtrevolution.multiblock.industrial_machine.efficient.discount=EU Discount: %s%%
@@ -80,14 +81,16 @@ gtrevolution.multiblock.industrial_fisher.speed=Fish per operation: %s
 
 tile.gr_multiblock_casing.maceration_casing.name=Maceration Casing
 tile.gr_multiblock_casing.thermal_casing.name=Thermal Casing
-tile.gr_multiblock_casing.washplant_casing.name=Washing plant Casing
+tile.gr_multiblock_casing.washplant_casing.name=Washing Plant Casing
 tile.gr_multiblock_casing.chemical_casing.name=Chemically Inert Casing
 tile.gr_multiblock_casing.fisher_casing.name=Fisher Casing
 tile.gr_multiblock_casing.electrolyzer_casing.name=Electrolyzer Casing
 tile.gr_multiblock_casing.centrifuge_casing.name=Centrifuge Casing
 tile.gr_multiblock_casing.sieve_casing.name=Sieve Casing
 tile.gr_multiblock_casing.sieve_grate.name=Sieve Grate
-tile.gr_multiblock_casing.wire_casing.name=Wire Casing
+tile.gr_multiblock_casing.wire_casing.name=Wire Factory Casing
+tile.gr_multiblock_casing.laser_casing.name=Laser Processor Casing
+tile.gr_multiblock_casing.cutter_casing.name=Cutting Factory Casing
 
 gtrevolution.machine.disassembler.lv.name=Basic Disassembler
 gtrevolution.machine.disassembler.mv.name=Advanced Disassembler
@@ -105,12 +108,11 @@ gtrevolution.machine.industrial_chemicalreactor.name=Industrial Chemical Reactor
 gtrevolution.machine.industrial_fisher.name=Industrial Fisher
 gtrevolution.machine.industrial_electrolyzer.name=Industrial Electrolyzer
 gtrevolution.machine.industrial_centrifuge.name=Industrial Centrifuge
-gtrevolution.machine.industrial_wiremill.name=Industrial Wiremill
+gtrevolution.machine.industrial_wiremill.name=Industrial Wiremill Factory
 gtrevolution.machine.industrial_sifter.name=Industrial Sifter
 gtrevolution.machine.oil_rig.name=Oil Rig
 gtrevolution.machine.industrial_laser.name=Industrial Laser Processor
 gtrevolution.machine.industrial_cutter.name=Industrial Cutting Factory
-
 
 gtrevolution.machine.improved_blast_furnace.name=Electric Blast Furnace
 
@@ -119,6 +121,8 @@ recipemap.industrial_fisher.name=Industrial Fisher
 recipemap.industrial_laser.name=Industrial Laser Processor
 recipemap.industrial_cutter.name=Industrial Cutting Factory
 recipemap.industrial_chemical_reactor.name=Industrial Chemical Reactor
+
+gtrevolution.industrial_fisher.tooltip=Industrial fish farming!
 
 gregtech.multiblock.industrial_macerator.description=The Industrial Macerator works like the single block machine except all byproducts are 100%% chance and each voltage tier works on 4 parallel operations.
 gregtech.multiblock.industrial_orewasher.description=The Industrial Ore Washer works like the single block machine except each voltage tier works on 4 parallel operations.

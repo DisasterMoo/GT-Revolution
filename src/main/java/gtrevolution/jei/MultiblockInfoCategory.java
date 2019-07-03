@@ -31,6 +31,8 @@ public class MultiblockInfoCategory implements IRecipeCategory<MultiblockInfoRec
                 new MultiblockInfoRecipeWrapper(new ImprovedBlastFurnaceInfo()),
                 new MultiblockInfoRecipeWrapper(new IndustrialWiremillInfo()),
                 new MultiblockInfoRecipeWrapper(new OilRigInfo()),
+                new MultiblockInfoRecipeWrapper(new IndustrialCutterInfo()),
+                new MultiblockInfoRecipeWrapper(new IndustrialLaserInfo()),
                 new MultiblockInfoRecipeWrapper(new IndustrialSifterInfo())
         ), "gtrevolution:multiblock_info");
     }

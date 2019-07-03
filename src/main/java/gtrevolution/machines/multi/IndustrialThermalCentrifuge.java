@@ -40,6 +40,7 @@ public class IndustrialThermalCentrifuge extends IndustrialMachine
         return FactoryBlockPattern.start()
             .aisle("XXX", "XXX")
             .aisle("XXX", "XXX")
+            .aisle("XXX", "XXX")
             .aisle("XSX", "XXX")
             .setAmountAtLeast('X', 8)
             .where('S', selfPredicate())

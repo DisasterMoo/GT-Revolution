@@ -50,7 +50,7 @@ import static gtrevolution.recipes.GRCraftingComponents.*;
 public class GRRecipeAdditions
 {
 
-    public static void init() {     	
+    public static void init() {
     	//Casing Recipes
 		int casingNumber = GRConfig.misc.HarderCasings ? 1 : 3;
     	ModHandler.addShapedRecipe("maceration_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.MACERATION_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "platePalladium", 'H', "frameGtBlueSteel");
@@ -62,7 +62,10 @@ public class GRRecipeAdditions
     	ModHandler.addShapedRecipe("centrifuge_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.CENTRIFUGE_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "plateInconel690", 'H', "frameGtStaballoy");
     	ModHandler.addShapedRecipe("wire_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.WIRE_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "plateTalonite", 'H', "frameGtStaballoy");
     	ModHandler.addShapedRecipe("sieve_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.SIEVE_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "plateEglinSteel", 'H', "frameGtBlueSteel");
-    	ModHandler.addShapedRecipe("sieve_grate", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.SIEVE_GRATE, casingNumber), "TPT", "WHW", "TWT", 'P', MetaItems.ITEM_FILTER.getStackForm(), 'T', "plateBlackSteel", 'W', "wireFineSteel", 'H', "frameGtSteel");
+		ModHandler.addShapedRecipe("cutter_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.CUTTER_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "plateBlackSteel", 'H', "frameGtSteel");
+		ModHandler.addShapedRecipe("laser_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.LASER_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "plateBlueSteel", 'H', "frameGtAluminium");
+
+		ModHandler.addShapedRecipe("sieve_grate", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.SIEVE_GRATE, casingNumber), "TPT", "WHW", "TWT", 'P', MetaItems.ITEM_FILTER.getStackForm(), 'T', "plateBlackSteel", 'W', "wireFineSteel", 'H', "frameGtSteel");
         
 		if(GRConfig.multiblocks.EBF) {
 			ModHandler.removeRecipes(MetaTileEntities.ELECTRIC_BLAST_FURNACE.getStackForm());
@@ -80,8 +83,8 @@ public class GRRecipeAdditions
 		if(GRConfig.multiblocks.Sifter)ModHandler.addShapedRecipe("multiblock_industrial_sifter", GRTileEntities.INDUSTRIAL_SIFTER.getStackForm(), "TCT", "WSW", "TCT", 'W', "cableGtQuadrupleCopper", 'C', "circuitMaster", 'S', MetaTileEntities.SIFTER[GTValues.HV].getStackForm(), 'T', "plateEglinSteel");
 		if(GRConfig.misc.CircuitOverhaul){
 			ModHandler.addShapedRecipe("multiblock_industrial_chemicalreactor", GRTileEntities.INDUSTRIAL_CHEMICALREACTOR.getStackForm(), "TWT", "MCM", "TIT", 'M', MetaTileEntities.CHEMICAL_REACTOR[GTValues.HV].getStackForm(), 'W', "circuitElite", 'C', "rotorStellite", 'I', MetaTileEntities.HULL[GTValues.HV].getStackForm(), 'T', "platePolytetrafluorethylene");
-			//TODO Casings + Shapes + Recipe for industrial laser + cutter
-			//TODO Era bom mudar o estilo das maquinas industriais para algo mais interessante
+			ModHandler.addShapedRecipe("multiblock_industrial_cutter", GRTileEntities.INDUSTRIAL_CUTTER.getStackForm(), "PPP", "CMC", "WCW", 'M', MetaTileEntities.CUTTER[GTValues.MV].getStackForm(), 'C', "circuitAdvanced", 'W', OreDictUnifier.get(OrePrefix.cableGtDouble, Materials.Silver), 'P', "plateBlackSteel");
+			ModHandler.addShapedRecipe("multiblock_industrial_laser", GRTileEntities.INDUSTRIAL_LASER.getStackForm(), "PPP", "CMC", "WCW", 'M', MetaTileEntities.LASER_ENGRAVER[GTValues.MV].getStackForm(), 'C', "circuitAdvanced", 'W', OreDictUnifier.get(OrePrefix.cableGtDouble, Materials.Silver), 'P', "plateBlueSteel");
 		}
 
 		if(GRConfig.multiblocks.OilRig){
@@ -89,8 +92,8 @@ public class GRRecipeAdditions
 			Material material = Materials.StainlessSteel;
 			ItemStack output = ((ToolMetaItem<?>.MetaToolValueItem) GRMetaItems.OIL_SCANNER).getStackForm(Materials.StainlessSteel, 1);
 			ModHandler.addShapedRecipe(String.format("oil_scanner_%s", Materials.StainlessSteel.toString()), output,
-					"  E", "CTC", "XBX", 'E', new ItemStack(Blocks.GLASS_PANE),
-					'C', "circuitAdvanced", 'T', MetaItems.COVER_SCREEN.getStackForm(),
+					"  E", "CTC", "XBX", 'E', MetaItems.SENSOR_HV.getStackForm(),
+					'C', "circuitExtreme", 'T', new ItemStack(Blocks.GLASS_PANE),
 					'B', MetaItems.BATTERY_RE_HV_LITHIUM.getStackForm(),
 					'X', new UnificationEntry(OrePrefix.plate, Materials.StainlessSteel));
 		}
@@ -101,7 +104,8 @@ public class GRRecipeAdditions
 		registerMachineRecipe(GRTileEntities.DISASSEMBLER, true, "RCR", "RHR", "GCG",
 				'H', HULL, 'C', CIRCUIT, 'R', ROBOT_ARM, 'G', CABLE);
 
-    	
+
+		//Just for show
     	GRRecipeMaps.INDUSTRIALFISHER.recipeBuilder()
 											        .circuitMeta(1)
 											        .outputs(new ItemStack(Items.FISH, 14, 0), new ItemStack(Items.FISH, 10, 1), new ItemStack(Items.FISH, 7, 2),  new ItemStack(Items.FISH, 4, 3))
@@ -288,6 +292,19 @@ public class GRRecipeAdditions
 				}
 			}
 			for(Recipe recipe: recipesRemove)RecipeMaps.BLAST_RECIPES.removeRecipe(recipe);
+			recipesRemove.clear();
+
+			for(Recipe recipe : GARecipeMaps.ASSEMBLY_LINE_RECIPES.getRecipeList())
+			{
+				for(ItemStack stack : recipe.getOutputs()){
+					if(isOverhaulNeeded(stack)){
+
+						recipesRemove.add(recipe);
+						break;
+					}
+				}
+			}
+			for(Recipe recipe: recipesRemove)GARecipeMaps.ASSEMBLY_LINE_RECIPES.removeRecipe(recipe);
 			recipesRemove.clear();
 
 			//Unregistering from industrial
@@ -637,7 +654,7 @@ public class GRRecipeAdditions
 				.inputs(new CountableIngredient(new IntCircuitIngredient(1), 0))
 				.inputs(OreDictUnifier.get(OrePrefix.dustTiny, Materials.GalliumArsenide),
 						OreDictUnifier.get(OrePrefix.dust, Materials.Silicon, 32))
-				.outputs(OreDictUnifier.get(OrePrefix.ingot, Materials.GalliumArsenide))
+				.outputs(MetaItems.SILICON_BOULE.getStackForm())
 				.blastFurnaceTemp(1784)
 				.EUt(120).duration(9000)
 				.buildAndRegister();
@@ -836,6 +853,23 @@ public class GRRecipeAdditions
 				.outputs(MetaItems.WETWARE_BOARD.getStackForm())
 				.EUt(1920).duration(600)
 				.buildAndRegister();
+
+		RecipeMaps.DISTILLERY_RECIPES.recipeBuilder()
+				.fluidInputs(Materials.FermentedBiomass.getFluid(1000))
+				.fluidOutputs(GRMaterials.BacterialGrowth.getFluid(72))
+				.EUt(256).duration(100)
+				.buildAndRegister();
+	}
+
+	private static void RegisterBiomassRecipes()
+	{
+		//TODO Revisit GTNH
+		RecipeMaps.PYROLYSE_RECIPES.recipeBuilder()
+				.inputs(MetaItems.PLANT_BALL.getStackForm(8))
+				.fluidInputs(Materials.Water.getFluid(4000))
+				.fluidOutputs(Materials.Biomass.getFluid(5000))
+				.EUt(120).duration(200)
+				.buildAndRegister();
 	}
 
 	private static void RegisterCutterRecipes()
@@ -846,11 +880,25 @@ public class GRRecipeAdditions
 				.outputs(GRMetaItems.SIMPLE_SYSTEM_ON_CHIP.getStackForm(6))
 				.EUt(64).duration(300)
 				.buildAndRegister();
+
+		GRRecipeMaps.INDUSTRIAL_CUTTER.recipeBuilder()
+				.inputs(GRMetaItems.SIMPLE_SYSTEM_ON_CHIP_WAFER.getStackForm())
+				.fluidInputs(Materials.Water.getFluid(250))
+				.outputs(GRMetaItems.SIMPLE_SYSTEM_ON_CHIP.getStackForm(6))
+				.EUt(64).duration(300)
+				.buildAndRegister();
 	}
 
 	private static void RegisterLaserRecipes()
 	{
 		RecipeMaps.LASER_ENGRAVER_RECIPES.recipeBuilder()
+				.notConsumable(OreDictUnifier.get(OrePrefix.lens, Materials.Topaz))
+				.inputs(MetaItems.SILICON_WAFER.getStackForm())
+				.outputs(GRMetaItems.SIMPLE_SYSTEM_ON_CHIP_WAFER.getStackForm())
+				.EUt(64).duration(300)
+				.buildAndRegister();
+
+		GRRecipeMaps.INDUSTRIAL_LASER.recipeBuilder()
 				.notConsumable(OreDictUnifier.get(OrePrefix.lens, Materials.Topaz))
 				.inputs(MetaItems.SILICON_WAFER.getStackForm())
 				.outputs(GRMetaItems.SIMPLE_SYSTEM_ON_CHIP_WAFER.getStackForm())
@@ -947,7 +995,7 @@ public class GRRecipeAdditions
 				.buildAndRegister();
 
 		RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
-				.inputs(OreDictUnifier.get(OrePrefix.wireFine, Materials.Copper, 4),
+				.inputs(OreDictUnifier.get(OrePrefix.wireFine, Materials.AnnealedCopper, 4),
 						OreDictUnifier.get(OrePrefix.dustTiny, Materials.GalliumArsenide, 1))
 				.fluidInputs(Materials.Glass.getFluid(432))
 				.outputs(MetaItems.DIODE.getStackForm(6))
@@ -1424,7 +1472,7 @@ public class GRRecipeAdditions
 						OreDictUnifier.get(OrePrefix.foil, Materials.SiliconeRubber, 64),
 						OreDictUnifier.get(OrePrefix.wireGtSingle, MarkerMaterials.Tier.Superconductor, 64))
 				.fluidInputs(Materials.SolderingAlloy.getFluid(2880))
-				.outputs(GRMetaItems.WETWARE_PROCESSOR_MAINFRAME.getStackForm())
+				.outputs(MetaItems.WETWARE_MAINFRAME_MAX.getStackForm())
 				.EUt(300000).duration(2000)
 				.buildAndRegister();
 

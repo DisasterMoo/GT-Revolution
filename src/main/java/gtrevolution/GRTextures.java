@@ -1,10 +1,11 @@
 package gtrevolution;
 
+import gregtech.api.render.OrientedOverlayRenderer;
 import gregtech.api.render.SimpleCubeRenderer;
 
 public class GRTextures
 {
-	public static SimpleCubeRenderer MACERATION_CASING,
+	public static final SimpleCubeRenderer MACERATION_CASING,
     								 WASHPLANT_CASING,
     								 THERMAL_CASING,
     								 FISHER_CASING,
@@ -13,9 +14,9 @@ public class GRTextures
     								 CENTRIFUGE_CASING,
     								 SIEVE_CASING,
     								 SIEVE_GRATE,
+                                     CUTTER_CASING,
+                                     LASER_CASING,
     								 WIRE_CASING;
-
-    //public static OrientedOverlayRenderer INDUSTRIAL_MACERATOR_OVERLAY;
 
     static {
         MACERATION_CASING = new SimpleCubeRenderer("casings/industrial/maceration_casing");
@@ -28,7 +29,20 @@ public class GRTextures
         SIEVE_CASING = new SimpleCubeRenderer("casings/industrial/sieve_casing");
         SIEVE_GRATE = new SimpleCubeRenderer("casings/industrial/sieve_grate");
         WIRE_CASING = new SimpleCubeRenderer("casings/industrial/wire_casing");
+        CUTTER_CASING = new SimpleCubeRenderer("casings/industrial/cutter_casing");
+        LASER_CASING = new SimpleCubeRenderer("casings/industrial/laser_casing");
+    }
 
-        //INDUSTRIAL_MACERATOR_OVERLAY = new OrientedOverlayRenderer("machines/coke_oven", new OverlayFace[]{OverlayFace.FRONT});
+    public static OrientedOverlayRenderer INDUSTRIAL_MACERATOR_OVERLAY,
+                                          INDUSTRIAL_LASER_OVERLAY;
+
+    static
+    {
+
+        INDUSTRIAL_MACERATOR_OVERLAY = new OrientedOverlayRenderer("machines/industrial_macerator",
+                new OrientedOverlayRenderer.OverlayFace[]{OrientedOverlayRenderer.OverlayFace.FRONT});
+
+        INDUSTRIAL_LASER_OVERLAY = new OrientedOverlayRenderer("machines/industrial_laser",
+                new OrientedOverlayRenderer.OverlayFace[]{OrientedOverlayRenderer.OverlayFace.FRONT});
     }
 }

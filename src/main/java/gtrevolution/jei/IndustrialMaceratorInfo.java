@@ -26,15 +26,15 @@ public class IndustrialMaceratorInfo extends MultiblockInfoPage {
     @Override
     public List<MultiblockShapeInfo> getMatchingShapes() {
         MultiblockShapeInfo shapeInfo = MultiblockShapeInfo.builder()
-            .aisle("XXX", "XBX", "XXX")
-            .aisle("XXX", "C#E", "XXX")
-            .aisle("XXX", "XIX", "XXX")
+            .aisle("IXX", "BXX", "XXX", "XXX")
+            .aisle("CXE", "X#X", "X#X", "XXX")
+            .aisle("IXX", "BXX", "XXX", "XXX")
             .where('C', GRTileEntities.INDUSTRIAL_MACERATOR, EnumFacing.WEST)
             .where('X', GRMetaBlocks.MULTIBLOCK_CASING.getState(GRMultiblockCasing.CasingType.MACERATION_CASING))
             .where('#', Blocks.AIR.getDefaultState())
-            .where('I', MetaTileEntities.ITEM_IMPORT_BUS[GTValues.HV], EnumFacing.SOUTH)
+            .where('I', MetaTileEntities.ITEM_IMPORT_BUS[GTValues.HV], EnumFacing.WEST)
             .where('E', MetaTileEntities.ENERGY_INPUT_HATCH[GTValues.HV], EnumFacing.EAST)
-            .where('B', MetaTileEntities.ITEM_EXPORT_BUS[GTValues.HV], EnumFacing.NORTH)
+            .where('B', MetaTileEntities.ITEM_EXPORT_BUS[GTValues.HV], EnumFacing.WEST)
             .build();
         return Lists.newArrayList(shapeInfo);
     }

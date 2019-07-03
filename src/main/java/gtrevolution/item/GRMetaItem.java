@@ -78,7 +78,7 @@ public class GRMetaItem extends MaterialMetaItem
             GRMetaItems.WETWARE_CIRCUIT = addItem(36, "assembly.circuit.wetware_circuit").setUnificationData(OrePrefix.circuit, MarkerMaterials.Tier.Master);
             GRMetaItems.WETWARE_PROCESSOR = addItem(37, "assembly.circuit.wetware_processor").setUnificationData(OrePrefix.circuit, MarkerMaterials.Tier.Ultimate);
             GRMetaItems.WETWARE_PROCESSOR_ARRAY = addItem(38, "assembly.circuit.wetware_processor_array").setUnificationData(OrePrefix.circuit, MarkerMaterials.Tier.Superconductor);
-            GRMetaItems.WETWARE_PROCESSOR_MAINFRAME = addItem(39, "assembly.circuit.wetware_processor_mainframe").setUnificationData(OrePrefix.circuit, MarkerMaterials.Tier.Infinite);
+            //GRMetaItems.WETWARE_PROCESSOR_MAINFRAME = addItem(39, "assembly.circuit.wetware_processor_mainframe").setUnificationData(OrePrefix.circuit, MarkerMaterials.Tier.Infinite);
 
             //Simple SoC
             GRMetaItems.SIMPLE_SYSTEM_ON_CHIP_WAFER = addItem(40, "wafer.simple_system_on_chip");

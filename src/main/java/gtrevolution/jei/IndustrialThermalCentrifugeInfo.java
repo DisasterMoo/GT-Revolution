@@ -25,14 +25,15 @@ public class IndustrialThermalCentrifugeInfo extends MultiblockInfoPage {
     @Override
     public List<MultiblockShapeInfo> getMatchingShapes() {
         MultiblockShapeInfo shapeInfo = MultiblockShapeInfo.builder()
-        	.aisle("XEX", "XXX")
+        	.aisle("XCX", "BXI")
             .aisle("XXX", "XXX")
-            .aisle("XCX", "IXB")
-            .where('C', GRTileEntities.INDUSTRIAL_THERMALCENTRIFUGE, EnumFacing.SOUTH)
+            .aisle("XXX", "XXX")
+            .aisle("XEX", "XXX")
+            .where('C', GRTileEntities.INDUSTRIAL_THERMALCENTRIFUGE, EnumFacing.NORTH)
             .where('X', GRMetaBlocks.MULTIBLOCK_CASING.getState(GRMultiblockCasing.CasingType.THERMAL_CASING))
-            .where('I', MetaTileEntities.ITEM_IMPORT_BUS[GTValues.HV], EnumFacing.SOUTH)
-            .where('E', MetaTileEntities.ENERGY_INPUT_HATCH[GTValues.HV], EnumFacing.NORTH)
-            .where('B', MetaTileEntities.ITEM_EXPORT_BUS[GTValues.HV], EnumFacing.SOUTH)
+            .where('I', MetaTileEntities.ITEM_IMPORT_BUS[GTValues.HV], EnumFacing.NORTH)
+            .where('E', MetaTileEntities.ENERGY_INPUT_HATCH[GTValues.HV], EnumFacing.SOUTH)
+            .where('B', MetaTileEntities.ITEM_EXPORT_BUS[GTValues.HV], EnumFacing.NORTH)
             .build();
         return Lists.newArrayList(shapeInfo);
     }

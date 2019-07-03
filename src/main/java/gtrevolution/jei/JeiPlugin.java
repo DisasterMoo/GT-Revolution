@@ -50,9 +50,6 @@ public class JeiPlugin implements IModPlugin {
             for (ItemStack it : OreDictionary.getOres("circuitSuperconductor"))
                 if (!(it.getItem() instanceof GRMetaItem))
                     registry.getJeiHelpers().getIngredientBlacklist().addIngredientToBlacklist(it);
-            for (ItemStack it : OreDictionary.getOres("circuitInfinite"))
-                if (!(it.getItem() instanceof GRMetaItem))
-                    registry.getJeiHelpers().getIngredientBlacklist().addIngredientToBlacklist(it);
         }
     }
 }

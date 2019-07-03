@@ -53,6 +53,8 @@ public class GRMultiblockCasing extends VariantBlock<GRMultiblockCasing.CasingTy
         CENTRIFUGE_CASING("centrifuge_casing"),
         SIEVE_CASING("sieve_casing"),
         SIEVE_GRATE("sieve_grate"),
+        CUTTER_CASING("cutter_casing"),
+        LASER_CASING("laser_casing"),
         WIRE_CASING("wire_casing");
 
         private final String name;

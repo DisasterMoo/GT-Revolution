@@ -68,7 +68,7 @@ public class GRMetaItems
     public static MetaItem<?>.MetaValueItem WETWARE_CIRCUIT;
     public static MetaItem<?>.MetaValueItem WETWARE_PROCESSOR;
     public static MetaItem<?>.MetaValueItem WETWARE_PROCESSOR_ARRAY;
-    public static MetaItem<?>.MetaValueItem WETWARE_PROCESSOR_MAINFRAME;
+    //public static MetaItem<?>.MetaValueItem WETWARE_PROCESSOR_MAINFRAME; //Use the GTCE one
 
     public static MetaItem<?>.MetaValueItem SIMPLE_SYSTEM_ON_CHIP_WAFER;
     public static MetaItem<?>.MetaValueItem SIMPLE_SYSTEM_ON_CHIP;
