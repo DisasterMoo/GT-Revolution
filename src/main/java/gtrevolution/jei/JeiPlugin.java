@@ -3,8 +3,8 @@ package gtrevolution.jei;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-import gtrevolution.GRConfig;
 import gtrevolution.item.GRMetaItem;
+import gtrevolution.util.GRConfig;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;

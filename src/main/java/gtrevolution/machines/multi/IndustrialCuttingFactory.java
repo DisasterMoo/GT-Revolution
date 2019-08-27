@@ -14,9 +14,9 @@ import gregtech.api.multiblock.BlockPattern;
 import gregtech.api.multiblock.FactoryBlockPattern;
 import gregtech.api.render.ICubeRenderer;
 import gregtech.api.render.Textures;
-import gtrevolution.GRTextures;
 import gtrevolution.block.GRMetaBlocks;
 import gtrevolution.block.GRMultiblockCasing;
+import gtrevolution.client.GRTextures;
 import gtrevolution.recipes.GRRecipeMaps;
 
 public class IndustrialCuttingFactory extends IndustrialMachine

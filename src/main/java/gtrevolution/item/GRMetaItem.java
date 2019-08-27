@@ -3,7 +3,7 @@ package gtrevolution.item;
 import gregtech.api.items.materialitem.MaterialMetaItem;
 import gregtech.api.unification.material.MarkerMaterials;
 import gregtech.api.unification.ore.OrePrefix;
-import gtrevolution.GRConfig;
+import gtrevolution.util.GRConfig;
 
 public class GRMetaItem extends MaterialMetaItem
 {

@@ -34,9 +34,9 @@ import gregtech.api.recipes.builders.IntCircuitRecipeBuilder;
 import gregtech.api.recipes.ingredients.IntCircuitIngredient;
 import gregtech.api.render.ICubeRenderer;
 import gregtech.api.util.GTUtility;
-import gtrevolution.GRTextures;
 import gtrevolution.block.GRMetaBlocks;
 import gtrevolution.block.GRMultiblockCasing;
+import gtrevolution.client.GRTextures;
 import gtrevolution.recipes.GRRecipeMaps;
 
 public class IndustrialFisher extends IndustrialMachine

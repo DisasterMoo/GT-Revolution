@@ -15,9 +15,9 @@ import gregtech.api.multiblock.FactoryBlockPattern;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.render.ICubeRenderer;
 import gregtech.api.render.Textures;
-import gtrevolution.GRTextures;
 import gtrevolution.block.GRMetaBlocks;
 import gtrevolution.block.GRMultiblockCasing;
+import gtrevolution.client.GRTextures;
 
 public class IndustrialSifter extends IndustrialMachine
 {

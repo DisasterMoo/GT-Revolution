@@ -1,4 +1,4 @@
-package gtrevolution;
+package gtrevolution.util;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraftforge.fml.common.Loader;
@@ -34,19 +34,21 @@ public class GRMaterials implements IMaterialHandler
 
     private static int id = 601;
 
+    private static final long INGOT_FLAGS = DustMaterial.MatFlags.GENERATE_PLATE |
+            SolidMaterial.MatFlags.GENERATE_ROD |
+            IngotMaterial.MatFlags.GENERATE_FOIL |
+            SolidMaterial.MatFlags.GENERATE_GEAR |
+            IngotMaterial.MatFlags.GENERATE_BOLT_SCREW |
+            IngotMaterial.MatFlags.GENERATE_RING |
+            SolidMaterial.MatFlags.GENERATE_FRAME |
+            IngotMaterial.MatFlags.GENERATE_ROTOR;
+    private static final long ALLOY_FLAGS = INGOT_FLAGS |
+            Material.MatFlags.DECOMPOSITION_BY_CENTRIFUGING |
+            IngotMaterial.MatFlags.GENERATE_FINE_WIRE;
+
     static
     {
-        long INGOT_FLAGS = DustMaterial.MatFlags.GENERATE_PLATE |
-                SolidMaterial.MatFlags.GENERATE_ROD |
-                IngotMaterial.MatFlags.GENERATE_FOIL |
-                SolidMaterial.MatFlags.GENERATE_GEAR |
-                IngotMaterial.MatFlags.GENERATE_BOLT_SCREW |
-                IngotMaterial.MatFlags.GENERATE_RING |
-                SolidMaterial.MatFlags.GENERATE_FRAME |
-                IngotMaterial.MatFlags.GENERATE_ROTOR;
-        long ALLOY_FLAGS = INGOT_FLAGS |
-                Material.MatFlags.DECOMPOSITION_BY_CENTRIFUGING |
-                IngotMaterial.MatFlags.GENERATE_FINE_WIRE;
+
 
         TALONITE = new IngotMaterial(id++, "talonite", 0xC54066, MaterialIconSet.METALLIC, 1, ImmutableList.of(new MaterialStack(Materials.Cobalt, 4), new MaterialStack(Materials.Chrome, 4), new MaterialStack(Materials.Phosphor, 2), new MaterialStack(Materials.Molybdenum, 1)), ALLOY_FLAGS);
         STELLITE = new IngotMaterial(id++, "stellite", 0x663B5F, MaterialIconSet.METALLIC, 1, ImmutableList.of(new MaterialStack(Materials.Cobalt, 7), new MaterialStack(Materials.Chrome, 7), new MaterialStack(Materials.Manganese, 2), new MaterialStack(Materials.Titanium, 2)), ALLOY_FLAGS, null, 700);
@@ -115,12 +117,13 @@ public class GRMaterials implements IMaterialHandler
     @Override
     public void onMaterialsInit()
     {
-        Materials.RedAlloy.addFlag(IngotMaterial.MatFlags.GENERATE_BOLT_SCREW);
-        Materials.Copper.addFlag(IngotMaterial.MatFlags.GENERATE_BOLT_SCREW);
-        Materials.AnnealedCopper.addFlag(IngotMaterial.MatFlags.GENERATE_BOLT_SCREW);
-        Materials.Tin.addFlag(IngotMaterial.MatFlags.GENERATE_BOLT_SCREW);
-        Materials.Electrum.addFlag(IngotMaterial.MatFlags.GENERATE_BOLT_SCREW);
-        Materials.Platinum.addFlag(IngotMaterial.MatFlags.GENERATE_BOLT_SCREW);
-        Materials.NiobiumTitanium.addFlag(IngotMaterial.MatFlags.GENERATE_BOLT_SCREW);
+        Materials.RedAlloy.addFlag(INGOT_FLAGS);
+        Materials.Copper.addFlag(INGOT_FLAGS);
+        Materials.AnnealedCopper.addFlag(INGOT_FLAGS);
+        Materials.Tin.addFlag(INGOT_FLAGS);
+        Materials.Electrum.addFlag(INGOT_FLAGS);
+        Materials.Platinum.addFlag(INGOT_FLAGS);
+        Materials.NiobiumTitanium.addFlag(INGOT_FLAGS);
+        Materials.Tritanium.addFlag(INGOT_FLAGS);
     }
 }

@@ -1,4 +1,4 @@
-package gtrevolution;
+package gtrevolution.client;
 
 import gregtech.api.render.OrientedOverlayRenderer;
 import gregtech.api.render.SimpleCubeRenderer;
@@ -18,9 +18,15 @@ public class GRTextures
     public static final SimpleCubeRenderer CUTTER_CASING;
     public static final SimpleCubeRenderer LASER_CASING;
     public static final SimpleCubeRenderer WIRE_CASING;
+    public static final SimpleCubeRenderer FUSION_TEXTURE;
+    public static final SimpleCubeRenderer ACTIVE_FUSION_TEXTURE;
 
-    public static OrientedOverlayRenderer INDUSTRIAL_MACERATOR_OVERLAY;
-    public static OrientedOverlayRenderer INDUSTRIAL_LASER_OVERLAY;
+    public static final OrientedOverlayRenderer NAQUADAH_OVERLAY;
+    public static final OrientedOverlayRenderer REPLICATOR_OVERLAY;
+    public static final OrientedOverlayRenderer MASS_FABRICATOR_OVERLAY;
+    public static final OrientedOverlayRenderer FUSION_REACTOR_OVERLAY;
+    public static final OrientedOverlayRenderer INDUSTRIAL_MACERATOR_OVERLAY;
+    public static final OrientedOverlayRenderer INDUSTRIAL_LASER_OVERLAY;
 
     static
     {
@@ -36,6 +42,13 @@ public class GRTextures
         WIRE_CASING = new SimpleCubeRenderer("casings/industrial/wire_casing");
         CUTTER_CASING = new SimpleCubeRenderer("casings/industrial/cutter_casing");
         LASER_CASING = new SimpleCubeRenderer("casings/industrial/laser_casing");
+        FUSION_TEXTURE = new SimpleCubeRenderer("casings/fusion/machine_casing_fusion_glass");
+        ACTIVE_FUSION_TEXTURE = new SimpleCubeRenderer("casings/fusion/machine_casing_fusion_glass_yellow");
+
+        NAQUADAH_OVERLAY = new OrientedOverlayRenderer("machines/naquadah_reactor", OrientedOverlayRenderer.OverlayFace.FRONT, OrientedOverlayRenderer.OverlayFace.BACK, OrientedOverlayRenderer.OverlayFace.TOP);
+        REPLICATOR_OVERLAY = new OrientedOverlayRenderer("machines/replicator", OrientedOverlayRenderer.OverlayFace.FRONT);
+        MASS_FABRICATOR_OVERLAY = new OrientedOverlayRenderer("machines/mass_fab", OrientedOverlayRenderer.OverlayFace.FRONT);
+        FUSION_REACTOR_OVERLAY = new OrientedOverlayRenderer("machines/fusion_reactor", OrientedOverlayRenderer.OverlayFace.FRONT);
 
         INDUSTRIAL_MACERATOR_OVERLAY = new OrientedOverlayRenderer("machines/industrial_macerator",
                 OrientedOverlayRenderer.OverlayFace.FRONT);

@@ -1,4 +1,4 @@
-package gtrevolution.recipes.recipemap;
+package gtrevolution.recipes.recipemaps;
 
 import java.util.List;
 import javax.annotation.Nullable;
@@ -20,16 +20,20 @@ import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.items.MetaItems;
 import gregtech.common.metatileentities.MetaTileEntities;
 
-public class Disassembler extends RecipeMap<SimpleRecipeBuilder>
+public class RecipeMapDisassembler extends RecipeMap<SimpleRecipeBuilder>
 {
 
     private int tier;
     private ItemStack[] listAllowed = null;
 
 
-    public Disassembler(String unlocalizedName, int tier)
+    public RecipeMapDisassembler(String unlocalizedName, int tier)
     {
-        super(unlocalizedName, 1, 1, 9, 9, 0, 0, 0, 0, new SimpleRecipeBuilder());
+        super(unlocalizedName, 1, 1,
+                9, 9,
+                0, 0,
+                0, 0,
+                new SimpleRecipeBuilder());
         this.tier = tier;
     }
 

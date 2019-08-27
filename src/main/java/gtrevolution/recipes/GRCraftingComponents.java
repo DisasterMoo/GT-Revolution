@@ -11,6 +11,7 @@ import gregtech.api.unification.ore.OrePrefix;
 import gregtech.api.unification.stack.UnificationEntry;
 import gregtech.common.items.MetaItems;
 import gregtech.common.metatileentities.MetaTileEntities;
+import gtrevolution.util.GRMaterials;
 
 public enum GRCraftingComponents
 {
@@ -20,36 +21,6 @@ public enum GRCraftingComponents
                 Object getIngredient(int tier)
                 {
                     switch (tier)
-                    {
-                        case 0:
-                            return new UnificationEntry(OrePrefix.circuit, MarkerMaterials.Tier.Primitive);
-                        case 1:
-                            return new UnificationEntry(OrePrefix.circuit, MarkerMaterials.Tier.Basic);
-                        case 2:
-                            return new UnificationEntry(OrePrefix.circuit, MarkerMaterials.Tier.Good);
-                        case 3:
-                            return new UnificationEntry(OrePrefix.circuit, MarkerMaterials.Tier.Advanced);
-                        case 4:
-                            return new UnificationEntry(OrePrefix.circuit, MarkerMaterials.Tier.Extreme);
-                        case 5:
-                            return new UnificationEntry(OrePrefix.circuit, MarkerMaterials.Tier.Elite);
-                        case 6:
-                            return new UnificationEntry(OrePrefix.circuit, MarkerMaterials.Tier.Master);
-                        case 7:
-                            return new UnificationEntry(OrePrefix.circuit, MarkerMaterials.Tier.Ultimate);
-                        case 8:
-                            return new UnificationEntry(OrePrefix.circuit, MarkerMaterials.Tier.Superconductor);
-                        default:
-                            return new UnificationEntry(OrePrefix.circuit, MarkerMaterials.Tier.Infinite);
-                    }
-                }
-            },
-    BETTER_CIRCUIT
-            {
-                @Override
-                Object getIngredient(int tier)
-                {
-                    switch (tier + 1)
                     {
                         case 0:
                             return new UnificationEntry(OrePrefix.circuit, MarkerMaterials.Tier.Primitive);
@@ -139,16 +110,85 @@ public enum GRCraftingComponents
                     switch (tier)
                     {
                         case 0:
+                            return new UnificationEntry(OrePrefix.wireGtSingle, Materials.Lead);
                         case 1:
-                            return new UnificationEntry(OrePrefix.wireGtSingle, Materials.Gold);
+                            return new UnificationEntry(OrePrefix.wireGtSingle, Materials.Tin);
                         case 2:
-                            return new UnificationEntry(OrePrefix.wireGtSingle, Materials.Silver);
+                            return new UnificationEntry(OrePrefix.wireGtSingle, Materials.Copper);
                         case 3:
-                            return new UnificationEntry(OrePrefix.wireGtSingle, Materials.Electrum);
+                            return new UnificationEntry(OrePrefix.wireGtSingle, Materials.Gold);
                         case 4:
+                            return new UnificationEntry(OrePrefix.wireGtSingle, Materials.Aluminium);
+                        case 5:
                             return new UnificationEntry(OrePrefix.wireGtSingle, Materials.Platinum);
+                        case 6:
+                            return new UnificationEntry(OrePrefix.wireGtSingle, Materials.NiobiumTitanium);
+                        case 7:
+                            return new UnificationEntry(OrePrefix.wireGtSingle, Materials.Naquadah);
+                        case 8:
+                            return new UnificationEntry(OrePrefix.wireGtSingle, Materials.NaquadahAlloy);
                         default:
-                            return new UnificationEntry(OrePrefix.wireGtSingle, Materials.Osmium);
+                            return new UnificationEntry(OrePrefix.wireGtSingle, MarkerMaterials.Tier.Superconductor);
+                    }
+                }
+            },
+    MOTOR_COIL
+            {
+                @Override
+                Object getIngredient(int tier)
+                {
+                    switch (tier)
+                    {
+                        case 0:
+                            return new UnificationEntry(OrePrefix.wireGtSingle, Materials.Tin);
+                        case 1:
+                            return new UnificationEntry(OrePrefix.wireGtSingle, Materials.Copper);
+                        case 2:
+                            return new UnificationEntry(OrePrefix.wireGtDouble, Materials.Cupronickel);
+                        case 3:
+                            return new UnificationEntry(OrePrefix.wireGtQuadruple, Materials.Electrum);
+                        case 4:
+                            return new UnificationEntry(OrePrefix.wireGtQuadruple, Materials.AnnealedCopper);
+                        case 5:
+                            return new UnificationEntry(OrePrefix.wireGtQuadruple, Materials.Graphene);
+                        case 6:
+                            return new UnificationEntry(OrePrefix.wireGtQuadruple, Materials.HSSG);
+                        case 7:
+                            return new UnificationEntry(OrePrefix.wireGtQuadruple, Materials.HSSE);
+                        case 8:
+                            return new UnificationEntry(OrePrefix.wireGtQuadruple, Materials.HSSS);
+                        default:
+                            return new UnificationEntry(OrePrefix.wireGtQuadruple, Materials.Darmstadtium);
+                    }
+                }
+            },
+    MOTOR_CABLE
+            {
+                @Override
+                Object getIngredient(int tier)
+                {
+                    switch (tier)
+                    {
+                        case 0:
+                            return new UnificationEntry(OrePrefix.cableGtSingle, Materials.Lead);
+                        case 1:
+                            return new UnificationEntry(OrePrefix.cableGtSingle, Materials.Tin);
+                        case 2:
+                            return new UnificationEntry(OrePrefix.cableGtSingle, Materials.Copper);
+                        case 3:
+                            return new UnificationEntry(OrePrefix.cableGtDouble, Materials.Silver);
+                        case 4:
+                            return new UnificationEntry(OrePrefix.cableGtDouble, Materials.Aluminium);
+                        case 5:
+                            return new UnificationEntry(OrePrefix.cableGtDouble, Materials.Platinum);
+                        case 6:
+                            return new UnificationEntry(OrePrefix.cableGtQuadruple, Materials.HSSG);
+                        case 7:
+                            return new UnificationEntry(OrePrefix.cableGtQuadruple, Materials.HSSE);
+                        case 8:
+                            return new UnificationEntry(OrePrefix.cableGtQuadruple, Materials.HSSS);
+                        default:
+                            return new UnificationEntry(OrePrefix.cableGtQuadruple, Materials.Darmstadtium);
                     }
                 }
             },
@@ -175,8 +215,10 @@ public enum GRCraftingComponents
                             return new UnificationEntry(OrePrefix.cableGtQuadruple, Materials.NiobiumTitanium);
                         case 7:
                             return new UnificationEntry(OrePrefix.cableGtQuadruple, Materials.Naquadah);
-                        default:
+                        case 8:
                             return new UnificationEntry(OrePrefix.cableGtQuadruple, Materials.NaquadahAlloy);
+                        default:
+                            return new UnificationEntry(OrePrefix.cableGtQuadruple, Materials.Darmstadtium);
                     }
                 }
             },
@@ -188,14 +230,6 @@ public enum GRCraftingComponents
                     return MetaTileEntities.HULL[tier].getStackForm();
                 }
             },
-    WORSE_HULL
-            {
-                @Override
-                Object getIngredient(int tier)
-                {
-                    return MetaTileEntities.HULL[tier - 1].getStackForm();
-                }
-            },
     PIPE
             {
                 @Override
@@ -204,6 +238,7 @@ public enum GRCraftingComponents
                     switch (tier)
                     {
                         case 0:
+                            return new UnificationEntry(OrePrefix.pipeMedium, GRMaterials.POTIN);
                         case 1:
                             return new UnificationEntry(OrePrefix.pipeMedium, Materials.Bronze);
                         case 2:
@@ -215,11 +250,11 @@ public enum GRCraftingComponents
                         case 5:
                             return new UnificationEntry(OrePrefix.pipeMedium, Materials.TungstenSteel);
                         case 6:
-                            return new UnificationEntry(OrePrefix.pipeSmall, Materials.Ultimet);
+                            return new UnificationEntry(OrePrefix.pipeMedium, GRMaterials.TANTALLOY60);
                         case 7:
-                            return new UnificationEntry(OrePrefix.pipeMedium, Materials.Ultimet);
+                            return new UnificationEntry(OrePrefix.pipeMedium, GRMaterials.STABALLOY);
                         default:
-                            return new UnificationEntry(OrePrefix.pipeLarge, Materials.Ultimet);
+                            return new UnificationEntry(OrePrefix.pipeMedium, GRMaterials.INCONEL792);
 
                     }
                 }
@@ -248,6 +283,7 @@ public enum GRCraftingComponents
                     switch (tier)
                     {
                         case 0:
+                            return new UnificationEntry(OrePrefix.plate, Materials.Bronze);
                         case 1:
                             return new UnificationEntry(OrePrefix.plate, Materials.Steel);
                         case 2:
@@ -534,6 +570,36 @@ public enum GRCraftingComponents
                             return new UnificationEntry(OrePrefix.wireGtOctal, MarkerMaterials.Tier.Superconductor);
                         default:
                             return new UnificationEntry(OrePrefix.wireGtHex, MarkerMaterials.Tier.Superconductor);
+                    }
+                }
+            },
+    STICK
+            {
+                @Override
+                Object getIngredient(int tier)
+                {
+                    switch (tier)
+                    {
+                        case 0:
+                            return new UnificationEntry(OrePrefix.stick, Materials.Iron);
+                        case 1:
+                            return new UnificationEntry(OrePrefix.stick, Materials.Steel);
+                        case 2:
+                            return new UnificationEntry(OrePrefix.stick, Materials.Aluminium);
+                        case 3:
+                            return new UnificationEntry(OrePrefix.stick, Materials.StainlessSteel);
+                        case 4:
+                            return new UnificationEntry(OrePrefix.stick, Materials.Titanium);
+                        case 5:
+                            return new UnificationEntry(OrePrefix.stick, Materials.TungstenSteel);
+                        case 6:
+                            return new UnificationEntry(OrePrefix.stick, Materials.Chrome);
+                        case 7:
+                            return new UnificationEntry(OrePrefix.stick, Materials.Iridium);
+                        case 8:
+                            return new UnificationEntry(OrePrefix.stick, Materials.Osmium);
+                        default:
+                            return new UnificationEntry(OrePrefix.block, Materials.Darmstadtium);
                     }
                 }
             },

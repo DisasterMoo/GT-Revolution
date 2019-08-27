@@ -1,4 +1,4 @@
-package gtrevolution;
+package gtrevolution.util;
 
 import java.util.function.Function;
 
@@ -13,14 +13,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import gregtech.common.blocks.VariantItemBlock;
+import gtrevolution.GTRevolution;
 import gtrevolution.block.GRMetaBlocks;
 import gtrevolution.recipes.GRRecipeAdditions;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = GTRevolution.MODID)
-public class CommonProxy
+public class RegistryHandler
 {
-
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event)
     {
@@ -38,7 +38,7 @@ public class CommonProxy
         registry.register(createItemBlock(GRMetaBlocks.MULTIBLOCK_CASING, VariantItemBlock::new));
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
+    @SubscribeEvent(priority = EventPriority.LOW)
     public static void registerRecipes(RegistryEvent.Register<IRecipe> event)
     {
         GRRecipeAdditions.init();
@@ -50,15 +50,5 @@ public class CommonProxy
         //noinspection ConstantConditions
         itemBlock.setRegistryName(block.getRegistryName());
         return itemBlock;
-    }
-
-    public void preInit()
-    {
-
-    }
-
-    public void postInit()
-    {
-
     }
 }

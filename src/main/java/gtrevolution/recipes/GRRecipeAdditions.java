@@ -32,17 +32,18 @@ import gregtech.common.blocks.BlockMetalCasing.MetalCasingType;
 import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.items.MetaItems;
 import gregtech.common.metatileentities.MetaTileEntities;
-import gtrevolution.GRConfig;
-import gtrevolution.GRMaterials;
 import gtrevolution.GTRevolution;
 import gtrevolution.block.GRMetaBlocks;
 import gtrevolution.block.GRMultiblockCasing;
 import gtrevolution.item.GRMetaItems;
 import gtrevolution.machines.GRTileEntities;
+import gtrevolution.util.GRConfig;
+import gtrevolution.util.GRMaterials;
 
 import static gregtech.common.blocks.BlockBoilerCasing.BoilerCasingType.*;
 import static gregtech.common.blocks.BlockFireboxCasing.FireboxCasingType.*;
 import static gregtech.common.blocks.BlockMetalCasing.MetalCasingType.*;
+import static gregtech.common.blocks.BlockMultiblockCasing.MultiblockCasingType.ASSEMBLER_CASING;
 import static gregtech.common.blocks.BlockMultiblockCasing.MultiblockCasingType.GRATE_CASING;
 import static gregtech.common.blocks.BlockTurbineCasing.TurbineCasingType.*;
 import static gtrevolution.recipes.GRCraftingComponents.*;
@@ -139,7 +140,7 @@ public class GRRecipeAdditions
         }
 
 
-        //Disassembler recipes
+        //RecipeMapDisassembler recipes
         registerMachineRecipe(GRTileEntities.DISASSEMBLER, true, "RCR", "RHR", "GCG",
                 'H', HULL, 'C', CIRCUIT, 'R', ROBOT_ARM, 'G', CABLE);
 
@@ -352,20 +353,6 @@ public class GRRecipeAdditions
             for (Recipe recipe : recipesRemove) RecipeMaps.BLAST_RECIPES.removeRecipe(recipe);
             recipesRemove.clear();
 
-            //todo add assembly line
-			/*for(Recipe recipe : GARecipeMaps.ASSEMBLY_LINE_RECIPES.getRecipeList())
-			{
-				for(ItemStack stack : recipe.getOutputs()){
-					if(isOverhaulNeeded(stack)){
-
-						recipesRemove.add(recipe);
-						break;
-					}
-				}
-			}
-			for(Recipe recipe: recipesRemove)GARecipeMaps.ASSEMBLY_LINE_RECIPES.removeRecipe(recipe);
-			recipesRemove.clear();*/
-
             //Unregistering from industrial
             for (Recipe recipe : GRRecipeMaps.INDUSTRIAL_LASER.getRecipeList())
             {
@@ -405,7 +392,7 @@ public class GRRecipeAdditions
             ModHandler.removeRecipes(MetaTileEntities.ASSEMBLER[2].getStackForm());
             ModHandler.removeRecipes(MetaTileEntities.ASSEMBLER[3].getStackForm());
             ModHandler.removeRecipes(MetaTileEntities.ASSEMBLER[4].getStackForm());
-            //todo make config to add all assemblers
+
             ModHandler.removeRecipes(MetaItems.RESISTOR.getStackForm(3));
             ModHandler.removeRecipes(MetaItems.DIODE.getStackForm(4));
             ModHandler.removeRecipes(MetaItems.VACUUM_TUBE.getStackForm());
@@ -667,9 +654,8 @@ public class GRRecipeAdditions
 
         ModHandler.addShapedRecipe(GTRevolution.MODID + ":casing_grate_casing", MetaBlocks.MUTLIBLOCK_CASING.getItemVariant(GRATE_CASING), "PVP", "PFP", "PMP", 'P', new ItemStack(Blocks.IRON_BARS, 1), 'F', new UnificationEntry(OrePrefix.frameGt, Materials.Steel), 'M', MetaItems.ELECTRIC_MOTOR_MV, 'V', new UnificationEntry(OrePrefix.rotor, Materials.Steel));
 
-        //todo add assembly line
-        //ModHandler.addShapedRecipe("assline_casing", GAMetaBlocks.MUTLIBLOCK_CASING.getItemVariant(GAMultiblockCasing.CasingType.TUNGSTENSTEEL_GEARBOX_CASING), "PhP", "AFA", "PwP", 'P', "plateSteel", 'A', MetaItems.ROBOT_ARM_IV.getStackForm(), 'F', OreDictUnifier.get(OrePrefix.frameGt, Materials.TungstenSteel));
-        //ModHandler.addShapedRecipe("gt_assmbler_casing", MetaBlocks.MUTLIBLOCK_CASING.getItemVariant(ASSEMBLER_CASING), "MUM", "MFM", "MEM", 'U', "circuitUltimate", 'M', "circuitMaster", 'F', "frameGtTungstenSteel", 'E', MetaItems.ELECTRIC_MOTOR_IV.getStackForm());
+        ModHandler.addShapedRecipe(GTRevolution.MODID + ":assembly_line_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.TUNGSTENSTEEL_GEARBOX_CASING), "PhP", "AFA", "PwP", 'P', "plateSteel", 'A', MetaItems.ROBOT_ARM_IV.getStackForm(), 'F', OreDictUnifier.get(OrePrefix.frameGt, Materials.TungstenSteel));
+        ModHandler.addShapedRecipe(GTRevolution.MODID + ":casing_assembler_casing", MetaBlocks.MUTLIBLOCK_CASING.getItemVariant(ASSEMBLER_CASING), "MUM", "MFM", "MEM", 'U', "circuitUltimate", 'M', "circuitMaster", 'F', "frameGtTungstenSteel", 'E', MetaItems.ELECTRIC_MOTOR_IV.getStackForm());
     }
 
     private static void RegisterBlastRecipes()
@@ -1499,8 +1485,7 @@ public class GRRecipeAdditions
 
         }
         //The infinity is made in assembly line
-		/* todo add assembly line
-		GARecipeMaps.ASSEMBLY_LINE_RECIPES.recipeBuilder()
+        GRRecipeMaps.ASSEMBLY_LINE_RECIPES.recipeBuilder()
 				.inputs(OreDictUnifier.get(OrePrefix.frameGt, Materials.Tritanium, 2),
 						GRMetaItems.WETWARE_PROCESSOR.getStackForm(2),
 						MetaItems.SMALL_COIL.getStackForm(64),
@@ -1514,7 +1499,7 @@ public class GRRecipeAdditions
 				.fluidInputs(Materials.SolderingAlloy.getFluid(2880))
 				.outputs(MetaItems.WETWARE_MAINFRAME_MAX.getStackForm())
 				.EUt(300000).duration(2000)
-				.buildAndRegister();*/
+                .buildAndRegister();
 
     }
 }

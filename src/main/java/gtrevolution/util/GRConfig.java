@@ -1,6 +1,8 @@
-package gtrevolution;
+package gtrevolution.util;
 
 import net.minecraftforge.common.config.Config;
+
+import gtrevolution.GTRevolution;
 
 @Config(modid = GTRevolution.MODID)
 public class GRConfig

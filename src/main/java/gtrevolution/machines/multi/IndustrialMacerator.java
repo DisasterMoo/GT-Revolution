@@ -14,9 +14,9 @@ import gregtech.api.multiblock.BlockPattern;
 import gregtech.api.multiblock.FactoryBlockPattern;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.render.ICubeRenderer;
-import gtrevolution.GRTextures;
 import gtrevolution.block.GRMetaBlocks;
 import gtrevolution.block.GRMultiblockCasing;
+import gtrevolution.client.GRTextures;
 
 public class IndustrialMacerator extends IndustrialMachine
 {
