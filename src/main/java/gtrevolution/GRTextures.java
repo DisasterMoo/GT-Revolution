@@ -3,22 +3,27 @@ package gtrevolution;
 import gregtech.api.render.OrientedOverlayRenderer;
 import gregtech.api.render.SimpleCubeRenderer;
 
+@SuppressWarnings("WeakerAccess")
 public class GRTextures
 {
-	public static final SimpleCubeRenderer MACERATION_CASING,
-    								 WASHPLANT_CASING,
-    								 THERMAL_CASING,
-    								 FISHER_CASING,
-    								 ELECTROLYZER_CASING,
-    								 CHEMICAL_CASING,
-    								 CENTRIFUGE_CASING,
-    								 SIEVE_CASING,
-    								 SIEVE_GRATE,
-                                     CUTTER_CASING,
-                                     LASER_CASING,
-    								 WIRE_CASING;
+    public static final SimpleCubeRenderer MACERATION_CASING;
+    public static final SimpleCubeRenderer WASHPLANT_CASING;
+    public static final SimpleCubeRenderer THERMAL_CASING;
+    public static final SimpleCubeRenderer FISHER_CASING;
+    public static final SimpleCubeRenderer ELECTROLYZER_CASING;
+    public static final SimpleCubeRenderer CHEMICAL_CASING;
+    public static final SimpleCubeRenderer CENTRIFUGE_CASING;
+    public static final SimpleCubeRenderer SIEVE_CASING;
+    public static final SimpleCubeRenderer SIEVE_GRATE;
+    public static final SimpleCubeRenderer CUTTER_CASING;
+    public static final SimpleCubeRenderer LASER_CASING;
+    public static final SimpleCubeRenderer WIRE_CASING;
 
-    static {
+    public static OrientedOverlayRenderer INDUSTRIAL_MACERATOR_OVERLAY;
+    public static OrientedOverlayRenderer INDUSTRIAL_LASER_OVERLAY;
+
+    static
+    {
         MACERATION_CASING = new SimpleCubeRenderer("casings/industrial/maceration_casing");
         WASHPLANT_CASING = new SimpleCubeRenderer("casings/industrial/washplant_casing");
         THERMAL_CASING = new SimpleCubeRenderer("casings/industrial/thermal_casing");
@@ -31,18 +36,11 @@ public class GRTextures
         WIRE_CASING = new SimpleCubeRenderer("casings/industrial/wire_casing");
         CUTTER_CASING = new SimpleCubeRenderer("casings/industrial/cutter_casing");
         LASER_CASING = new SimpleCubeRenderer("casings/industrial/laser_casing");
-    }
-
-    public static OrientedOverlayRenderer INDUSTRIAL_MACERATOR_OVERLAY,
-                                          INDUSTRIAL_LASER_OVERLAY;
-
-    static
-    {
 
         INDUSTRIAL_MACERATOR_OVERLAY = new OrientedOverlayRenderer("machines/industrial_macerator",
-                new OrientedOverlayRenderer.OverlayFace[]{OrientedOverlayRenderer.OverlayFace.FRONT});
+                OrientedOverlayRenderer.OverlayFace.FRONT);
 
         INDUSTRIAL_LASER_OVERLAY = new OrientedOverlayRenderer("machines/industrial_laser",
-                new OrientedOverlayRenderer.OverlayFace[]{OrientedOverlayRenderer.OverlayFace.FRONT});
+                OrientedOverlayRenderer.OverlayFace.FRONT);
     }
 }

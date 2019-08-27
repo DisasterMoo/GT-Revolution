@@ -3,6 +3,9 @@ package gtrevolution.jei;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.EnumFacing;
 
 import gregtech.api.GTValues;
 import gregtech.api.metatileentity.multiblock.MultiblockControllerBase;
@@ -14,19 +17,18 @@ import gregtech.integration.jei.multiblock.MultiblockInfoPage;
 import gregtech.integration.jei.multiblock.MultiblockShapeInfo;
 import gtrevolution.machines.GRTileEntities;
 
-import net.minecraft.client.resources.I18n;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
-
-public class OilRigInfo extends MultiblockInfoPage {
+public class OilRigInfo extends MultiblockInfoPage
+{
 
     @Override
-    public MultiblockControllerBase getController() {
+    public MultiblockControllerBase getController()
+    {
         return GRTileEntities.OIL_RIG;
     }
 
     @Override
-    public List<MultiblockShapeInfo> getMatchingShapes() {
+    public List<MultiblockShapeInfo> getMatchingShapes()
+    {
         MultiblockShapeInfo shapeInfo = MultiblockShapeInfo.builder()
                 .aisle("XEX", "#F#", "#F#", "#F#", "###", "###", "###")
                 .aisle("XXX", "FXF", "FXF", "FXF", "#X#", "#X#", "#X#")
@@ -43,7 +45,8 @@ public class OilRigInfo extends MultiblockInfoPage {
     }
 
     @Override
-    public String[] getDescription() {
+    public String[] getDescription()
+    {
         return new String[] {I18n.format("gregtech.multiblock.oil_rig.description")};
     }
 

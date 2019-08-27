@@ -6,7 +6,6 @@ import net.minecraft.util.ResourceLocation;
 import codechicken.lib.render.CCRenderState;
 import codechicken.lib.render.pipeline.IVertexOperation;
 import codechicken.lib.vec.Matrix4;
-import gregicadditions.client.ClientHandler;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.MetaTileEntityHolder;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
@@ -26,17 +25,27 @@ public class IndustrialLaserProcessor extends IndustrialMachine
             MultiblockAbility.IMPORT_ITEMS, MultiblockAbility.EXPORT_ITEMS, MultiblockAbility.INPUT_ENERGY
     };
 
-    public IndustrialLaserProcessor(ResourceLocation metaTileEntityId) {
+    public IndustrialLaserProcessor(ResourceLocation metaTileEntityId)
+    {
         super(metaTileEntityId, GRRecipeMaps.INDUSTRIAL_LASER, IndustrialType.EFFICIENCY);
     }
 
     @Override
-    public MetaTileEntity createMetaTileEntity(MetaTileEntityHolder holder) {
+    public MetaTileEntity createMetaTileEntity(MetaTileEntityHolder holder)
+    {
         return new IndustrialLaserProcessor(metaTileEntityId);
     }
 
     @Override
-    protected BlockPattern createStructurePattern() {
+    public void renderMetaTileEntity(CCRenderState renderState, Matrix4 translation, IVertexOperation[] pipeline)
+    {
+        this.getBaseTexture(null).render(renderState, translation, pipeline);
+        GRTextures.INDUSTRIAL_LASER_OVERLAY.render(renderState, translation, pipeline, this.getFrontFacing(), this.recipeMapWorkable.isActive());
+    }
+
+    @Override
+    protected BlockPattern createStructurePattern()
+    {
         return FactoryBlockPattern.start()
                 .aisle("XXX", "#X#")
                 .aisle("XCX", "XCX")
@@ -50,18 +59,13 @@ public class IndustrialLaserProcessor extends IndustrialMachine
     }
 
     @Override
-    public ICubeRenderer getBaseTexture(IMultiblockPart sourcePart) {
+    public ICubeRenderer getBaseTexture(IMultiblockPart sourcePart)
+    {
         return GRTextures.LASER_CASING;
     }
 
-    protected IBlockState getCasingState() {
+    protected IBlockState getCasingState()
+    {
         return GRMetaBlocks.MULTIBLOCK_CASING.getState(GRMultiblockCasing.CasingType.LASER_CASING);
-    }
-
-    @Override
-    public void renderMetaTileEntity(CCRenderState renderState, Matrix4 translation, IVertexOperation[] pipeline) {
-        this.getBaseTexture(null).render(renderState, translation, pipeline);
-        GRTextures.INDUSTRIAL_LASER_OVERLAY.render(renderState, translation, pipeline, this.getFrontFacing(), this.recipeMapWorkable.isActive());
-        //ClientHandler.OVERL.render(renderState, translation, pipeline, this.getFrontFacing(), this.recipeMapWorkable.isActive());
     }
 }

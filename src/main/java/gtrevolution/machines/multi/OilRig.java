@@ -22,8 +22,6 @@ import gregtech.api.multiblock.BlockPattern;
 import gregtech.api.multiblock.FactoryBlockPattern;
 import gregtech.api.multiblock.PatternMatchContext;
 import gregtech.api.recipes.Recipe;
-import gregtech.api.recipes.RecipeMap;
-import gregtech.api.recipes.builders.SimpleRecipeBuilder;
 import gregtech.api.render.ICubeRenderer;
 import gregtech.api.render.Textures;
 import gregtech.api.unification.material.Materials;
@@ -32,7 +30,82 @@ import gregtech.common.blocks.BlockMetalCasing;
 import gregtech.common.blocks.MetaBlocks;
 import gtrevolution.recipes.GRRecipeMaps;
 
-public class OilRig extends RecipeMapMultiblockController{
+public class OilRig extends RecipeMapMultiblockController
+{
+
+    private static final MultiblockAbility<?>[] ALLOWED_ABILITIES = {
+            MultiblockAbility.IMPORT_FLUIDS, MultiblockAbility.EXPORT_FLUIDS, MultiblockAbility.INPUT_ENERGY
+    };
+    private int tier;
+
+    public OilRig(ResourceLocation metaTileEntityId)
+    {
+        super(metaTileEntityId, GRRecipeMaps.OILRIG);
+        this.recipeMapWorkable = new OilRig.OilRigLogic(this);
+
+    }
+
+    @Override
+    public MetaTileEntity createMetaTileEntity(MetaTileEntityHolder holder)
+    {
+        return new OilRig(metaTileEntityId);
+    }
+
+    @Override
+    protected void formStructure(PatternMatchContext context)
+    {
+        super.formStructure(context);
+        this.tier = GTUtility.getTierByVoltage(this.energyContainer.getInputVoltage());
+    }
+
+    @Override
+    public void invalidateStructure()
+    {
+        super.invalidateStructure();
+        this.tier = 0;
+    }
+
+    @Override
+    protected void addDisplayText(List<ITextComponent> textList)
+    {
+        if (isStructureFormed())
+        {
+            textList.add(new TextComponentTranslation("gregtech.multiblock.oil_rig.speed", tier * 4));
+        }
+        super.addDisplayText(textList);
+    }
+
+    @Override
+    protected BlockPattern createStructurePattern()
+    {
+        return FactoryBlockPattern.start()
+                .aisle("XXX", "#F#", "#F#", "#F#", "###", "###", "###")
+                .aisle("XCX", "FCF", "FCF", "FCF", "#F#", "#F#", "#F#")
+                .aisle("XSX", "#F#", "#F#", "#F#", "###", "###", "###")
+                .setAmountAtLeast('X', 4)
+                .where('S', selfPredicate())
+                .where('X', statePredicate(getCasingState()).or(abilityPartPredicate(ALLOWED_ABILITIES)))
+                .where('C', statePredicate(getCasingState()))
+                .where('F', statePredicate(getFrameState()))
+                .where('#', (tile) -> true)
+                .build();
+    }
+
+    @Override
+    public ICubeRenderer getBaseTexture(IMultiblockPart sourcePart)
+    {
+        return Textures.SOLID_STEEL_CASING;
+    }
+
+    protected IBlockState getCasingState()
+    {
+        return MetaBlocks.METAL_CASING.getState(BlockMetalCasing.MetalCasingType.STEEL_SOLID);
+    }
+
+    private IBlockState getFrameState()
+    {
+        return MetaBlocks.FRAMES.get(Materials.Steel).getDefaultState();
+    }
 
     public static class ChunkReserve
     {
@@ -69,7 +142,9 @@ public class OilRig extends RecipeMapMultiblockController{
                         break;
                 }
                 this.output = outputFluid;
-            }else{
+            }
+            else
+            {
                 this.output = null;
             }
         }
@@ -77,84 +152,20 @@ public class OilRig extends RecipeMapMultiblockController{
         public FluidStack getOutput() { return this.output; }
     }
 
-    private int tier;
-
-    private static final MultiblockAbility<?>[] ALLOWED_ABILITIES = {
-            MultiblockAbility.IMPORT_FLUIDS, MultiblockAbility.EXPORT_FLUIDS, MultiblockAbility.INPUT_ENERGY
-    };
-
-    public OilRig(ResourceLocation metaTileEntityId) {
-        super(metaTileEntityId, GRRecipeMaps.OILRIG);
-        this.recipeMapWorkable = new OilRig.OilRigLogic(this);
-
-    }
-
-    @Override
-    public MetaTileEntity createMetaTileEntity(MetaTileEntityHolder holder) {
-        return new OilRig(metaTileEntityId);
-    }
-
-    @Override
-    protected void formStructure(PatternMatchContext context) {
-        super.formStructure(context);
-        this.tier = GTUtility.getTierByVoltage(this.energyContainer.getInputVoltage());
-    }
-
-    @Override
-    public void invalidateStructure() {
-        super.invalidateStructure();
-        this.tier = 0;
-    }
-
-    @Override
-    protected void addDisplayText(List<ITextComponent> textList) {
-        if(isStructureFormed()) {
-            textList.add(new TextComponentTranslation("gregtech.multiblock.oil_rig.speed", tier * 4));
-        }
-        super.addDisplayText(textList);
-    }
-
-    @Override
-    protected BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start()
-                .aisle("XXX", "#F#", "#F#", "#F#", "###", "###", "###")
-                .aisle("XCX", "FCF", "FCF", "FCF", "#F#", "#F#", "#F#")
-                .aisle("XSX", "#F#", "#F#", "#F#", "###", "###", "###")
-                .setAmountAtLeast('X', 4)
-                .where('S', selfPredicate())
-                .where('X', statePredicate(getCasingState()).or(abilityPartPredicate(ALLOWED_ABILITIES)))
-                .where('C', statePredicate(getCasingState()))
-                .where('F', statePredicate(getFrameState()))
-                .where('#', (tile) -> true)
-                .build();
-    }
-
-    @Override
-    public ICubeRenderer getBaseTexture(IMultiblockPart sourcePart) {
-        return Textures.SOLID_STEEL_CASING;
-    }
-
-    protected IBlockState getCasingState() {
-        return MetaBlocks.METAL_CASING.getState(BlockMetalCasing.MetalCasingType.STEEL_SOLID);
-    }
-
-    protected IBlockState getFrameState() {
-        return MetaBlocks.FRAMES.get(Materials.Steel).getDefaultState();
-    }
-
     protected class OilRigLogic extends MultiblockRecipeLogic
     {
 
-        public OilRigLogic(RecipeMapMultiblockController tileEntity) {
+        OilRigLogic(RecipeMapMultiblockController tileEntity)
+        {
             super(tileEntity);
         }
 
         @Override
-        protected Recipe findRecipe(long maxVoltage, IItemHandlerModifiable inputs, IMultipleTankHandler fluidInputs) {
+        protected Recipe findRecipe(long maxVoltage, IItemHandlerModifiable inputs, IMultipleTankHandler fluidInputs)
+        {
             Chunk chunkAt = this.getMetaTileEntity().getWorld().getChunkFromBlockCoords(this.getMetaTileEntity().getPos());
             FluidStack output = new ChunkReserve(chunkAt.x, chunkAt.z, this.getMetaTileEntity().getWorld().getSeed()).getOutput();
-            RecipeMap<SimpleRecipeBuilder> rmap = (RecipeMap<SimpleRecipeBuilder>) this.recipeMap;
-            return output == null ? null : rmap.recipeBuilder()
+            return output == null ? null : recipeMap.recipeBuilder()
                     .fluidInputs(Materials.Lubricant.getFluid(1))
                     .fluidOutputs(output)
                     .EUt(100)

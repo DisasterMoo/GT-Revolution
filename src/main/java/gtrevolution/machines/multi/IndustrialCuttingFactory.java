@@ -26,17 +26,28 @@ public class IndustrialCuttingFactory extends IndustrialMachine
             MultiblockAbility.IMPORT_ITEMS, MultiblockAbility.IMPORT_FLUIDS, MultiblockAbility.EXPORT_ITEMS, MultiblockAbility.INPUT_ENERGY
     };
 
-    public IndustrialCuttingFactory(ResourceLocation metaTileEntityId) {
+    public IndustrialCuttingFactory(ResourceLocation metaTileEntityId)
+    {
         super(metaTileEntityId, GRRecipeMaps.INDUSTRIAL_CUTTER, IndustrialType.EFFICIENCY);
     }
 
     @Override
-    public MetaTileEntity createMetaTileEntity(MetaTileEntityHolder holder) {
+    public MetaTileEntity createMetaTileEntity(MetaTileEntityHolder holder)
+    {
         return new IndustrialCuttingFactory(metaTileEntityId);
     }
 
     @Override
-    protected BlockPattern createStructurePattern() {
+    public void renderMetaTileEntity(CCRenderState renderState, Matrix4 translation, IVertexOperation[] pipeline)
+    {
+        this.getBaseTexture(null).render(renderState, translation, pipeline);
+        Textures.CUTTER_OVERLAY.render(renderState, translation, pipeline, this.getFrontFacing(), this.recipeMapWorkable.isActive());
+        //ClientHandler.OVERL.render(renderState, translation, pipeline, this.getFrontFacing(), this.recipeMapWorkable.isActive());
+    }
+
+    @Override
+    protected BlockPattern createStructurePattern()
+    {
         return FactoryBlockPattern.start()
                 .aisle("XXX", "XXX")
                 .aisle("CCC", "CCC")
@@ -51,18 +62,13 @@ public class IndustrialCuttingFactory extends IndustrialMachine
     }
 
     @Override
-    public ICubeRenderer getBaseTexture(IMultiblockPart sourcePart) {
+    public ICubeRenderer getBaseTexture(IMultiblockPart sourcePart)
+    {
         return GRTextures.CUTTER_CASING;
     }
 
-    protected IBlockState getCasingState() {
+    protected IBlockState getCasingState()
+    {
         return GRMetaBlocks.MULTIBLOCK_CASING.getState(GRMultiblockCasing.CasingType.CUTTER_CASING);
-    }
-
-    @Override
-    public void renderMetaTileEntity(CCRenderState renderState, Matrix4 translation, IVertexOperation[] pipeline) {
-        this.getBaseTexture(null).render(renderState, translation, pipeline);
-        Textures.CUTTER_OVERLAY.render(renderState, translation, pipeline, this.getFrontFacing(), this.recipeMapWorkable.isActive());
-        //ClientHandler.OVERL.render(renderState, translation, pipeline, this.getFrontFacing(), this.recipeMapWorkable.isActive());
     }
 }

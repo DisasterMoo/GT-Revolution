@@ -20,12 +20,14 @@ public class IndustrialCutterInfo extends MultiblockInfoPage
 {
 
     @Override
-    public MultiblockControllerBase getController() {
+    public MultiblockControllerBase getController()
+    {
         return GRTileEntities.INDUSTRIAL_CUTTER;
     }
 
     @Override
-    public List<MultiblockShapeInfo> getMatchingShapes() {
+    public List<MultiblockShapeInfo> getMatchingShapes()
+    {
         MultiblockShapeInfo shapeInfo = MultiblockShapeInfo.builder()
                 .aisle("ECI", "XFX")
                 .aisle("XXX", "XXX")
@@ -43,7 +45,8 @@ public class IndustrialCutterInfo extends MultiblockInfoPage
     }
 
     @Override
-    public String[] getDescription() {
+    public String[] getDescription()
+    {
         return new String[] {I18n.format("gregtech.multiblock.industrial_cutter.description")};
     }
 

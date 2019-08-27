@@ -20,12 +20,14 @@ public class IndustrialLaserInfo extends MultiblockInfoPage
 {
 
     @Override
-    public MultiblockControllerBase getController() {
+    public MultiblockControllerBase getController()
+    {
         return GRTileEntities.INDUSTRIAL_LASER;
     }
 
     @Override
-    public List<MultiblockShapeInfo> getMatchingShapes() {
+    public List<MultiblockShapeInfo> getMatchingShapes()
+    {
         MultiblockShapeInfo shapeInfo = MultiblockShapeInfo.builder()
                 .aisle("XXX", "#B#")
                 .aisle("XXE", "CXX")
@@ -41,7 +43,8 @@ public class IndustrialLaserInfo extends MultiblockInfoPage
     }
 
     @Override
-    public String[] getDescription() {
+    public String[] getDescription()
+    {
         return new String[] {I18n.format("gregtech.multiblock.industrial_laser.description")};
     }
 

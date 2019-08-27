@@ -1,6 +1,7 @@
 package gtrevolution.block;
 
-import gregtech.common.blocks.VariantBlock;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -12,8 +13,15 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class GRMultiblockCasing extends VariantBlock<GRMultiblockCasing.CasingType> {
-    public GRMultiblockCasing() {
+import gregtech.common.blocks.VariantBlock;
+import mcp.MethodsReturnNonnullByDefault;
+
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+public class GRMultiblockCasing extends VariantBlock<GRMultiblockCasing.CasingType>
+{
+    public GRMultiblockCasing()
+    {
         super(Material.IRON);
         setUnlocalizedName("gr_multiblock_casing");
         setHardness(5.0f);
@@ -23,8 +31,11 @@ public class GRMultiblockCasing extends VariantBlock<GRMultiblockCasing.CasingTy
         setDefaultState(getState(CasingType.MACERATION_CASING));
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
-    public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, EntityLiving.SpawnPlacementType type) {
+    @SuppressWarnings("deprecation")
+    public boolean isOpaqueCube(IBlockState state)
+    {
         return false;
     }
 
@@ -33,19 +44,19 @@ public class GRMultiblockCasing extends VariantBlock<GRMultiblockCasing.CasingTy
     {
         return BlockRenderLayer.CUTOUT;
     }
-    
-    @SideOnly(Side.CLIENT)
+
     @Override
-    public boolean isOpaqueCube(IBlockState state)
+    public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, EntityLiving.SpawnPlacementType type)
     {
-    	return false;
+        return false;
     }
 
 
-    public enum CasingType implements IStringSerializable {
+    public enum CasingType implements IStringSerializable
+    {
 
-    	MACERATION_CASING("maceration_casing"),
-    	WASHPLANT_CASING("washplant_casing"),
+        MACERATION_CASING("maceration_casing"),
+        WASHPLANT_CASING("washplant_casing"),
         THERMAL_CASING("thermal_casing"),
         CHEMICAL_CASING("chemical_casing"),
         FISHER_CASING("fisher_casing"),
@@ -59,12 +70,14 @@ public class GRMultiblockCasing extends VariantBlock<GRMultiblockCasing.CasingTy
 
         private final String name;
 
-        CasingType(String name) {
+        CasingType(String name)
+        {
             this.name = name;
         }
 
         @Override
-        public String getName() {
+        public String getName()
+        {
             return this.name;
         }
 

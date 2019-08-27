@@ -18,17 +18,20 @@ public class OilScanner extends ToolBase
 {
 
     @Override
-    public int getToolDamagePerBlockBreak(ItemStack stack) {
+    public int getToolDamagePerBlockBreak(ItemStack stack)
+    {
         return 10;
     }
 
     @Override
-    public int getToolDamagePerContainerCraft(ItemStack stack) {
+    public int getToolDamagePerContainerCraft(ItemStack stack)
+    {
         return 5;
     }
 
     @Override
-    public float getMaxDurabilityMultiplier(ItemStack stack) {
+    public float getMaxDurabilityMultiplier(ItemStack stack)
+    {
         return 40.0F;
     }
 

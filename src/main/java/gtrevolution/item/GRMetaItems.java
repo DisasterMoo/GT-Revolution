@@ -73,7 +73,8 @@ public class GRMetaItems
     public static MetaItem<?>.MetaValueItem SIMPLE_SYSTEM_ON_CHIP_WAFER;
     public static MetaItem<?>.MetaValueItem SIMPLE_SYSTEM_ON_CHIP;
 
-    public static void init() {
+    public static void init()
+    {
         GRMetaItem item = new GRMetaItem();
         item.setRegistryName("gr_meta_item");
         ScannerTool scanner = new ScannerTool();

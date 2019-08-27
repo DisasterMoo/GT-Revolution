@@ -7,7 +7,7 @@ import gtrevolution.GRConfig;
 
 public class GRMetaItem extends MaterialMetaItem
 {
-    public GRMetaItem()
+    GRMetaItem()
     {
         super();
     }
@@ -20,7 +20,7 @@ public class GRMetaItem extends MaterialMetaItem
         GRMetaItems.SHAPE_EXTRUDER_ROTOR = addItem(1, "shape.extruder.rotor");
 
         //Circuit Overhaul
-        if(GRConfig.misc.CircuitOverhaul)
+        if (GRConfig.misc.CircuitOverhaul)
         {
             //Boards
             GRMetaItems.CIRCUIT_BOARD = addItem(2, "board.circuit.basic");

@@ -56,10 +56,9 @@ dependencies {
     deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.+"
     deobfCompile "mezz.jei:jei_1.12.2:+"
 	deobfCompile "mcp.mobius.waila:Hwyla:1.8+"
-	deobfCompile "gregtechce:gregtech:1.12.2:1.8.4.419"
+	deobfCompile "gregtechce:gregtech:1.12.2:1.8.5.436"
     deobfCompile "codechicken:CodeChickenLib:1.12.2-3.2.2.355:deobf"
 	deobfCompile "net.sengir.forestry:forestry_1.12.2:+"
-	compile files("libs/Shadows_of_Greg-1.12.2-2.8.0.jar")
 }
 
 processResources {

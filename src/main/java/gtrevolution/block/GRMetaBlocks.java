@@ -1,5 +1,10 @@
 package gtrevolution.block;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
@@ -9,30 +14,29 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 public class GRMetaBlocks
 {
 
 
     public static GRMultiblockCasing MULTIBLOCK_CASING;
 
-    public static void init() {
-    	MULTIBLOCK_CASING = new GRMultiblockCasing();
-    	MULTIBLOCK_CASING.setRegistryName("gr_multiblock_casing");
+    public static void init()
+    {
+        MULTIBLOCK_CASING = new GRMultiblockCasing();
+        MULTIBLOCK_CASING.setRegistryName("gr_multiblock_casing");
     }
 
     @SideOnly(Side.CLIENT)
-    public static void registerItemModels() {
+    public static void registerItemModels()
+    {
         registerItemModel(MULTIBLOCK_CASING);
     }
 
     @SideOnly(Side.CLIENT)
-    private static void registerItemModel(Block block) {
-        for (IBlockState state : block.getBlockState().getValidStates()) {
+    private static void registerItemModel(Block block)
+    {
+        for (IBlockState state : block.getBlockState().getValidStates())
+        {
             //noinspection ConstantConditions
             ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block),
                     block.getMetaFromState(state),
@@ -41,15 +45,18 @@ public class GRMetaBlocks
         }
     }
 
-    private static String statePropertiesToString(Map<IProperty<?>, Comparable<?>> properties) {
+    private static String statePropertiesToString(Map<IProperty<?>, Comparable<?>> properties)
+    {
         StringBuilder stringbuilder = new StringBuilder();
 
         List<Map.Entry<IProperty<?>, Comparable<?>>> entries = properties.entrySet().stream()
                 .sorted(Comparator.comparing(c -> c.getKey().getName()))
                 .collect(Collectors.toList());
 
-        for (Map.Entry<IProperty<?>, Comparable<?>> entry : entries) {
-            if (stringbuilder.length() != 0) {
+        for (Map.Entry<IProperty<?>, Comparable<?>> entry : entries)
+        {
+            if (stringbuilder.length() != 0)
+            {
                 stringbuilder.append(",");
             }
 
@@ -59,7 +66,8 @@ public class GRMetaBlocks
             stringbuilder.append(getPropertyName(property, entry.getValue()));
         }
 
-        if (stringbuilder.length() == 0) {
+        if (stringbuilder.length() == 0)
+        {
             stringbuilder.append("normal");
         }
 
@@ -67,7 +75,8 @@ public class GRMetaBlocks
     }
 
     @SuppressWarnings("unchecked")
-    private static <T extends Comparable<T>> String getPropertyName(IProperty<T> property, Comparable<?> value) {
+    private static <T extends Comparable<T>> String getPropertyName(IProperty<T> property, Comparable<?> value)
+    {
         return property.getName((T) value);
     }
 }
