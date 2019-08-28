@@ -1,4 +1,4 @@
-package gtrevolution.jei;
+package gtrevolution.jei.info;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -68,7 +68,9 @@ public class GRMultiblockCasing extends VariantBlock<GRMultiblockCasing.CasingTy
         LASER_CASING("laser_casing"),
         WIRE_CASING("wire_casing"),
 
-        TUNGSTENSTEEL_GEARBOX_CASING("tungstensteel_gearbox_casing");
+        TUNGSTENSTEEL_GEARBOX_CASING("tungstensteel_gearbox_casing"),
+
+        REINFORCED_GLASS("reinforced_glass");
 
         private final String name;
 

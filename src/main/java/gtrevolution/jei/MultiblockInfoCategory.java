@@ -7,6 +7,7 @@ import net.minecraft.client.resources.I18n;
 
 import gregtech.integration.jei.multiblock.MultiblockInfoRecipeWrapper;
 import gtrevolution.GTRevolution;
+import gtrevolution.jei.info.*;
 import mcp.MethodsReturnNonnullByDefault;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IModRegistry;
@@ -36,7 +37,11 @@ public class MultiblockInfoCategory implements IRecipeCategory<MultiblockInfoRec
                 new MultiblockInfoRecipeWrapper(new OilRigInfo()),
                 new MultiblockInfoRecipeWrapper(new IndustrialCutterInfo()),
                 new MultiblockInfoRecipeWrapper(new IndustrialLaserInfo()),
-                new MultiblockInfoRecipeWrapper(new IndustrialSifterInfo())
+                new MultiblockInfoRecipeWrapper(new IndustrialSifterInfo()),
+                new MultiblockInfoRecipeWrapper(new AssemblyLineInfo()),
+                new MultiblockInfoRecipeWrapper(new FusionReactor1Info()),
+                new MultiblockInfoRecipeWrapper(new FusionReactor2Info()),
+                new MultiblockInfoRecipeWrapper(new FusionReactor3Info())
         ), "gtrevolution:multiblock_info");
     }
 

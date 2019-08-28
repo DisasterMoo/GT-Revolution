@@ -62,7 +62,7 @@ public class RecipeModifications
             OrePrefix.bolt, OrePrefix.screw, OrePrefix.wireFine, OrePrefix.foil, OrePrefix.dust, OrePrefix.ring
     };
 
-    private static final FluidStack[] crackingList = {
+    private static final FluidStack[] CRACKING_LIST = {
             Materials.HydroCrackedEthane.getFluid(1),
             Materials.HydroCrackedEthylene.getFluid(1),
             Materials.HydroCrackedPropene.getFluid(1),
@@ -145,7 +145,11 @@ public class RecipeModifications
             }
         }
 
+        RecipeMaps.ALLOY_SMELTER_RECIPES.recipeBuilder().duration(400).EUt(4).inputs(MetaItems.ADVANCED_ALLOY_PLATE.getStackForm()).input(OrePrefix.dust, Materials.Glass, 3).outputs(GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.REINFORCED_GLASS, 4)).buildAndRegister();
+        RecipeMaps.ALLOY_SMELTER_RECIPES.recipeBuilder().duration(400).EUt(4).inputs(MetaItems.ADVANCED_ALLOY_PLATE.getStackForm(), new ItemStack(Blocks.GLASS, 3)).outputs(GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.REINFORCED_GLASS, 4)).buildAndRegister();
+
         registerHighTierComponents();
+        registerFusionRecipes();
 
         if (GRConfig.misc.HarderCasings)
         {
@@ -203,31 +207,43 @@ public class RecipeModifications
 
             for (OrePrefix orePrefix : POLARIZING_PREFIXES)
             {
-                RecipeMaps.POLARIZER_RECIPES.recipeBuilder()
-                        .input(orePrefix, Materials.Neodymium)
-                        .outputs(OreDictUnifier.get(orePrefix, Materials.NeodymiumMagnetic))
-                        .duration(40).EUt(256).buildAndRegister();
+                ItemStack neod = OreDictUnifier.get(orePrefix, Materials.NeodymiumMagnetic);
+                if (neod != ItemStack.EMPTY)
+                {
+                    RecipeMaps.POLARIZER_RECIPES.recipeBuilder()
+                            .input(orePrefix, Materials.Neodymium)
+                            .outputs(neod)
+                            .duration(40).EUt(256).buildAndRegister();
+                }
 
-                RecipeMaps.POLARIZER_RECIPES.recipeBuilder()
-                        .input(orePrefix, Materials.Samarium)
-                        .outputs(OreDictUnifier.get(orePrefix, GRMaterials.SAMARIUM_MAGNETIC))
-                        .duration(80).EUt(4096).buildAndRegister();
+                ItemStack samar = OreDictUnifier.get(orePrefix, GRMaterials.SAMARIUM_MAGNETIC);
+                if (samar != ItemStack.EMPTY)
+                {
+                    RecipeMaps.POLARIZER_RECIPES.recipeBuilder()
+                            .input(orePrefix, Materials.Samarium)
+                            .outputs(samar)
+                            .duration(80).EUt(4096).buildAndRegister();
 
-                ModHandler.addSmeltingRecipe(new UnificationEntry(orePrefix, GRMaterials.SAMARIUM_MAGNETIC),
-                        OreDictUnifier.get(orePrefix, Materials.Samarium));
+                    ModHandler.addSmeltingRecipe(new UnificationEntry(orePrefix, GRMaterials.SAMARIUM_MAGNETIC),
+                            OreDictUnifier.get(orePrefix, Materials.Samarium));
+                }
             }
         }
         else
         {
             for (OrePrefix orePrefix : POLARIZING_PREFIXES)
             {
-                RecipeMaps.POLARIZER_RECIPES.recipeBuilder()
-                        .input(orePrefix, Materials.Samarium)
-                        .outputs(OreDictUnifier.get(orePrefix, GRMaterials.SAMARIUM_MAGNETIC))
-                        .duration(16).EUt(16).buildAndRegister();
+                ItemStack samar = OreDictUnifier.get(orePrefix, GRMaterials.SAMARIUM_MAGNETIC);
+                if (samar != ItemStack.EMPTY)
+                {
+                    RecipeMaps.POLARIZER_RECIPES.recipeBuilder()
+                            .input(orePrefix, Materials.Samarium)
+                            .outputs(samar)
+                            .duration(16).EUt(16).buildAndRegister();
 
-                ModHandler.addSmeltingRecipe(new UnificationEntry(orePrefix, GRMaterials.SAMARIUM_MAGNETIC),
-                        OreDictUnifier.get(orePrefix, Materials.Samarium));
+                    ModHandler.addSmeltingRecipe(new UnificationEntry(orePrefix, GRMaterials.SAMARIUM_MAGNETIC),
+                            OreDictUnifier.get(orePrefix, Materials.Samarium));
+                }
             }
         }
 
@@ -551,7 +567,7 @@ public class RecipeModifications
         {
             for (FluidStack fluid : recipe.getFluidOutputs())
             {
-                for (FluidStack compare : crackingList)
+                for (FluidStack compare : CRACKING_LIST)
                 {
                     if (fluid.isFluidEqual(compare))
                     {
@@ -1552,7 +1568,7 @@ public class RecipeModifications
 
         GRRecipeMaps.ASSEMBLY_LINE_RECIPES.recipeBuilder()
                 .inputs(MetaItems.ELECTRIC_MOTOR_LUV.getStackForm(),
-                        OreDictUnifier.get(OrePrefix.pipeSmall, Materials.Naquadah, 2), //todo Small hp fluid pipe
+                        OreDictUnifier.get(OrePrefix.pipeSmall, GRMaterials.TANTALLOY60, 2),
                         OreDictUnifier.get(OrePrefix.plate, Materials.HSSG, 2),
                         OreDictUnifier.get(OrePrefix.screw, Materials.HSSG, 8),
                         OreDictUnifier.get(OrePrefix.ring, Materials.SiliconeRubber, 4),
@@ -1566,7 +1582,7 @@ public class RecipeModifications
 
         GRRecipeMaps.ASSEMBLY_LINE_RECIPES.recipeBuilder()
                 .inputs(MetaItems.ELECTRIC_MOTOR_ZPM.getStackForm(),
-                        OreDictUnifier.get(OrePrefix.pipeMedium, Materials.Naquadah, 2),  //todo normal hp fluid pipe
+                        OreDictUnifier.get(OrePrefix.pipeSmall, GRMaterials.STABALLOY, 2),
                         OreDictUnifier.get(OrePrefix.plate, Materials.HSSE, 2),
                         OreDictUnifier.get(OrePrefix.screw, Materials.HSSE, 8),
                         OreDictUnifier.get(OrePrefix.ring, Materials.SiliconeRubber, 16),
@@ -1580,7 +1596,7 @@ public class RecipeModifications
 
         GRRecipeMaps.ASSEMBLY_LINE_RECIPES.recipeBuilder()
                 .inputs(MetaItems.ELECTRIC_MOTOR_UV.getStackForm(),
-                        OreDictUnifier.get(OrePrefix.pipeLarge, Materials.Naquadah, 2), //todo hp
+                        OreDictUnifier.get(OrePrefix.pipeSmall, Materials.Naquadah, 2),
                         OreDictUnifier.get(OrePrefix.plate, GRMaterials.NEUTRONIUM, 2),
                         OreDictUnifier.get(OrePrefix.screw, GRMaterials.NEUTRONIUM, 8),
                         OreDictUnifier.get(OrePrefix.ring, Materials.SiliconeRubber, 16),
@@ -1852,5 +1868,33 @@ public class RecipeModifications
                 .fluidInputs(Materials.SolderingAlloy.getFluid(2304))
                 .outputs(MetaItems.FIELD_GENERATOR_UV.getStackForm())
                 .duration(600).EUt(491520).buildAndRegister();
+    }
+
+    private static void registerFusionRecipes()
+    {
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Deuterium.getFluid(125), Materials.Tritium.getFluid(125)).fluidOutputs(Materials.Helium.getPlasma(125)).duration(16).EUt(4096).EUToStart(400000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Deuterium.getFluid(125), Materials.Helium3.getFluid(125)).fluidOutputs(Materials.Helium.getPlasma(125)).duration(16).EUt(2048).EUToStart(600000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Carbon.getFluid(125), Materials.Helium3.getFluid(125)).fluidOutputs(Materials.Oxygen.getPlasma(125)).duration(32).EUt(4096).EUToStart(800000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Beryllium.getFluid(16), Materials.Deuterium.getFluid(375)).fluidOutputs(Materials.Nitrogen.getPlasma(175)).duration(16).EUt(16384).EUToStart(1800000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Silicon.getFluid(16), Materials.Magnesium.getFluid(16)).fluidOutputs(Materials.Iron.getPlasma(125)).duration(32).EUt(8192).EUToStart(3600000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Potassium.getFluid(16), Materials.Fluorine.getFluid(125)).fluidOutputs(Materials.Nickel.getPlasma(125)).duration(16).EUt(32768).EUToStart(4800000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Beryllium.getFluid(16), Materials.Tungsten.getFluid(16)).fluidOutputs(Materials.Platinum.getFluid(16)).duration(32).EUt(32768).EUToStart(1500000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Neodymium.getFluid(16), Materials.Hydrogen.getFluid(48)).fluidOutputs(Materials.Europium.getFluid(16)).duration(64).EUt(24576).EUToStart(1500000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Lutetium.getFluid(16), Materials.Chrome.getFluid(16)).fluidOutputs(Materials.Americium.getFluid(16)).duration(96).EUt(49152).EUToStart(2000000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Plutonium.getFluid(16), Materials.Thorium.getFluid(16)).fluidOutputs(Materials.Naquadah.getFluid(16)).duration(64).EUt(32768).EUToStart(3000000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Americium.getFluid(16), Materials.Naquadria.getFluid(16)).fluidOutputs(GRMaterials.NEUTRONIUM.getFluid(2)).duration(200).EUt(98304).EUToStart(6000000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Tungsten.getFluid(16), Materials.Helium.getFluid(16)).fluidOutputs(Materials.Osmium.getFluid(16)).duration(64).EUt(24578).EUToStart(1500000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Manganese.getFluid(16), Materials.Hydrogen.getFluid(16)).fluidOutputs(Materials.Iron.getFluid(16)).duration(64).EUt(8192).EUToStart(1200000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Mercury.getFluid(16), Materials.Magnesium.getFluid(16)).fluidOutputs(Materials.Uranium.getFluid(16)).duration(64).EUt(49152).EUToStart(2400000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Gold.getFluid(16), Materials.Aluminium.getFluid(16)).fluidOutputs(Materials.Uranium.getFluid(16)).duration(64).EUt(49152).EUToStart(2400000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Uranium.getFluid(16), Materials.Helium.getFluid(16)).fluidOutputs(Materials.Plutonium.getFluid(16)).duration(128).EUt(49152).EUToStart(4800000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Vanadium.getFluid(16), Materials.Hydrogen.getFluid(125)).fluidOutputs(Materials.Chrome.getFluid(16)).duration(64).EUt(24576).EUToStart(1400000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Gallium.getFluid(16), Materials.Radon.getFluid(125)).fluidOutputs(Materials.Duranium.getFluid(16)).duration(64).EUt(16384).EUToStart(1400000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Titanium.getFluid(48), Materials.Duranium.getFluid(32)).fluidOutputs(Materials.Tritanium.getFluid(16)).duration(64).EUt(32768).EUToStart(2000000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Gold.getFluid(16), Materials.Mercury.getFluid(16)).fluidOutputs(Materials.Radon.getFluid(125)).duration(64).EUt(32768).EUToStart(2000000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Tantalum.getFluid(16), Materials.Tritium.getFluid(16)).fluidOutputs(Materials.Tungsten.getFluid(16)).duration(16).EUt(24576).EUToStart(2000000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Silver.getFluid(16), Materials.Lithium.getFluid(16)).fluidOutputs(Materials.Indium.getFluid(16)).duration(32).EUt(24576).EUToStart(3800000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.NaquadahEnriched.getFluid(15), Materials.Radon.getFluid(125)).fluidOutputs(Materials.Naquadria.getFluid(3)).duration(64).EUt(49152).EUToStart(4000000).buildAndRegister();
+        RecipeMaps.FUSION_RECIPES.recipeBuilder().fluidInputs(Materials.Lithium.getFluid(16), Materials.Tungsten.getFluid(16)).fluidOutputs(Materials.Iridium.getFluid(16)).duration(32).EUt(32768).EUToStart(3000000).buildAndRegister();
     }
 }

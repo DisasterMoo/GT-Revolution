@@ -1,10 +1,9 @@
-package gtrevolution.jei;
+package gtrevolution.jei.info;
 
 import java.util.List;
 
 import com.google.common.collect.Lists;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 
 import gregtech.api.GTValues;
@@ -16,27 +15,27 @@ import gtrevolution.block.GRMetaBlocks;
 import gtrevolution.block.GRMultiblockCasing;
 import gtrevolution.machines.GRTileEntities;
 
-public class IndustrialElectrolyzerInfo extends MultiblockInfoPage
+public class IndustrialThermalCentrifugeInfo extends MultiblockInfoPage
 {
 
     @Override
     public MultiblockControllerBase getController()
     {
-        return GRTileEntities.INDUSTRIAL_ELECTROLYZER;
+        return GRTileEntities.INDUSTRIAL_THERMALCENTRIFUGE;
     }
 
     @Override
     public List<MultiblockShapeInfo> getMatchingShapes()
     {
         MultiblockShapeInfo shapeInfo = MultiblockShapeInfo.builder()
-                .aisle("XXX", "XBX", "XXX")
-                .aisle("XXX", "C#E", "XXX")
-                .aisle("XXX", "XIX", "XXX")
-                .where('C', GRTileEntities.INDUSTRIAL_ELECTROLYZER, EnumFacing.WEST)
-                .where('X', GRMetaBlocks.MULTIBLOCK_CASING.getState(GRMultiblockCasing.CasingType.ELECTROLYZER_CASING))
-                .where('#', Blocks.AIR.getDefaultState())
-                .where('I', MetaTileEntities.ITEM_IMPORT_BUS[GTValues.HV], EnumFacing.SOUTH)
-                .where('E', MetaTileEntities.ENERGY_INPUT_HATCH[GTValues.HV], EnumFacing.EAST)
+                .aisle("XCX", "BXI")
+                .aisle("XXX", "XXX")
+                .aisle("XXX", "XXX")
+                .aisle("XEX", "XXX")
+                .where('C', GRTileEntities.INDUSTRIAL_THERMALCENTRIFUGE, EnumFacing.NORTH)
+                .where('X', GRMetaBlocks.MULTIBLOCK_CASING.getState(GRMultiblockCasing.CasingType.THERMAL_CASING))
+                .where('I', MetaTileEntities.ITEM_IMPORT_BUS[GTValues.HV], EnumFacing.NORTH)
+                .where('E', MetaTileEntities.ENERGY_INPUT_HATCH[GTValues.HV], EnumFacing.SOUTH)
                 .where('B', MetaTileEntities.ITEM_EXPORT_BUS[GTValues.HV], EnumFacing.NORTH)
                 .build();
         return Lists.newArrayList(shapeInfo);
@@ -45,7 +44,7 @@ public class IndustrialElectrolyzerInfo extends MultiblockInfoPage
     @Override
     public String[] getDescription()
     {
-        return new String[] {I18n.format("gregtech.multiblock.industrial_electrolyzer.description")};
+        return new String[] {I18n.format("gregtech.multiblock.industrial_thermalcentrifuge.description")};
     }
 
 }

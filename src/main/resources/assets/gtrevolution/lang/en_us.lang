@@ -73,8 +73,10 @@ material.superconductor_ev=EV Superconductor
 material.superconductor_iv=IV Superconductor
 material.superconductor_luv=LuV Superconductor
 material.superconductor_zpm=ZPM Superconductor
-material.iron_iii_chloride=Iron(III) Chloride
+material.iron_III_chloride=Iron(III) Chloride
 material.bacterial_growth=Bacterial Growth
+material.neutronium=Neutronium
+material.samarium_magnetic=Magnetic Samarium
 
 gtrevolution.multiblock.industrial_machine.parallel=Max parallel operations: %s
 gtrevolution.multiblock.industrial_machine.efficient.discount=EU Discount: %s%%
@@ -92,6 +94,8 @@ tile.gr_multiblock_casing.sieve_grate.name=Sieve Grate
 tile.gr_multiblock_casing.wire_casing.name=Wire Factory Casing
 tile.gr_multiblock_casing.laser_casing.name=Laser Processor Casing
 tile.gr_multiblock_casing.cutter_casing.name=Cutting Factory Casing
+tile.gr_multiblock_casing.tungstensteel_gearbox_casing.name=Assembly Line Casing
+tile.gr_multiblock_casing.reinforced_glass.name=Reinforced Glass
 
 gtrevolution.machine.disassembler.lv.name=Basic Disassembler
 gtrevolution.machine.disassembler.mv.name=Advanced Disassembler
@@ -101,6 +105,29 @@ gtrevolution.machine.disassembler.iv.name=Advanced Disassembler IV
 gtrevolution.machine.disassembler.luv.name=Epic Disassembler
 gtrevolution.machine.disassembler.zpm.name=Epic Disassembler II
 gtrevolution.machine.disassembler.uv.name=Ultimate Disassembler
+
+gtrevolution.machine.replicator.lv.name=Basic Replicator
+gtrevolution.machine.replicator.mv.name=Advanced Replicator
+gtrevolution.machine.replicator.hv.name=Advanced Replicator II
+gtrevolution.machine.replicator.ev.name=Advanced Replicator III
+gtrevolution.machine.replicator.iv.name=Advanced Replicator IV
+gtrevolution.machine.replicator.luv.name=Advanced Replicator V
+gtrevolution.machine.replicator.zpm.name=Advanced Replicator VI
+gtrevolution.machine.replicator.uv.name=Advanced Replicator VII
+
+gtrevolution.machine.mass_fab.lv.name=Basic Mass Fabricator
+gtrevolution.machine.mass_fab.mv.name=Advanced Mass Fabricator
+gtrevolution.machine.mass_fab.hv.name=Advanced Mass Fabricator II
+gtrevolution.machine.mass_fab.ev.name=Advanced Mass Fabricator III
+gtrevolution.machine.mass_fab.iv.name=Advanced Mass Fabricator IV
+gtrevolution.machine.mass_fab.luv.name=Advanced Mass Fabricator V
+gtrevolution.machine.mass_fab.zpm.name=Advanced Mass Fabricator VI
+gtrevolution.machine.mass_fab.uv.name=Advanced Mass Fabricator VII
+
+gtrevolution.machine.naquadah_reactor.mk1.name=Naquadah Reactor Mk. 1
+gtrevolution.machine.naquadah_reactor.mk2.name=Naquadah Reactor Mk. 2
+gtrevolution.machine.naquadah_reactor.mk3.name=Naquadah Reactor Mk. 3
+gtrevolution.machine.naquadah_reactor.mk4.name=Naquadah Reactor Mk. 4
 
 gtrevolution.machine.industrial_macerator.name=Industrial Macerator
 gtrevolution.machine.industrial_orewasher.name=Industrial Ore Washer
@@ -114,6 +141,10 @@ gtrevolution.machine.industrial_sifter.name=Industrial Sifter
 gtrevolution.machine.oil_rig.name=Oil Rig
 gtrevolution.machine.industrial_laser.name=Industrial Laser Processor
 gtrevolution.machine.industrial_cutter.name=Industrial Cutting Factory
+gtrevolution.machine.assembly_line.name=Assembly Line
+gtrevolution.machine.fusion_reactor.luv.name=Fusion Reactor Computer Mark 1
+gtrevolution.machine.fusion_reactor.zpm.name=Fusion Reactor Computer Mark 2
+gtrevolution.machine.fusion_reactor.uv.name=Fusion Reactor Computer Mark 3
 
 gtrevolution.machine.improved_blast_furnace.name=Electric Blast Furnace
 
@@ -122,6 +153,12 @@ recipemap.industrial_fisher.name=Industrial Fisher
 recipemap.industrial_laser.name=Industrial Laser Processor
 recipemap.industrial_cutter.name=Industrial Cutting Factory
 recipemap.industrial_chemical_reactor.name=Industrial Chemical Reactor
+recipemap.assembly_line.name=Assembly Line
+recipemap.naquadah_reactor.name=Naquadah Reactor Fuels
+recipemap.replicator.name=Replicator
+recipemap.mass_fab.name=Mass Fabricator
+
+recipemap.plasma_generator.name=Plasma Turbine Fuels
 
 gtrevolution.industrial_fisher.tooltip=Industrial fish farming!
 
@@ -137,3 +174,7 @@ gregtech.multiblock.industrial_sifter.description=The Industrial Sifter works li
 gregtech.multiblock.oil_rig.description=The Oil Rig pumps oil/gas from underground chunk sources. Each chunk has 50%% chance of containing oil/gas from 250mB to 1000mB / operation. Consumes lubricant.
 gregtech.multiblock.industrial_laser.description=The industrial version of Laser Engraver can work on advanced circuitry wafers for your industry and has an efficiency bonus.
 gregtech.multiblock.industrial_cutter.description=The industrial version of Cutting machine can work on advanced circuitry wafers for your industry and has an efficiency bonus.
+gregtech.multiblock.assembly_line.description=The Assembly Line is a large multiblock structure consisting of 5 to 16 "slices". In theory, it's large Assembling Machine, used for creating advanced crafting components.
+gregtech.multiblock.fusion_reactor_mk1.description=The Fusion Reactor Mark 1 is a large multiblock structure used for fusing elements into heavier ones. The Mark 1 Fusion Reactor can use LuV, ZPM or UV Energy Hatches. For every Hatch it has its buffer increases by 100k.
+gregtech.multiblock.fusion_reactor_mk2.description=The Fusion Reactor Mark 2 is a large multiblock structure used for fusing elements into heavier ones. The Mark 2 Fusion Reactor can use ZPM or UV Energy Hatches. For every Hatch it has its buffer increases by 200k.
+gregtech.multiblock.fusion_reactor_mk3.description=The Fusion Reactor Mark 3 is a large multiblock structure used for fusing elements into heavier ones. The Mark 3 Fusion Reactor can only use UV Energy Hatches. For every Hatch it has its buffer increases by 400k.

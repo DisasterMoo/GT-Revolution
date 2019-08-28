@@ -72,6 +72,11 @@
         "textures": {
           "all": "gregtech:blocks/casings/gearbox/machine_casing_gearbox_tungstensteel"
         }
+      },
+      "reinforced_glass": {
+        "textures": {
+          "all": "gregtech:blocks/casings/transparent/reinforced_glass"
+        }
       }
     }
   }

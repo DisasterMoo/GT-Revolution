@@ -1,4 +1,4 @@
-package gtrevolution.jei;
+package gtrevolution.jei.info;
 
 import java.util.List;
 
@@ -16,13 +16,13 @@ import gtrevolution.block.GRMetaBlocks;
 import gtrevolution.block.GRMultiblockCasing;
 import gtrevolution.machines.GRTileEntities;
 
-public class IndustrialOreWasherInfo extends MultiblockInfoPage
+public class IndustrialFisherInfo extends MultiblockInfoPage
 {
 
     @Override
     public MultiblockControllerBase getController()
     {
-        return GRTileEntities.INDUSTRIAL_OREWASHER;
+        return GRTileEntities.INDUSTRIAL_FISHER;
     }
 
     @Override
@@ -36,8 +36,8 @@ public class IndustrialOreWasherInfo extends MultiblockInfoPage
                 .aisle("XXXXX", "X###X", "X###X")
                 .aisle("XXXXX", "X###X", "X###X")
                 .aisle("XXXXX", "XICBX", "XXXXX")
-                .where('C', GRTileEntities.INDUSTRIAL_OREWASHER, EnumFacing.SOUTH)
-                .where('X', GRMetaBlocks.MULTIBLOCK_CASING.getState(GRMultiblockCasing.CasingType.WASHPLANT_CASING))
+                .where('C', GRTileEntities.INDUSTRIAL_FISHER, EnumFacing.SOUTH)
+                .where('X', GRMetaBlocks.MULTIBLOCK_CASING.getState(GRMultiblockCasing.CasingType.FISHER_CASING))
                 .where('#', Blocks.WATER.getDefaultState())
                 .where('I', MetaTileEntities.ITEM_IMPORT_BUS[GTValues.HV], EnumFacing.SOUTH)
                 .where('E', MetaTileEntities.ENERGY_INPUT_HATCH[GTValues.HV], EnumFacing.NORTH)
@@ -49,7 +49,7 @@ public class IndustrialOreWasherInfo extends MultiblockInfoPage
     @Override
     public String[] getDescription()
     {
-        return new String[] {I18n.format("gregtech.multiblock.industrial_orewasher.description")};
+        return new String[] {I18n.format("gregtech.multiblock.industrial_fisher.description")};
     }
 
 }
