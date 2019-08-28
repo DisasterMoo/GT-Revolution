@@ -28,29 +28,30 @@ public class GRMaterials implements IMaterialHandler
     public static IngotMaterial AWAKENED_DRACONIUM;
     public static IngotMaterial METEORIC_IRON;
     public static IngotMaterial DESH;
-    public static IngotMaterial[] SUPERCONDUCTOR;
-    public static FluidMaterial IRON_III_CHLORIDE;
-    public static FluidMaterial BACTERIAL_GROWTH;
-
-    private static int id = 601;
-
     private static final long INGOT_FLAGS = DustMaterial.MatFlags.GENERATE_PLATE |
             SolidMaterial.MatFlags.GENERATE_ROD |
+            SolidMaterial.MatFlags.GENERATE_LONG_ROD |
             IngotMaterial.MatFlags.GENERATE_FOIL |
             SolidMaterial.MatFlags.GENERATE_GEAR |
+            IngotMaterial.MatFlags.GENERATE_SMALL_GEAR |
             IngotMaterial.MatFlags.GENERATE_BOLT_SCREW |
             IngotMaterial.MatFlags.GENERATE_RING |
             SolidMaterial.MatFlags.GENERATE_FRAME |
             IngotMaterial.MatFlags.GENERATE_ROTOR |
             IngotMaterial.MatFlags.GENERATE_FINE_WIRE;
+
+    public static IngotMaterial[] SUPERCONDUCTOR;
+    public static FluidMaterial IRON_III_CHLORIDE;
+    public static FluidMaterial BACTERIAL_GROWTH;
+
+    private static int id = 601;
+    public static IngotMaterial NEUTRONIUM;
     private static final long ALLOY_FLAGS = INGOT_FLAGS |
             Material.MatFlags.DECOMPOSITION_BY_CENTRIFUGING;
 
-
     static
     {
-
-
+        NEUTRONIUM = new IngotMaterial(id++, "neutronium", 0xC3C3C3, MaterialIconSet.METALLIC, 6, ImmutableList.of(), INGOT_FLAGS);
         TALONITE = new IngotMaterial(id++, "talonite", 0xC54066, MaterialIconSet.METALLIC, 1, ImmutableList.of(new MaterialStack(Materials.Cobalt, 4), new MaterialStack(Materials.Chrome, 4), new MaterialStack(Materials.Phosphor, 2), new MaterialStack(Materials.Molybdenum, 1)), ALLOY_FLAGS);
         STELLITE = new IngotMaterial(id++, "stellite", 0x663B5F, MaterialIconSet.METALLIC, 1, ImmutableList.of(new MaterialStack(Materials.Cobalt, 7), new MaterialStack(Materials.Chrome, 7), new MaterialStack(Materials.Manganese, 2), new MaterialStack(Materials.Titanium, 2)), ALLOY_FLAGS, null, 700);
         TANTALLOY60 = new IngotMaterial(id++, "tantalloy60", 0xA8B2B7, MaterialIconSet.METALLIC, 1, ImmutableList.of(new MaterialStack(Materials.Tungsten, 2), new MaterialStack(Materials.Tantalum, 23)), ALLOY_FLAGS, null, 1400);
@@ -126,5 +127,6 @@ public class GRMaterials implements IMaterialHandler
                 m.addFlag(INGOT_FLAGS);
             }
         }
+        Materials.Naquadah.setFluidPipeProperties(1200, 5500, true);
     }
 }
