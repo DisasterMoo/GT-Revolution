@@ -15,7 +15,9 @@ import net.minecraftforge.registries.IForgeRegistry;
 import gregtech.common.blocks.VariantItemBlock;
 import gtrevolution.GTRevolution;
 import gtrevolution.block.GRMetaBlocks;
-import gtrevolution.recipes.GRRecipeAdditions;
+import gtrevolution.recipes.FuelModifications;
+import gtrevolution.recipes.MachineAdditions;
+import gtrevolution.recipes.RecipeModifications;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = GTRevolution.MODID)
@@ -41,7 +43,9 @@ public class RegistryHandler
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void registerRecipes(RegistryEvent.Register<IRecipe> event)
     {
-        GRRecipeAdditions.init();
+        MachineAdditions.init();
+        RecipeModifications.init();
+        FuelModifications.init();
     }
 
     private static <T extends Block> ItemBlock createItemBlock(T block, Function<T, ItemBlock> producer)

@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
@@ -14,8 +13,6 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import gregtech.api.GTValues;
 import gregtech.api.items.metaitem.MetaItem;
-import gregtech.api.items.toolitem.ToolMetaItem;
-import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.recipes.*;
 import gregtech.api.recipes.builders.SimpleRecipeBuilder;
 import gregtech.api.recipes.ingredients.IntCircuitIngredient;
@@ -29,7 +26,6 @@ import gregtech.api.unification.stack.MaterialStack;
 import gregtech.api.unification.stack.UnificationEntry;
 import gregtech.api.util.EnumValidationResult;
 import gregtech.api.util.ValidationResult;
-import gregtech.common.blocks.BlockMetalCasing.MetalCasingType;
 import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.items.MetaItems;
 import gregtech.common.metatileentities.MetaTileEntities;
@@ -37,7 +33,6 @@ import gtrevolution.GTRevolution;
 import gtrevolution.block.GRMetaBlocks;
 import gtrevolution.block.GRMultiblockCasing;
 import gtrevolution.item.GRMetaItems;
-import gtrevolution.machines.GRTileEntities;
 import gtrevolution.util.GRConfig;
 import gtrevolution.util.GRMaterials;
 
@@ -49,7 +44,7 @@ import static gregtech.common.blocks.BlockMultiblockCasing.MultiblockCasingType.
 import static gregtech.common.blocks.BlockTurbineCasing.TurbineCasingType.*;
 import static gtrevolution.recipes.GRCraftingComponents.*;
 
-public class GRRecipeAdditions
+public class RecipeModifications
 {
 
     private static final MaterialStack[] SOLDERING_LIST = {
@@ -89,79 +84,7 @@ public class GRRecipeAdditions
 
     public static void init()
     {
-        //Casing Recipes
-        int casingNumber = GRConfig.misc.HarderCasings ? 1 : 3;
-        ModHandler.addShapedRecipe("maceration_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.MACERATION_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "platePalladium", 'H', "frameGtBlueSteel");
-        ModHandler.addShapedRecipe("washplant_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.WASHPLANT_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "plateBlueSteel", 'H', "frameGtBlueSteel");
-        ModHandler.addShapedRecipe("thermal_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.THERMAL_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "plateRedSteel", 'H', "frameGtBlueSteel");
-        ModHandler.addShapedRecipe("chemical_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.CHEMICAL_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "platePolytetrafluoroethylene", 'H', gregtech.common.blocks.MetaBlocks.METAL_CASING.getItemVariant(MetalCasingType.STEEL_SOLID, 1));
-        ModHandler.addShapedRecipe("fisher_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.FISHER_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "plateInconel792", 'H', "frameGtStaballoy");
-        ModHandler.addShapedRecipe("electrolyzer_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.ELECTROLYZER_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "platePotin", 'H', "frameGtStaballoy");
-        ModHandler.addShapedRecipe("centrifuge_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.CENTRIFUGE_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "plateInconel690", 'H', "frameGtStaballoy");
-        ModHandler.addShapedRecipe("wire_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.WIRE_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "plateTalonite", 'H', "frameGtStaballoy");
-        ModHandler.addShapedRecipe("sieve_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.SIEVE_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "plateEglinSteel", 'H', "frameGtBlueSteel");
-        ModHandler.addShapedRecipe("cutter_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.CUTTER_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "plateBlackSteel", 'H', "frameGtSteel");
-        ModHandler.addShapedRecipe("laser_casing", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.LASER_CASING, casingNumber), "PhP", "PHP", "PwP", 'P', "plateBlueSteel", 'H', "frameGtAluminium");
-
-        ModHandler.addShapedRecipe("sieve_grate", GRMetaBlocks.MULTIBLOCK_CASING.getItemVariant(GRMultiblockCasing.CasingType.SIEVE_GRATE, casingNumber), "TPT", "WHW", "TWT", 'P', MetaItems.ITEM_FILTER.getStackForm(), 'T', "plateBlackSteel", 'W', "wireFineSteel", 'H', "frameGtSteel");
-
-        if (GRConfig.multiblocks.EBF)
-        {
-            ModHandler.removeRecipes(MetaTileEntities.ELECTRIC_BLAST_FURNACE.getStackForm());
-            ModHandler.addShapedRecipe("improved_blast_furnace", GRTileEntities.BLAST_FURNACE.getStackForm(), "FFF", "CHC", "WCW", 'F', new ItemStack(Blocks.FURNACE, 1), 'C', "circuitBasic", 'H', gregtech.common.blocks.MetaBlocks.METAL_CASING.getItemVariant(MetalCasingType.INVAR_HEATPROOF, 1), 'W', "cableGtSingleTin");
-        }
-
-        //Industrial Machine Controllers recipes
-        if (GRConfig.multiblocks.Macerator)
-            ModHandler.addShapedRecipe("multiblock_industrial_macerator", GRTileEntities.INDUSTRIAL_MACERATOR.getStackForm(), "TWT", "MCM", "TIT", 'M', MetaTileEntities.MACERATOR[GTValues.HV].getStackForm(), 'C', "circuitMaster", 'W', MetaItems.COMPONENT_GRINDER_TUNGSTEN.getStackForm(), 'I', MetaTileEntities.HULL[GTValues.IV].getStackForm(), 'T', "plateTungstenCarbide");
-        if (GRConfig.multiblocks.Thermal)
-            ModHandler.addShapedRecipe("multiblock_industrial_thermalcentrifuge", GRTileEntities.INDUSTRIAL_THERMALCENTRIFUGE.getStackForm(), "TWT", "MCM", "TIT", 'M', "stickTalonite", 'W', "circuitMaster", 'C', MetaTileEntities.THERMAL_CENTRIFUGE[GTValues.HV].getStackForm(), 'I', "gearTalonite", 'T', "plateRedSteel");
-        if (GRConfig.multiblocks.Orewash)
-            ModHandler.addShapedRecipe("multiblock_industrial_orewasher", GRTileEntities.INDUSTRIAL_OREWASHER.getStackForm(), "TWT", "MCM", "TIT", 'M', "plateTalonite", 'I', "circuitMaster", 'C', MetaTileEntities.ORE_WASHER[GTValues.HV].getStackForm(), 'W', MetaItems.ELECTRIC_PUMP_EV, 'T', "plateBlueSteel");
-        if (GRConfig.multiblocks.Electrolyzer)
-            ModHandler.addShapedRecipe("multiblock_industrial_electrolyzer", GRTileEntities.INDUSTRIAL_ELECTROLYZER.getStackForm(), "TWT", "MCM", "TIT", 'M', MetaTileEntities.ELECTROLYZER[GTValues.HV].getStackForm(), 'W', "circuitMaster", 'C', "rotorStellite", 'I', MetaTileEntities.HULL[GTValues.IV].getStackForm(), 'T', "platePotin");
-        if (GRConfig.multiblocks.Centrifuge)
-            ModHandler.addShapedRecipe("multiblock_industrial_centrifuge", GRTileEntities.INDUSTRIAL_CENTRIFUGE.getStackForm(), "TWT", "MCM", "TIT", 'M', MetaTileEntities.CENTRIFUGE[GTValues.HV].getStackForm(), 'W', "circuitMaster", 'C', "rotorStellite", 'I', MetaTileEntities.HULL[GTValues.IV].getStackForm(), 'T', "plateInconel690");
-        if (GRConfig.multiblocks.Fisher)
-            ModHandler.addShapedRecipe("multiblock_industrial_fisher", GRTileEntities.INDUSTRIAL_FISHER.getStackForm(), "TWT", "MCM", "TWT", 'M', "wireFineElectrum", 'W', "circuitAdvanced", 'C', "rotorStellite", 'T', "plateInconel792");
-        if (GRConfig.multiblocks.Wiremill)
-            ModHandler.addShapedRecipe("multiblock_industrial_wiremill", GRTileEntities.INDUSTRIAL_WIREMILL.getStackForm(), "TCT", "MSM", "TCT", 'S', MetaTileEntities.WIREMILL[GTValues.HV].getStackForm(), 'M', "circuitMaster", 'C', MetaTileEntities.HULL[GTValues.IV].getStackForm(), 'T', "plateTalonite");
-        if (GRConfig.multiblocks.Sifter)
-            ModHandler.addShapedRecipe("multiblock_industrial_sifter", GRTileEntities.INDUSTRIAL_SIFTER.getStackForm(), "TCT", "WSW", "TCT", 'W', "cableGtQuadrupleCopper", 'C', "circuitMaster", 'S', MetaTileEntities.SIFTER[GTValues.HV].getStackForm(), 'T', "plateEglinSteel");
-        if (GRConfig.misc.CircuitOverhaul)
-        {
-            ModHandler.addShapedRecipe("multiblock_industrial_chemicalreactor", GRTileEntities.INDUSTRIAL_CHEMICALREACTOR.getStackForm(), "TWT", "MCM", "TIT", 'M', MetaTileEntities.CHEMICAL_REACTOR[GTValues.HV].getStackForm(), 'W', "circuitElite", 'C', "rotorStellite", 'I', MetaTileEntities.HULL[GTValues.HV].getStackForm(), 'T', "platePolytetrafluorethylene");
-            ModHandler.addShapedRecipe("multiblock_industrial_cutter", GRTileEntities.INDUSTRIAL_CUTTER.getStackForm(), "PPP", "CMC", "WCW", 'M', MetaTileEntities.CUTTER[GTValues.MV].getStackForm(), 'C', "circuitAdvanced", 'W', OreDictUnifier.get(OrePrefix.cableGtDouble, Materials.Silver), 'P', "plateBlackSteel");
-            ModHandler.addShapedRecipe("multiblock_industrial_laser", GRTileEntities.INDUSTRIAL_LASER.getStackForm(), "PPP", "CMC", "WCW", 'M', MetaTileEntities.LASER_ENGRAVER[GTValues.MV].getStackForm(), 'C', "circuitAdvanced", 'W', OreDictUnifier.get(OrePrefix.cableGtDouble, Materials.Silver), 'P', "plateBlueSteel");
-        }
-
-        if (GRConfig.multiblocks.OilRig)
-        {
-            ModHandler.addShapedRecipe("multiblock_oil_rig", GRTileEntities.OIL_RIG.getStackForm(), "FFF", "ACA", "MMM", 'F', "frameGtSteel", 'A', "circuitGood", 'C', MetaTileEntities.HULL[GTValues.MV].getStackForm(), 'M', MetaItems.ELECTRIC_MOTOR_MV.getStackForm());
-            ItemStack output = ((ToolMetaItem<?>.MetaToolValueItem) GRMetaItems.OIL_SCANNER).getStackForm(Materials.StainlessSteel, 1);
-            ModHandler.addShapedRecipe(String.format("oil_scanner_%s", Materials.StainlessSteel.toString()), output,
-                    "  E", "CTC", "XBX", 'E', MetaItems.SENSOR_HV.getStackForm(),
-                    'C', "circuitExtreme", 'T', new ItemStack(Blocks.GLASS_PANE),
-                    'B', MetaItems.BATTERY_RE_HV_LITHIUM.getStackForm(),
-                    'X', new UnificationEntry(OrePrefix.plate, Materials.StainlessSteel));
-        }
-
-
-        //RecipeMapDisassembler recipes
-        registerMachineRecipe(GRTileEntities.DISASSEMBLER, true, "RCR", "RHR", "GCG",
-                'H', HULL, 'C', CIRCUIT, 'R', ROBOT_ARM, 'G', CABLE);
-
-
-        //Just for show
-        GRRecipeMaps.INDUSTRIAL_FISHER.recipeBuilder()
-                .circuitMeta(1)
-                .outputs(new ItemStack(Items.FISH, 14, 0), new ItemStack(Items.FISH, 10, 1), new ItemStack(Items.FISH, 7, 2), new ItemStack(Items.FISH, 4, 3))
-                .EUt(10)
-                .duration(6000)
-                .buildAndRegister();
-
-
-        //Machine Recipes
+        //Recipe overhaul
         for (OrePrefix Prefix : Arrays.asList(OrePrefix.dust, OrePrefix.dustSmall, OrePrefix.dustTiny))
         {
             RecipeMaps.MIXER_RECIPES.recipeBuilder().duration((int) (500L * Prefix.materialAmount / 3628800L)).EUt(30).input(Prefix, Materials.Lead, 2).input(Prefix, Materials.Bronze, 2).input(Prefix, Materials.Tin, 1).outputs(OreDictUnifier.getDust(GRMaterials.POTIN, 5L * Prefix.materialAmount)).buildAndRegister();
@@ -226,61 +149,8 @@ public class GRRecipeAdditions
 
         if (GRConfig.misc.HarderCables)
         {
-            List<Recipe> recipesRemove = new ArrayList<>();
-            for (Recipe recipe : RecipeMaps.ASSEMBLER_RECIPES.getRecipeList())
-            {
-                for (ItemStack stack : recipe.getOutputs())
-                {
-                    Material mat = MetaBlocks.CABLE.getItemMaterial(stack);
-                    //noinspection ConstantConditions
-                    if (mat instanceof IngotMaterial
-                            && ((IngotMaterial) mat).cableProperties != null
-                            && ((IngotMaterial) mat).cableProperties.voltage > 2048)
-                    {
-                        recipesRemove.add(recipe);
-                        break;
-                    }
-                }
-            }
-            for (Recipe recipe : recipesRemove) RecipeMaps.ASSEMBLER_RECIPES.removeRecipe(recipe);
-            recipesRemove.clear();
-
-            for (Material m : Material.MATERIAL_REGISTRY)
-            {
-                if (m instanceof IngotMaterial && !OreDictUnifier.get(OrePrefix.cableGtSingle, m).isEmpty())
-                {
-                    for (MaterialStack stackFluid : HIGH_TIER_RUBBER_FLUIDS)
-                    {
-                        IngotMaterial fluid = (IngotMaterial) stackFluid.material;
-                        IngotMaterial cable = (IngotMaterial) m;
-                        int multiplier = (int) stackFluid.amount;
-                        //noinspection ConstantConditions
-                        if (cable.cableProperties.voltage <= 2048)
-                        {
-                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtSingle, m)).fluidInputs(fluid.getFluid(multiplier)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtSingle, m)).buildAndRegister();
-                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtDouble, m)).fluidInputs(fluid.getFluid(multiplier * 2)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtDouble, m)).buildAndRegister();
-                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtQuadruple, m)).fluidInputs(fluid.getFluid(multiplier * 4)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtQuadruple, m)).buildAndRegister();
-                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtOctal, m)).fluidInputs(fluid.getFluid(multiplier * 8)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtOctal, m)).buildAndRegister();
-                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtHex, m)).fluidInputs(fluid.getFluid(multiplier * 16)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtHex, m)).buildAndRegister();
-                        }
-                        else
-                        {
-                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtSingle, m), OreDictUnifier.get(OrePrefix.foil, m)).fluidInputs(fluid.getFluid(multiplier)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtSingle, m)).buildAndRegister();
-                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtDouble, m), OreDictUnifier.get(OrePrefix.foil, m)).fluidInputs(fluid.getFluid(multiplier * 2)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtDouble, m)).buildAndRegister();
-                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtQuadruple, m), OreDictUnifier.get(OrePrefix.foil, m)).fluidInputs(fluid.getFluid(multiplier * 4)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtQuadruple, m)).buildAndRegister();
-                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtOctal, m), OreDictUnifier.get(OrePrefix.foil, m)).fluidInputs(fluid.getFluid(multiplier * 8)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtOctal, m)).buildAndRegister();
-                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtHex, m), OreDictUnifier.get(OrePrefix.foil, m)).fluidInputs(fluid.getFluid(multiplier * 16)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtHex, m)).buildAndRegister();
-
-                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtSingle, m), OreDictUnifier.get(OrePrefix.foil, Materials.PolyphenyleneSulfide)).fluidInputs(fluid.getFluid(multiplier)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtSingle, m)).buildAndRegister();
-                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtDouble, m), OreDictUnifier.get(OrePrefix.foil, Materials.PolyphenyleneSulfide)).fluidInputs(fluid.getFluid(multiplier * 2)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtDouble, m)).buildAndRegister();
-                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtQuadruple, m), OreDictUnifier.get(OrePrefix.foil, Materials.PolyphenyleneSulfide)).fluidInputs(fluid.getFluid(multiplier * 4)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtQuadruple, m)).buildAndRegister();
-                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtOctal, m), OreDictUnifier.get(OrePrefix.foil, Materials.PolyphenyleneSulfide)).fluidInputs(fluid.getFluid(multiplier * 8)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtOctal, m)).buildAndRegister();
-                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtHex, m), OreDictUnifier.get(OrePrefix.foil, Materials.PolyphenyleneSulfide)).fluidInputs(fluid.getFluid(multiplier * 16)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtHex, m)).buildAndRegister();
-
-                        }
-                    }
-                }
-            }
+            UnregisterHighTierCableRecipes();
+            RegisterHighTierCableRecipes();
         }
 
         if (GRConfig.misc.HarderFuelCracking)
@@ -430,17 +300,17 @@ public class GRRecipeAdditions
             for (Recipe recipe : recipesRemove) GRRecipeMaps.INDUSTRIAL_CHEMICAL_REACTOR.removeRecipe(recipe);
             recipesRemove.clear();
 
-            //Overhaul assembling machine recipe
-            for (int i = 0; i < MetaTileEntities.ASSEMBLER.length; i++)
-            {
-                ModHandler.removeRecipes(MetaTileEntities.ASSEMBLER[i].getStackForm());
-            }
 
             ModHandler.removeRecipes(MetaItems.RESISTOR.getStackForm(3));
             ModHandler.removeRecipes(MetaItems.DIODE.getStackForm(4));
             ModHandler.removeRecipes(MetaItems.VACUUM_TUBE.getStackForm());
 
-            registerMachineRecipe(MetaTileEntities.ASSEMBLER, true, "ACA", "VMV", "WCW", 'M', HULL, 'V', CONVEYOR, 'A', ROBOT_ARM, 'C', CIRCUIT, 'W', CABLE);
+            //Overhaul assembling machine recipe
+            for (int i = 0; i < MetaTileEntities.ASSEMBLER.length; i++)
+            {
+                ModHandler.removeRecipes(MetaTileEntities.ASSEMBLER[i].getStackForm());
+            }
+            MachineAdditions.registerMachineRecipe(MetaTileEntities.ASSEMBLER, true, "ACA", "VMV", "WCW", 'M', HULL, 'V', CONVEYOR, 'A', ROBOT_ARM, 'C', CIRCUIT, 'W', CABLE);
 
             RegisterBasicComponentRecipes();
             RegisterBlastRecipes();
@@ -450,30 +320,6 @@ public class GRRecipeAdditions
             RegisterCircuitRecipes();
 
         }
-    }
-
-    private static <T extends MetaTileEntity> void registerMachineRecipe(T[] metaTileEntities, boolean circuitUp, Object... recipe)
-    {
-        for (int i = 0; i < metaTileEntities.length; i++)
-        {
-            if (metaTileEntities[i] != null)
-                ModHandler.addShapedRecipe(String.format("gr_%s", metaTileEntities[i].getMetaName()), metaTileEntities[i].getStackForm(), prepareRecipe(i + 1, circuitUp, Arrays.copyOf(recipe, recipe.length)));
-        }
-    }
-
-    private static Object[] prepareRecipe(int tier, boolean circuitUp, Object... recipe)
-    {
-        for (int i = 3; i < recipe.length; i++)
-        {
-            if (recipe[i] instanceof GRCraftingComponents)
-            {
-                if (circuitUp && recipe[i] == GRCraftingComponents.CIRCUIT)
-                    recipe[i] = ((GRCraftingComponents) recipe[i]).getIngredient(tier + 1);
-                else
-                    recipe[i] = ((GRCraftingComponents) recipe[i]).getIngredient(tier);
-            }
-        }
-        return recipe;
     }
 
     private static int getVoltageMultiplier(Material material)
@@ -584,6 +430,68 @@ public class GRRecipeAdditions
         for (ItemStack it : OreDictionary.getOres("circuitInfinite"))
             if (it.isItemEqual(stack)) return true;
         return false;
+    }
+
+    private static void RegisterHighTierCableRecipes()
+    {
+        for (Material m : Material.MATERIAL_REGISTRY)
+        {
+            if (m instanceof IngotMaterial && !OreDictUnifier.get(OrePrefix.cableGtSingle, m).isEmpty())
+            {
+                for (MaterialStack stackFluid : HIGH_TIER_RUBBER_FLUIDS)
+                {
+                    IngotMaterial fluid = (IngotMaterial) stackFluid.material;
+                    IngotMaterial cable = (IngotMaterial) m;
+                    int multiplier = (int) stackFluid.amount;
+                    //noinspection ConstantConditions
+                    if (cable.cableProperties.voltage <= 2048)
+                    {
+                        RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtSingle, m)).fluidInputs(fluid.getFluid(multiplier)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtSingle, m)).buildAndRegister();
+                        RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtDouble, m)).fluidInputs(fluid.getFluid(multiplier * 2)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtDouble, m)).buildAndRegister();
+                        RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtQuadruple, m)).fluidInputs(fluid.getFluid(multiplier * 4)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtQuadruple, m)).buildAndRegister();
+                        RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtOctal, m)).fluidInputs(fluid.getFluid(multiplier * 8)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtOctal, m)).buildAndRegister();
+                        RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtHex, m)).fluidInputs(fluid.getFluid(multiplier * 16)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtHex, m)).buildAndRegister();
+                    }
+                    else
+                    {
+                        RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtSingle, m), OreDictUnifier.get(OrePrefix.foil, m)).fluidInputs(fluid.getFluid(multiplier)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtSingle, m)).buildAndRegister();
+                        RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtDouble, m), OreDictUnifier.get(OrePrefix.foil, m)).fluidInputs(fluid.getFluid(multiplier * 2)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtDouble, m)).buildAndRegister();
+                        RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtQuadruple, m), OreDictUnifier.get(OrePrefix.foil, m)).fluidInputs(fluid.getFluid(multiplier * 4)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtQuadruple, m)).buildAndRegister();
+                        RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtOctal, m), OreDictUnifier.get(OrePrefix.foil, m)).fluidInputs(fluid.getFluid(multiplier * 8)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtOctal, m)).buildAndRegister();
+                        RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtHex, m), OreDictUnifier.get(OrePrefix.foil, m)).fluidInputs(fluid.getFluid(multiplier * 16)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtHex, m)).buildAndRegister();
+
+                        RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtSingle, m), OreDictUnifier.get(OrePrefix.foil, Materials.PolyphenyleneSulfide)).fluidInputs(fluid.getFluid(multiplier)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtSingle, m)).buildAndRegister();
+                        RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtDouble, m), OreDictUnifier.get(OrePrefix.foil, Materials.PolyphenyleneSulfide)).fluidInputs(fluid.getFluid(multiplier * 2)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtDouble, m)).buildAndRegister();
+                        RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtQuadruple, m), OreDictUnifier.get(OrePrefix.foil, Materials.PolyphenyleneSulfide)).fluidInputs(fluid.getFluid(multiplier * 4)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtQuadruple, m)).buildAndRegister();
+                        RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtOctal, m), OreDictUnifier.get(OrePrefix.foil, Materials.PolyphenyleneSulfide)).fluidInputs(fluid.getFluid(multiplier * 8)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtOctal, m)).buildAndRegister();
+                        RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtHex, m), OreDictUnifier.get(OrePrefix.foil, Materials.PolyphenyleneSulfide)).fluidInputs(fluid.getFluid(multiplier * 16)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtHex, m)).buildAndRegister();
+
+                    }
+                }
+            }
+        }
+    }
+
+    private static void UnregisterHighTierCableRecipes()
+    {
+        List<Recipe> recipesRemove = new ArrayList<>();
+        for (Recipe recipe : RecipeMaps.ASSEMBLER_RECIPES.getRecipeList())
+        {
+            for (ItemStack stack : recipe.getOutputs())
+            {
+                Material mat = MetaBlocks.CABLE.getItemMaterial(stack);
+                //noinspection ConstantConditions
+                if (mat instanceof IngotMaterial
+                        && ((IngotMaterial) mat).cableProperties != null
+                        && ((IngotMaterial) mat).cableProperties.voltage > 2048)
+                {
+                    recipesRemove.add(recipe);
+                    break;
+                }
+            }
+        }
+        for (Recipe recipe : recipesRemove) RecipeMaps.ASSEMBLER_RECIPES.removeRecipe(recipe);
+        recipesRemove.clear();
     }
 
     private static void UnregisterCrackingRecipes()
