@@ -68,6 +68,10 @@ public class GRConfig
 
         @Config.Comment("Make all casings recipes outputs only one per craft")
         @Config.Name("Harder casings")
+        public boolean HarderMotors = true;
+
+        @Config.Comment("Make all casings recipes outputs only one per craft")
+        @Config.Name("Harder casings")
         public boolean HarderCasings = true;
 
         @Config.Comment("Disable cheap rubber for IV+ cables")

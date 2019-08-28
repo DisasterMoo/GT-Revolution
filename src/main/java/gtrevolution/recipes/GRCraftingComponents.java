@@ -140,7 +140,6 @@ public enum GRCraftingComponents
                     switch (tier)
                     {
                         case 0:
-                            return new UnificationEntry(OrePrefix.wireGtSingle, Materials.Tin);
                         case 1:
                             return new UnificationEntry(OrePrefix.wireGtSingle, Materials.Copper);
                         case 2:
@@ -170,7 +169,6 @@ public enum GRCraftingComponents
                     switch (tier)
                     {
                         case 0:
-                            return new UnificationEntry(OrePrefix.cableGtSingle, Materials.Lead);
                         case 1:
                             return new UnificationEntry(OrePrefix.cableGtSingle, Materials.Tin);
                         case 2:
@@ -180,7 +178,7 @@ public enum GRCraftingComponents
                         case 4:
                             return new UnificationEntry(OrePrefix.cableGtDouble, Materials.Aluminium);
                         case 5:
-                            return new UnificationEntry(OrePrefix.cableGtDouble, Materials.Platinum);
+                            return new UnificationEntry(OrePrefix.cableGtDouble, Materials.Tungsten);
                         case 6:
                             return new UnificationEntry(OrePrefix.cableGtQuadruple, Materials.HSSG);
                         case 7:
@@ -621,9 +619,9 @@ public enum GRCraftingComponents
                             return new UnificationEntry(OrePrefix.stick, Materials.NeodymiumMagnetic);
                         case 6:
                         case 7:
-                            return new UnificationEntry(OrePrefix.stickLong, Materials.NeodymiumMagnetic);
+                            return new UnificationEntry(OrePrefix.stick, Materials.Samarium);
                         default:
-                            return new UnificationEntry(OrePrefix.block, Materials.NeodymiumMagnetic);
+                            return new UnificationEntry(OrePrefix.stickLong, Materials.Samarium);
                     }
                 }
             },
@@ -686,26 +684,6 @@ public enum GRCraftingComponents
                             return new UnificationEntry(OrePrefix.wireGtQuadruple, Materials.Naquadah);
                         default:
                             return new UnificationEntry(OrePrefix.wireGtQuadruple, Materials.NaquadahAlloy);
-                    }
-                }
-            },
-    STICK_ELECTROMAGNETIC
-            {
-                @Override
-                Object getIngredient(int tier)
-                {
-                    switch (tier)
-                    {
-                        case 0:
-                        case 1:
-                            return new UnificationEntry(OrePrefix.stick, Materials.Iron);
-                        case 2:
-                        case 3:
-                            return new UnificationEntry(OrePrefix.stick, Materials.Steel);
-                        case 4:
-                            return new UnificationEntry(OrePrefix.stick, Materials.Neodymium);
-                        default:
-                            return new UnificationEntry(OrePrefix.stick, Materials.VanadiumGallium);
                     }
                 }
             },

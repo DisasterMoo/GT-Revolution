@@ -13,6 +13,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 import gregtech.api.GTValues;
+import gregtech.api.items.metaitem.MetaItem;
 import gregtech.api.items.toolitem.ToolMetaItem;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.recipes.*;
@@ -51,10 +52,16 @@ import static gtrevolution.recipes.GRCraftingComponents.*;
 public class GRRecipeAdditions
 {
 
-    private static final MaterialStack[] solderingList = {
+    private static final MaterialStack[] SOLDERING_LIST = {
             new MaterialStack(Materials.Tin, 2L),
             new MaterialStack(Materials.SolderingAlloy, 1L)
     };
+
+    private static final MaterialStack[] HIGH_TIER_RUBBER_FLUIDS = {
+            new MaterialStack(Materials.StyreneButadieneRubber, 108),
+            new MaterialStack(Materials.SiliconeRubber, 72)
+    };
+
     private static final FluidStack[] crackingList = {
             Materials.HydroCrackedEthane.getFluid(1),
             Materials.HydroCrackedEthylene.getFluid(1),
@@ -222,49 +229,86 @@ public class GRRecipeAdditions
             List<Recipe> recipesRemove = new ArrayList<>();
             for (Recipe recipe : RecipeMaps.ASSEMBLER_RECIPES.getRecipeList())
             {
-                for (FluidStack fluid : recipe.getFluidInputs())
+                for (ItemStack stack : recipe.getOutputs())
                 {
-                    if (fluid.getFluid() == Materials.Rubber.getMaterialFluid())
+                    Material mat = MetaBlocks.CABLE.getItemMaterial(stack);
+                    //noinspection ConstantConditions
+                    if (mat instanceof IngotMaterial
+                            && ((IngotMaterial) mat).cableProperties != null
+                            && ((IngotMaterial) mat).cableProperties.voltage > 2048)
                     {
-                        for (ItemStack stack : recipe.getOutputs())
-                        {
-                            Material mat = MetaBlocks.CABLE.getItemMaterial(stack);
-                            //noinspection ConstantConditions
-                            if (mat instanceof IngotMaterial
-                                    && ((IngotMaterial) mat).cableProperties != null
-                                    && ((IngotMaterial) mat).cableProperties.voltage > 2048)
-                            {
-                                recipesRemove.add(recipe);
-                                break;
-                            }
-                        }
+                        recipesRemove.add(recipe);
+                        break;
                     }
                 }
             }
             for (Recipe recipe : recipesRemove) RecipeMaps.ASSEMBLER_RECIPES.removeRecipe(recipe);
             recipesRemove.clear();
-        }
 
-        //Why GTCE won't let we craft tin and red alloy cables from rubber?
-        for (Material material : Arrays.asList(Materials.RedAlloy, Materials.Tin))
-            for (OrePrefix wirePrefix : Arrays.asList(OrePrefix.wireGtSingle, OrePrefix.wireGtDouble, OrePrefix.wireGtQuadruple, OrePrefix.wireGtOctal))
+            for (Material m : Material.MATERIAL_REGISTRY)
             {
-                int cableAmount = (int) (wirePrefix.materialAmount * 2 / GTValues.M);
-                OrePrefix cablePrefix = OrePrefix.valueOf("cable" + wirePrefix.name().substring(4));
-                ItemStack cableStack = OreDictUnifier.get(cablePrefix, material);
-                RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
-                        .input(wirePrefix, material).circuitMeta(24)
-                        .fluidInputs(Materials.Rubber.getFluid(144 * cableAmount))
-                        .outputs(cableStack)
-                        .duration(150).EUt(8)
-                        .buildAndRegister();
-            }
+                if (m instanceof IngotMaterial && !OreDictUnifier.get(OrePrefix.cableGtSingle, m).isEmpty())
+                {
+                    for (MaterialStack stackFluid : HIGH_TIER_RUBBER_FLUIDS)
+                    {
+                        IngotMaterial fluid = (IngotMaterial) stackFluid.material;
+                        IngotMaterial cable = (IngotMaterial) m;
+                        int multiplier = (int) stackFluid.amount;
+                        //noinspection ConstantConditions
+                        if (cable.cableProperties.voltage <= 2048)
+                        {
+                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtSingle, m)).fluidInputs(fluid.getFluid(multiplier)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtSingle, m)).buildAndRegister();
+                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtDouble, m)).fluidInputs(fluid.getFluid(multiplier * 2)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtDouble, m)).buildAndRegister();
+                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtQuadruple, m)).fluidInputs(fluid.getFluid(multiplier * 4)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtQuadruple, m)).buildAndRegister();
+                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtOctal, m)).fluidInputs(fluid.getFluid(multiplier * 8)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtOctal, m)).buildAndRegister();
+                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtHex, m)).fluidInputs(fluid.getFluid(multiplier * 16)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtHex, m)).buildAndRegister();
+                        }
+                        else
+                        {
+                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtSingle, m), OreDictUnifier.get(OrePrefix.foil, m)).fluidInputs(fluid.getFluid(multiplier)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtSingle, m)).buildAndRegister();
+                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtDouble, m), OreDictUnifier.get(OrePrefix.foil, m)).fluidInputs(fluid.getFluid(multiplier * 2)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtDouble, m)).buildAndRegister();
+                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtQuadruple, m), OreDictUnifier.get(OrePrefix.foil, m)).fluidInputs(fluid.getFluid(multiplier * 4)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtQuadruple, m)).buildAndRegister();
+                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtOctal, m), OreDictUnifier.get(OrePrefix.foil, m)).fluidInputs(fluid.getFluid(multiplier * 8)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtOctal, m)).buildAndRegister();
+                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtHex, m), OreDictUnifier.get(OrePrefix.foil, m)).fluidInputs(fluid.getFluid(multiplier * 16)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtHex, m)).buildAndRegister();
 
+                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtSingle, m), OreDictUnifier.get(OrePrefix.foil, Materials.PolyphenyleneSulfide)).fluidInputs(fluid.getFluid(multiplier)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtSingle, m)).buildAndRegister();
+                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtDouble, m), OreDictUnifier.get(OrePrefix.foil, Materials.PolyphenyleneSulfide)).fluidInputs(fluid.getFluid(multiplier * 2)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtDouble, m)).buildAndRegister();
+                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtQuadruple, m), OreDictUnifier.get(OrePrefix.foil, Materials.PolyphenyleneSulfide)).fluidInputs(fluid.getFluid(multiplier * 4)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtQuadruple, m)).buildAndRegister();
+                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtOctal, m), OreDictUnifier.get(OrePrefix.foil, Materials.PolyphenyleneSulfide)).fluidInputs(fluid.getFluid(multiplier * 8)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtOctal, m)).buildAndRegister();
+                            RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().duration(150).EUt(8).inputs(OreDictUnifier.get(OrePrefix.wireGtHex, m), OreDictUnifier.get(OrePrefix.foil, Materials.PolyphenyleneSulfide)).fluidInputs(fluid.getFluid(multiplier * 16)).circuitMeta(24).outputs(OreDictUnifier.get(OrePrefix.cableGtHex, m)).buildAndRegister();
+
+                        }
+                    }
+                }
+            }
+        }
 
         if (GRConfig.misc.HarderFuelCracking)
         {
             UnregisterCrackingRecipes();
             RegisterCrackingRecipes();
+        }
+
+        if (GRConfig.misc.HarderMotors)
+        {
+            //Remove
+            for (int i = 0; i < 6; i++)
+            {
+                ItemStack stack = ((MetaItem.MetaValueItem) MOTOR.getIngredient(i)).getStackForm();
+                ModHandler.removeRecipes(stack);
+            }
+            //Re-Add
+            for (int i = 0; i < 6; i++)
+            {
+                ItemStack stack = ((MetaItem.MetaValueItem) MOTOR.getIngredient(i)).getStackForm();
+                String recipeName = String.format("gr_motor_%s", GTValues.VN[i].toLowerCase());
+                ModHandler.addShapedRecipe(recipeName, stack, "WCS", "CMC", "SCW",
+                        'W', MOTOR_CABLE.getIngredient(i),
+                        'C', MOTOR_COIL.getIngredient(i),
+                        'S', STICK.getIngredient(i),
+                        'M', STICK_MAGNETIC.getIngredient(i));
+            }
+
         }
 
         if (GRConfig.misc.CircuitOverhaul)
@@ -387,18 +431,16 @@ public class GRRecipeAdditions
             recipesRemove.clear();
 
             //Overhaul assembling machine recipe
-            ModHandler.removeRecipes(MetaTileEntities.ASSEMBLER[0].getStackForm());
-            ModHandler.removeRecipes(MetaTileEntities.ASSEMBLER[1].getStackForm());
-            ModHandler.removeRecipes(MetaTileEntities.ASSEMBLER[2].getStackForm());
-            ModHandler.removeRecipes(MetaTileEntities.ASSEMBLER[3].getStackForm());
-            ModHandler.removeRecipes(MetaTileEntities.ASSEMBLER[4].getStackForm());
+            for (int i = 0; i < MetaTileEntities.ASSEMBLER.length; i++)
+            {
+                ModHandler.removeRecipes(MetaTileEntities.ASSEMBLER[i].getStackForm());
+            }
 
             ModHandler.removeRecipes(MetaItems.RESISTOR.getStackForm(3));
             ModHandler.removeRecipes(MetaItems.DIODE.getStackForm(4));
             ModHandler.removeRecipes(MetaItems.VACUUM_TUBE.getStackForm());
 
             registerMachineRecipe(MetaTileEntities.ASSEMBLER, true, "ACA", "VMV", "WCW", 'M', HULL, 'V', CONVEYOR, 'A', ROBOT_ARM, 'C', CIRCUIT, 'W', CABLE);
-            //registerMachineRecipe(GATileEntities.ASSEMBLER, true, "ACA", "VMV", "WCW", 'M', HULL, 'V', CONVEYOR, 'A', ROBOT_ARM, 'C', CIRCUIT, 'W', CABLE);
 
             RegisterBasicComponentRecipes();
             RegisterBlastRecipes();
@@ -1038,7 +1080,7 @@ public class GRRecipeAdditions
         //Good
         ModHandler.addShapedRecipe("gr_basic_circuit_array", GRMetaItems.BASIC_CIRCUIT_ARRAY.getStackForm(), "CVC", "WBW", "CVC", 'C', GRMetaItems.BASIC_CIRCUIT.getStackForm(), 'V', "circuitPrimitive", 'B', GRMetaItems.CIRCUIT_BOARD.getStackForm(), 'W', "cableGtSingleTin");
 
-        for (MaterialStack stack : solderingList)
+        for (MaterialStack stack : SOLDERING_LIST)
         {
             IngotMaterial material = (IngotMaterial) stack.material;
             int multiplier = (int) stack.amount;

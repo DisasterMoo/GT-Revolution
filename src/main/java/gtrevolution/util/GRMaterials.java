@@ -41,10 +41,11 @@ public class GRMaterials implements IMaterialHandler
             IngotMaterial.MatFlags.GENERATE_BOLT_SCREW |
             IngotMaterial.MatFlags.GENERATE_RING |
             SolidMaterial.MatFlags.GENERATE_FRAME |
-            IngotMaterial.MatFlags.GENERATE_ROTOR;
-    private static final long ALLOY_FLAGS = INGOT_FLAGS |
-            Material.MatFlags.DECOMPOSITION_BY_CENTRIFUGING |
+            IngotMaterial.MatFlags.GENERATE_ROTOR |
             IngotMaterial.MatFlags.GENERATE_FINE_WIRE;
+    private static final long ALLOY_FLAGS = INGOT_FLAGS |
+            Material.MatFlags.DECOMPOSITION_BY_CENTRIFUGING;
+
 
     static
     {
@@ -117,13 +118,13 @@ public class GRMaterials implements IMaterialHandler
     @Override
     public void onMaterialsInit()
     {
-        Materials.RedAlloy.addFlag(INGOT_FLAGS);
-        Materials.Copper.addFlag(INGOT_FLAGS);
-        Materials.AnnealedCopper.addFlag(INGOT_FLAGS);
-        Materials.Tin.addFlag(INGOT_FLAGS);
-        Materials.Electrum.addFlag(INGOT_FLAGS);
-        Materials.Platinum.addFlag(INGOT_FLAGS);
-        Materials.NiobiumTitanium.addFlag(INGOT_FLAGS);
-        Materials.Tritanium.addFlag(INGOT_FLAGS);
+        //Add missing GTCE flags
+        for (Material m : Material.MATERIAL_REGISTRY)
+        {
+            if (m instanceof IngotMaterial && m != Materials.Rubber && m != Materials.SiliconeRubber && m != Materials.StyreneButadieneRubber)
+            {
+                m.addFlag(INGOT_FLAGS);
+            }
+        }
     }
 }

@@ -43,11 +43,12 @@ public class GRTileEntities
     public static IndustrialSifter INDUSTRIAL_SIFTER;
     public static IndustrialLaserProcessor INDUSTRIAL_LASER;
     public static IndustrialCuttingFactory INDUSTRIAL_CUTTER;
-    private static int id = 3001;
     public static OilRig OIL_RIG;
 
     public static void init()
     {
+        int id = 3001;
+
         DISASSEMBLER[0] = GregTechAPI.registerMetaTileEntity(id++, new SimpleMachineMetaTileEntity(location("disassembler.lv"), GRRecipeMaps.DISASSEMBLER_LV, Textures.ASSEMBLER_OVERLAY, 1));
         DISASSEMBLER[1] = GregTechAPI.registerMetaTileEntity(id++, new SimpleMachineMetaTileEntity(location("disassembler.mv"), GRRecipeMaps.DISASSEMBLER_MV, Textures.ASSEMBLER_OVERLAY, 2));
         DISASSEMBLER[2] = GregTechAPI.registerMetaTileEntity(id++, new SimpleMachineMetaTileEntity(location("disassembler.hv"), GRRecipeMaps.DISASSEMBLER_HV, Textures.ASSEMBLER_OVERLAY, 3));
@@ -143,20 +144,8 @@ public class GRTileEntities
             INDUSTRIAL_CHEMICALREACTOR = GregTechAPI.registerMetaTileEntity(id++, new IndustrialChemicalReactor(location("industrial_chemicalreactor")));
         }
 
-        registerMissingTiers();
-    }
+        //=========== Register missing machines ===========
 
-    private static ResourceLocation location(String name)
-    {
-        return new ResourceLocation(GTRevolution.MODID, name);
-    }
-
-    /**
-     * Register IV+ missing tiers to every GTCE machine
-     */
-    private static void registerMissingTiers()
-    {
-        //Furnace
         SimpleMachineMetaTileEntity[] ELECTRIC_FURNACE = new SimpleMachineMetaTileEntity[8];
         System.arraycopy(MetaTileEntities.ELECTRIC_FURNACE, 0, ELECTRIC_FURNACE, 0, 4);
         for (int i = 4; i < 8; i++)
@@ -497,6 +486,11 @@ public class GRTileEntities
             WIREMILL[i] = GregTechAPI.registerMetaTileEntity(id++, new SimpleMachineMetaTileEntity(machineResource("wiremill", i), RecipeMaps.WIREMILL_RECIPES, Textures.WIREMILL_OVERLAY, i + 1));
         }
         MetaTileEntities.WIREMILL = WIREMILL;
+    }
+
+    private static ResourceLocation location(String name)
+    {
+        return new ResourceLocation(GTRevolution.MODID, name);
     }
 
     private static ResourceLocation machineResource(String machineType, int tier)
