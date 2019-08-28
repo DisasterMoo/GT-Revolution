@@ -29,6 +29,7 @@ public class GRMaterials implements IMaterialHandler
     public static IngotMaterial METEORIC_IRON;
     public static IngotMaterial DESH;
     private static final long INGOT_FLAGS = DustMaterial.MatFlags.GENERATE_PLATE |
+            SolidMaterial.MatFlags.MORTAR_GRINDABLE |
             SolidMaterial.MatFlags.GENERATE_ROD |
             SolidMaterial.MatFlags.GENERATE_LONG_ROD |
             IngotMaterial.MatFlags.GENERATE_FOIL |
@@ -39,6 +40,7 @@ public class GRMaterials implements IMaterialHandler
             SolidMaterial.MatFlags.GENERATE_FRAME |
             IngotMaterial.MatFlags.GENERATE_ROTOR |
             IngotMaterial.MatFlags.GENERATE_FINE_WIRE;
+    public static IngotMaterial SAMARIUM_MAGNETIC;
 
     public static IngotMaterial[] SUPERCONDUCTOR;
     public static FluidMaterial IRON_III_CHLORIDE;
@@ -52,6 +54,7 @@ public class GRMaterials implements IMaterialHandler
     static
     {
         NEUTRONIUM = new IngotMaterial(id++, "neutronium", 0xC3C3C3, MaterialIconSet.METALLIC, 6, ImmutableList.of(), INGOT_FLAGS);
+        SAMARIUM_MAGNETIC = new IngotMaterial(id++, "samarium_magnetic", 0xFFFFFF, MaterialIconSet.MAGNETIC, 2, ImmutableList.of(new MaterialStack(Materials.Samarium, 1L)), INGOT_FLAGS);
         TALONITE = new IngotMaterial(id++, "talonite", 0xC54066, MaterialIconSet.METALLIC, 1, ImmutableList.of(new MaterialStack(Materials.Cobalt, 4), new MaterialStack(Materials.Chrome, 4), new MaterialStack(Materials.Phosphor, 2), new MaterialStack(Materials.Molybdenum, 1)), ALLOY_FLAGS);
         STELLITE = new IngotMaterial(id++, "stellite", 0x663B5F, MaterialIconSet.METALLIC, 1, ImmutableList.of(new MaterialStack(Materials.Cobalt, 7), new MaterialStack(Materials.Chrome, 7), new MaterialStack(Materials.Manganese, 2), new MaterialStack(Materials.Titanium, 2)), ALLOY_FLAGS, null, 700);
         TANTALLOY60 = new IngotMaterial(id++, "tantalloy60", 0xA8B2B7, MaterialIconSet.METALLIC, 1, ImmutableList.of(new MaterialStack(Materials.Tungsten, 2), new MaterialStack(Materials.Tantalum, 23)), ALLOY_FLAGS, null, 1400);

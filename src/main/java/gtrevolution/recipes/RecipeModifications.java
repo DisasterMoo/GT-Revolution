@@ -57,6 +57,11 @@ public class RecipeModifications
             new MaterialStack(Materials.SiliconeRubber, 72)
     };
 
+    private static final OrePrefix[] POLARIZING_PREFIXES = new OrePrefix[] {
+            OrePrefix.stick, OrePrefix.stickLong, OrePrefix.plate, OrePrefix.ingot, OrePrefix.plateDense, OrePrefix.rotor,
+            OrePrefix.bolt, OrePrefix.screw, OrePrefix.wireFine, OrePrefix.foil, OrePrefix.dust, OrePrefix.ring
+    };
+
     private static final FluidStack[] crackingList = {
             Materials.HydroCrackedEthane.getFluid(1),
             Materials.HydroCrackedEthylene.getFluid(1),
@@ -107,7 +112,6 @@ public class RecipeModifications
                 RecipeMaps.MIXER_RECIPES.recipeBuilder().duration((int) (400L * Prefix.materialAmount / 3628800L)).EUt(1920).input(Prefix, Materials.Vanadium, 1).input(Prefix, Materials.Indium, 3).outputs(OreDictUnifier.getDust(GRMaterials.SUPERCONDUCTOR[4], 4L * Prefix.materialAmount)).buildAndRegister();
                 RecipeMaps.MIXER_RECIPES.recipeBuilder().duration((int) (1400L * Prefix.materialAmount / 3628800L)).EUt(7680).input(Prefix, Materials.Titanium, 1).input(Prefix, Materials.Barium, 2).input(Prefix, Materials.Copper, 7).input(Prefix, Materials.Indium, 4).outputs(OreDictUnifier.getDust(GRMaterials.SUPERCONDUCTOR[5], 14L * Prefix.materialAmount)).buildAndRegister();
             }
-
         }
 
         for (Material m : Material.MATERIAL_REGISTRY)
@@ -181,6 +185,50 @@ public class RecipeModifications
                         'M', STICK_MAGNETIC.getIngredient(i));
             }
 
+            List<Recipe> recipesRemove = new ArrayList<>();
+            for (Recipe recipe : RecipeMaps.POLARIZER_RECIPES.getRecipeList())
+            {
+                for (ItemStack stack : recipe.getOutputs())
+                {
+                    Material mat = MetaBlocks.CABLE.getItemMaterial(stack);
+                    if (mat == Materials.NeodymiumMagnetic)
+                    {
+                        recipesRemove.add(recipe);
+                        break;
+                    }
+                }
+            }
+            recipesRemove.forEach(RecipeMaps.POLARIZER_RECIPES::removeRecipe);
+            recipesRemove.clear();
+
+            for (OrePrefix orePrefix : POLARIZING_PREFIXES)
+            {
+                RecipeMaps.POLARIZER_RECIPES.recipeBuilder()
+                        .input(orePrefix, Materials.Neodymium)
+                        .outputs(OreDictUnifier.get(orePrefix, Materials.NeodymiumMagnetic))
+                        .duration(40).EUt(256).buildAndRegister();
+
+                RecipeMaps.POLARIZER_RECIPES.recipeBuilder()
+                        .input(orePrefix, Materials.Samarium)
+                        .outputs(OreDictUnifier.get(orePrefix, GRMaterials.SAMARIUM_MAGNETIC))
+                        .duration(80).EUt(4096).buildAndRegister();
+
+                ModHandler.addSmeltingRecipe(new UnificationEntry(orePrefix, GRMaterials.SAMARIUM_MAGNETIC),
+                        OreDictUnifier.get(orePrefix, Materials.Samarium));
+            }
+        }
+        else
+        {
+            for (OrePrefix orePrefix : POLARIZING_PREFIXES)
+            {
+                RecipeMaps.POLARIZER_RECIPES.recipeBuilder()
+                        .input(orePrefix, Materials.Samarium)
+                        .outputs(OreDictUnifier.get(orePrefix, GRMaterials.SAMARIUM_MAGNETIC))
+                        .duration(16).EUt(16).buildAndRegister();
+
+                ModHandler.addSmeltingRecipe(new UnificationEntry(orePrefix, GRMaterials.SAMARIUM_MAGNETIC),
+                        OreDictUnifier.get(orePrefix, Materials.Samarium));
+            }
         }
 
         if (GRConfig.misc.CircuitOverhaul)
@@ -1456,9 +1504,8 @@ public class RecipeModifications
 
     private static void registerHighTierComponents()
     {
-        //Assline Recipes
         GRRecipeMaps.ASSEMBLY_LINE_RECIPES.recipeBuilder()
-                .inputs(OreDictUnifier.get(OrePrefix.stickLong, Materials.NeodymiumMagnetic, 1),
+                .inputs(OreDictUnifier.get(OrePrefix.stick, GRMaterials.SAMARIUM_MAGNETIC, 1),
                         OreDictUnifier.get(OrePrefix.stickLong, Materials.HSSG, 2),
                         OreDictUnifier.get(OrePrefix.wireFine, Materials.AnnealedCopper, 64),
                         OreDictUnifier.get(OrePrefix.wireFine, Materials.AnnealedCopper, 64),
@@ -1472,7 +1519,7 @@ public class RecipeModifications
                 .buildAndRegister();
 
         GRRecipeMaps.ASSEMBLY_LINE_RECIPES.recipeBuilder()
-                .inputs(OreDictUnifier.get(OrePrefix.stickLong, Materials.NeodymiumMagnetic, 2),
+                .inputs(OreDictUnifier.get(OrePrefix.stick, GRMaterials.SAMARIUM_MAGNETIC, 2),
                         OreDictUnifier.get(OrePrefix.stickLong, Materials.HSSE, 4),
                         OreDictUnifier.get(OrePrefix.ring, Materials.HSSE, 4),
                         OreDictUnifier.get(OrePrefix.nugget, Materials.HSSE, 16),
@@ -1488,7 +1535,7 @@ public class RecipeModifications
                 .buildAndRegister();
 
         GRRecipeMaps.ASSEMBLY_LINE_RECIPES.recipeBuilder()
-                .inputs(OreDictUnifier.get(OrePrefix.block, Materials.NeodymiumMagnetic, 1),
+                .inputs(OreDictUnifier.get(OrePrefix.stickLong, GRMaterials.SAMARIUM_MAGNETIC, 2),
                         OreDictUnifier.get(OrePrefix.stickLong, GRMaterials.NEUTRONIUM, 4),
                         OreDictUnifier.get(OrePrefix.ring, GRMaterials.NEUTRONIUM, 4),
                         OreDictUnifier.get(OrePrefix.nugget, GRMaterials.NEUTRONIUM, 16),
@@ -1505,7 +1552,7 @@ public class RecipeModifications
 
         GRRecipeMaps.ASSEMBLY_LINE_RECIPES.recipeBuilder()
                 .inputs(MetaItems.ELECTRIC_MOTOR_LUV.getStackForm(),
-                        OreDictUnifier.get(OrePrefix.pipeSmall, Materials.Naquadah, 2),
+                        OreDictUnifier.get(OrePrefix.pipeSmall, Materials.Naquadah, 2), //todo Small hp fluid pipe
                         OreDictUnifier.get(OrePrefix.plate, Materials.HSSG, 2),
                         OreDictUnifier.get(OrePrefix.screw, Materials.HSSG, 8),
                         OreDictUnifier.get(OrePrefix.ring, Materials.SiliconeRubber, 4),
@@ -1519,7 +1566,7 @@ public class RecipeModifications
 
         GRRecipeMaps.ASSEMBLY_LINE_RECIPES.recipeBuilder()
                 .inputs(MetaItems.ELECTRIC_MOTOR_ZPM.getStackForm(),
-                        OreDictUnifier.get(OrePrefix.pipeMedium, Materials.Naquadah, 2),
+                        OreDictUnifier.get(OrePrefix.pipeMedium, Materials.Naquadah, 2),  //todo normal hp fluid pipe
                         OreDictUnifier.get(OrePrefix.plate, Materials.HSSE, 2),
                         OreDictUnifier.get(OrePrefix.screw, Materials.HSSE, 8),
                         OreDictUnifier.get(OrePrefix.ring, Materials.SiliconeRubber, 16),
@@ -1533,7 +1580,7 @@ public class RecipeModifications
 
         GRRecipeMaps.ASSEMBLY_LINE_RECIPES.recipeBuilder()
                 .inputs(MetaItems.ELECTRIC_MOTOR_UV.getStackForm(),
-                        OreDictUnifier.get(OrePrefix.pipeLarge, Materials.Naquadah, 2),
+                        OreDictUnifier.get(OrePrefix.pipeLarge, Materials.Naquadah, 2), //todo hp
                         OreDictUnifier.get(OrePrefix.plate, GRMaterials.NEUTRONIUM, 2),
                         OreDictUnifier.get(OrePrefix.screw, GRMaterials.NEUTRONIUM, 8),
                         OreDictUnifier.get(OrePrefix.ring, Materials.SiliconeRubber, 16),
@@ -1551,9 +1598,9 @@ public class RecipeModifications
                         OreDictUnifier.get(OrePrefix.ring, Materials.HSSG, 4),
                         OreDictUnifier.get(OrePrefix.nugget, Materials.HSSG, 32),
                         OreDictUnifier.get(OrePrefix.cableGtSingle, Materials.YttriumBariumCuprate, 2))
-                .notConsumable(new IntCircuitIngredient(1))
-                .fluidInputs(Materials.StyreneButadieneRubber.getFluid(1440),
-                        Materials.Lubricant.getFluid(250))
+                .fluidInputs(Materials.SolderingAlloy.getFluid(144),
+                        Materials.Lubricant.getFluid(250),
+                        Materials.StyreneButadieneRubber.getFluid(1440))
                 .outputs(MetaItems.CONVEYOR_MODULE_LUV.getStackForm())
                 .duration(600).EUt(15360)
                 .buildAndRegister();
@@ -1564,9 +1611,9 @@ public class RecipeModifications
                         OreDictUnifier.get(OrePrefix.ring, Materials.HSSE, 4),
                         OreDictUnifier.get(OrePrefix.nugget, Materials.HSSE, 32),
                         OreDictUnifier.get(OrePrefix.cableGtQuadruple, Materials.VanadiumGallium, 2))
-                .notConsumable(new IntCircuitIngredient(1))
-                .fluidInputs(Materials.StyreneButadieneRubber.getFluid(2880),
-                        Materials.Lubricant.getFluid(750))
+                .fluidInputs(Materials.SolderingAlloy.getFluid(288),
+                        Materials.Lubricant.getFluid(750),
+                        Materials.StyreneButadieneRubber.getFluid(2880))
                 .outputs(MetaItems.CONVEYOR_MODULE_ZPM.getStackForm())
                 .duration(600).EUt(61440).buildAndRegister();
 
@@ -1576,9 +1623,9 @@ public class RecipeModifications
                         OreDictUnifier.get(OrePrefix.ring, GRMaterials.NEUTRONIUM, 4),
                         OreDictUnifier.get(OrePrefix.nugget, GRMaterials.NEUTRONIUM, 32),
                         OreDictUnifier.get(OrePrefix.cableGtQuadruple, Materials.NiobiumTitanium, 2))
-                .notConsumable(new IntCircuitIngredient(1))
-                .fluidInputs(Materials.StyreneButadieneRubber.getFluid(2880),
-                        Materials.Lubricant.getFluid(2000))
+                .fluidInputs(Materials.SolderingAlloy.getFluid(1296),
+                        Materials.Lubricant.getFluid(2000),
+                        Materials.StyreneButadieneRubber.getFluid(2880))
                 .outputs(MetaItems.CONVEYOR_MODULE_UV.getStackForm())
                 .duration(600).EUt(245760).buildAndRegister();
 
@@ -1591,7 +1638,6 @@ public class RecipeModifications
                         OreDictUnifier.get(OrePrefix.gear, Materials.HSSG, 1),
                         OreDictUnifier.get(OrePrefix.gearSmall, Materials.HSSG, 2),
                         OreDictUnifier.get(OrePrefix.cableGtSingle, Materials.YttriumBariumCuprate, 4))
-                .notConsumable(new IntCircuitIngredient(2))
                 .fluidInputs(Materials.SolderingAlloy.getFluid(144),
                         Materials.Lubricant.getFluid(250))
                 .outputs(MetaItems.ELECTRIC_PISTON_LUV.getStackForm())
@@ -1606,7 +1652,6 @@ public class RecipeModifications
                         OreDictUnifier.get(OrePrefix.gear, Materials.HSSE, 1),
                         OreDictUnifier.get(OrePrefix.gearSmall, Materials.HSSE, 2),
                         OreDictUnifier.get(OrePrefix.cableGtQuadruple, Materials.VanadiumGallium, 4))
-                .notConsumable(new IntCircuitIngredient(2))
                 .fluidInputs(Materials.SolderingAlloy.getFluid(288),
                         Materials.Lubricant.getFluid(750))
                 .outputs(MetaItems.ELECTRIC_PISTON_ZPM.getStackForm())
@@ -1621,7 +1666,6 @@ public class RecipeModifications
                         OreDictUnifier.get(OrePrefix.gear, GRMaterials.NEUTRONIUM, 1),
                         OreDictUnifier.get(OrePrefix.gearSmall, GRMaterials.NEUTRONIUM, 2),
                         OreDictUnifier.get(OrePrefix.cableGtQuadruple, Materials.NiobiumTitanium, 4))
-                .notConsumable(new IntCircuitIngredient(2))
                 .fluidInputs(Materials.SolderingAlloy.getFluid(1296),
                         Materials.Lubricant.getFluid(2000))
                 .outputs(MetaItems.ELECTRIC_PISTON_UV.getStackForm())
@@ -1674,9 +1718,9 @@ public class RecipeModifications
 
         GRRecipeMaps.ASSEMBLY_LINE_RECIPES.recipeBuilder()
                 .inputs(OreDictUnifier.get(OrePrefix.frameGt, Materials.HSSG, 1),
-                        MetaItems.EMITTER_IV.getStackForm(),
-                        MetaItems.EMITTER_EV.getStackForm(2),
-                        MetaItems.EMITTER_HV.getStackForm(4),
+                        MetaItems.ELECTRIC_MOTOR_LUV.getStackForm(),
+                        OreDictUnifier.get(OrePrefix.stick, Materials.Osmium, 8),
+                        MetaItems.QUANTUM_STAR.getStackForm(),
                         OreDictUnifier.get(OrePrefix.foil, Materials.Electrum, 64),
                         OreDictUnifier.get(OrePrefix.foil, Materials.Electrum, 64),
                         OreDictUnifier.get(OrePrefix.foil, Materials.Electrum, 64),
@@ -1687,38 +1731,38 @@ public class RecipeModifications
                 .duration(600).EUt(15360).buildAndRegister();
 
         GRRecipeMaps.ASSEMBLY_LINE_RECIPES.recipeBuilder()
-                .inputs(OreDictUnifier.get(OrePrefix.frameGt, Materials.HSSE, 1),
-                        MetaItems.EMITTER_LUV.getStackForm(),
-                        MetaItems.EMITTER_IV.getStackForm(2),
-                        MetaItems.EMITTER_EV.getStackForm(4),
+                .inputs(OreDictUnifier.get(OrePrefix.frameGt, Materials.HSSG, 1),
+                        MetaItems.ELECTRIC_MOTOR_ZPM.getStackForm(),
+                        OreDictUnifier.get(OrePrefix.stick, Materials.Osmiridium, 8),
+                        MetaItems.QUANTUM_STAR.getStackForm(2),
                         OreDictUnifier.get(OrePrefix.foil, Materials.Platinum, 64),
                         OreDictUnifier.get(OrePrefix.foil, Materials.Platinum, 64),
                         OreDictUnifier.get(OrePrefix.foil, Materials.Platinum, 64),
-                        OreDictUnifier.get(OrePrefix.cableGtQuadruple, Materials.VanadiumGallium, 7))
-                .input(OrePrefix.circuit, MarkerMaterials.Tier.Elite, 7)
+                        OreDictUnifier.get(OrePrefix.cableGtQuadruple, Materials.NiobiumTitanium, 7))
+                .input(OrePrefix.circuit, MarkerMaterials.Tier.Extreme, 7)
                 .fluidInputs(Materials.SolderingAlloy.getFluid(576))
                 .outputs(MetaItems.EMITTER_ZPM.getStackForm())
                 .duration(600).EUt(61440).buildAndRegister();
 
         GRRecipeMaps.ASSEMBLY_LINE_RECIPES.recipeBuilder()
-                .inputs(OreDictUnifier.get(OrePrefix.frameGt, GRMaterials.NEUTRONIUM, 1),
-                        MetaItems.EMITTER_ZPM.getStackForm(),
-                        MetaItems.EMITTER_LUV.getStackForm(2),
-                        MetaItems.EMITTER_IV.getStackForm(4),
+                .inputs(OreDictUnifier.get(OrePrefix.frameGt, Materials.HSSG, 1),
+                        MetaItems.ELECTRIC_MOTOR_UV.getStackForm(),
+                        OreDictUnifier.get(OrePrefix.stick, GRMaterials.NEUTRONIUM, 8),
+                        MetaItems.GRAVI_STAR.getStackForm(4),
                         OreDictUnifier.get(OrePrefix.foil, Materials.Osmiridium, 64),
                         OreDictUnifier.get(OrePrefix.foil, Materials.Osmiridium, 64),
                         OreDictUnifier.get(OrePrefix.foil, Materials.Osmiridium, 64),
-                        OreDictUnifier.get(OrePrefix.cableGtQuadruple, Materials.NiobiumTitanium, 7))
-                .input(OrePrefix.circuit, MarkerMaterials.Tier.Master, 7)
+                        OreDictUnifier.get(OrePrefix.cableGtQuadruple, Materials.VanadiumGallium, 7))
+                .input(OrePrefix.circuit, MarkerMaterials.Tier.Extreme, 7)
                 .fluidInputs(Materials.SolderingAlloy.getFluid(576))
                 .outputs(MetaItems.EMITTER_UV.getStackForm())
                 .duration(600).EUt(245760).buildAndRegister();
 
         GRRecipeMaps.ASSEMBLY_LINE_RECIPES.recipeBuilder()
                 .inputs(OreDictUnifier.get(OrePrefix.frameGt, Materials.HSSG, 1),
-                        MetaItems.SENSOR_IV.getStackForm(),
-                        MetaItems.SENSOR_EV.getStackForm(2),
-                        MetaItems.SENSOR_HV.getStackForm(4),
+                        MetaItems.ELECTRIC_MOTOR_LUV.getStackForm(),
+                        OreDictUnifier.get(OrePrefix.plate, Materials.Osmium, 8),
+                        MetaItems.QUANTUM_STAR.getStackForm(),
                         OreDictUnifier.get(OrePrefix.foil, Materials.Electrum, 64),
                         OreDictUnifier.get(OrePrefix.foil, Materials.Electrum, 64),
                         OreDictUnifier.get(OrePrefix.foil, Materials.Electrum, 64),
@@ -1730,9 +1774,9 @@ public class RecipeModifications
 
         GRRecipeMaps.ASSEMBLY_LINE_RECIPES.recipeBuilder()
                 .inputs(OreDictUnifier.get(OrePrefix.frameGt, Materials.HSSE, 1),
-                        MetaItems.SENSOR_LUV.getStackForm(),
-                        MetaItems.SENSOR_IV.getStackForm(2),
-                        MetaItems.SENSOR_EV.getStackForm(4),
+                        MetaItems.ELECTRIC_MOTOR_ZPM.getStackForm(),
+                        OreDictUnifier.get(OrePrefix.plate, Materials.Osmiridium, 8),
+                        MetaItems.QUANTUM_STAR.getStackForm(2),
                         OreDictUnifier.get(OrePrefix.foil, Materials.Platinum, 64),
                         OreDictUnifier.get(OrePrefix.foil, Materials.Platinum, 64),
                         OreDictUnifier.get(OrePrefix.foil, Materials.Platinum, 64),
@@ -1744,9 +1788,9 @@ public class RecipeModifications
 
         GRRecipeMaps.ASSEMBLY_LINE_RECIPES.recipeBuilder()
                 .inputs(OreDictUnifier.get(OrePrefix.frameGt, GRMaterials.NEUTRONIUM, 1),
-                        MetaItems.SENSOR_ZPM.getStackForm(),
-                        MetaItems.SENSOR_LUV.getStackForm(2),
-                        MetaItems.SENSOR_IV.getStackForm(4),
+                        MetaItems.ELECTRIC_MOTOR_UV.getStackForm(),
+                        OreDictUnifier.get(OrePrefix.plate, GRMaterials.NEUTRONIUM, 8),
+                        MetaItems.GRAVI_STAR.getStackForm(4),
                         OreDictUnifier.get(OrePrefix.foil, Materials.Osmiridium, 64),
                         OreDictUnifier.get(OrePrefix.foil, Materials.Osmiridium, 64),
                         OreDictUnifier.get(OrePrefix.foil, Materials.Osmiridium, 64),
@@ -1784,7 +1828,7 @@ public class RecipeModifications
                         OreDictUnifier.get(OrePrefix.wireFine, Materials.Osmiridium, 64),
                         OreDictUnifier.get(OrePrefix.wireFine, Materials.Osmiridium, 64),
                         OreDictUnifier.get(OrePrefix.wireFine, Materials.Osmiridium, 64),
-                        OreDictUnifier.get(OrePrefix.cableGtSingle, Materials.Naquadah, 8))
+                        OreDictUnifier.get(OrePrefix.cableGtQuadruple, Materials.VanadiumGallium, 8))
                 .input(OrePrefix.circuit, MarkerMaterials.Tier.Extreme, 16)
                 .fluidInputs(Materials.SolderingAlloy.getFluid(1152))
                 .outputs(MetaItems.FIELD_GENERATOR_ZPM.getStackForm())
@@ -1795,35 +1839,18 @@ public class RecipeModifications
                         OreDictUnifier.get(OrePrefix.plate, GRMaterials.NEUTRONIUM, 6),
                         MetaItems.GRAVI_STAR.getStackForm(),
                         MetaItems.EMITTER_UV.getStackForm(4),
-                        OreDictUnifier.get(OrePrefix.wireFine, Materials.NaquadahAlloy, 64),
-                        OreDictUnifier.get(OrePrefix.wireFine, Materials.NaquadahAlloy, 64),
-                        OreDictUnifier.get(OrePrefix.wireFine, Materials.NaquadahAlloy, 64),
-                        OreDictUnifier.get(OrePrefix.wireFine, Materials.NaquadahAlloy, 64),
-                        OreDictUnifier.get(OrePrefix.wireFine, Materials.NaquadahAlloy, 64),
-                        OreDictUnifier.get(OrePrefix.wireFine, Materials.NaquadahAlloy, 64),
-                        OreDictUnifier.get(OrePrefix.wireFine, Materials.NaquadahAlloy, 64),
-                        OreDictUnifier.get(OrePrefix.wireFine, Materials.NaquadahAlloy, 64),
-                        OreDictUnifier.get(OrePrefix.cableGtQuadruple, MarkerMaterials.Tier.Superconductor, 8))
+                        OreDictUnifier.get(OrePrefix.wireFine, Materials.Naquadah, 64),
+                        OreDictUnifier.get(OrePrefix.wireFine, Materials.Naquadah, 64),
+                        OreDictUnifier.get(OrePrefix.wireFine, Materials.Naquadah, 64),
+                        OreDictUnifier.get(OrePrefix.wireFine, Materials.Naquadah, 64),
+                        OreDictUnifier.get(OrePrefix.wireFine, Materials.Naquadah, 64),
+                        OreDictUnifier.get(OrePrefix.wireFine, Materials.Naquadah, 64),
+                        OreDictUnifier.get(OrePrefix.wireFine, Materials.Naquadah, 64),
+                        OreDictUnifier.get(OrePrefix.wireFine, Materials.Naquadah, 64),
+                        OreDictUnifier.get(OrePrefix.cableGtQuadruple, Materials.NiobiumTitanium, 8))
                 .input(OrePrefix.circuit, MarkerMaterials.Tier.Extreme, 64)
                 .fluidInputs(Materials.SolderingAlloy.getFluid(2304))
                 .outputs(MetaItems.FIELD_GENERATOR_UV.getStackForm())
                 .duration(600).EUt(491520).buildAndRegister();
-
-        /*
-        GRRecipeMaps.ASSEMBLY_LINE_RECIPES.recipeBuilder()
-                .inputs(OreDictUnifier.get(OrePrefix.frameGt, Materials.Tritanium, 4),
-                        MetaItems.WETWARE_SUPER_COMPUTER_UV.getStackForm(8),
-                        MetaItems.SMALL_COIL.getStackForm(4),
-                        MetaItems.SMD_CAPACITOR.getStackForm(24),
-                        MetaItems.SMD_RESISTOR.getStackForm(64),
-                        MetaItems.SMD_TRANSISTOR.getStackForm(32),
-                        MetaItems.SMD_DIODE.getStackForm(16),
-                        MetaItems.RANDOM_ACCESS_MEMORY.getStackForm(16),
-                        OreDictUnifier.get(OrePrefix.wireGtSingle, MarkerMaterials.Tier.Superconductor, 32),
-                        OreDictUnifier.get(OrePrefix.foil, Materials.SiliconeRubber, 64))
-                .fluidInputs(Materials.SolderingAlloy.getFluid(2880),
-                        Materials.Water.getFluid(10000))
-                .outputs(MetaItems.WETWARE_MAINFRAME_MAX.getStackForm())
-                .duration(2000).EUt(300000).buildAndRegister();*/
     }
 }
